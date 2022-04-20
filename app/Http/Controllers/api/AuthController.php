@@ -1,0 +1,62 @@
+<?php
+namespace App\Http\Controllers\api;
+
+use App\Http\Controllers\Controller;
+use App\Models\SysAdmin;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Auth;
+use Validator;
+use App\Models\User;
+use Encore\Admin\Controllers\AuthController as BaseAuthController;
+
+
+class AuthController extends BaseAuthController
+{
+
+    public function login(Request $request)
+    {
+
+        // if ($this->guard()->attempt($credentials, $remember)) {
+        //     return $this->sendLoginResponse($request);
+        // }else if ($this->guard()->attempt($request->only(['phone_number', 'password']), $remember)) {
+        //     return $this->sendLoginResponse($request);
+        // }
+
+
+
+        if (!$this->guard()->attempt($request->only('username', 'password')))
+        {
+            return response()
+                ->json(['message' => 'These credentials do not match our records'], 401);
+        }
+
+        $admin = SysAdmin::where('username', $request['username'])->firstOrFail();
+
+        $token = $admin->createToken('auth_token')->plainTextToken;
+
+        return response()
+            ->json(['access_token' => $token, 'token_type' => 'Bearer', ]);
+    }
+
+    // method for user logout and delete token
+    public function logout()
+    {
+        auth()->user()->tokens()->delete();
+
+        return [
+            'message' => 'You have successfully logged out and the token was successfully deleted'
+        ];
+    }
+    public function validateToken(Request $request)
+    {
+        dd(auth("api")->check());
+        if (! $request->user() || ! $request->user()->currentAccessToken()) {
+            return false;
+        }
+        return true;
+
+
+    }
+
+}
