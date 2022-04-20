@@ -16,22 +16,15 @@ class AuthController extends BaseAuthController
 
     public function login(Request $request)
     {
-
-        // if ($this->guard()->attempt($credentials, $remember)) {
-        //     return $this->sendLoginResponse($request);
-        // }else if ($this->guard()->attempt($request->only(['phone_number', 'password']), $remember)) {
-        //     return $this->sendLoginResponse($request);
-        // }
-
-
-
+        $request['phone_number'] = $request->get($this->username());
         if (!$this->guard()->attempt($request->only('username', 'password')))
         {
-            return response()
-                ->json(['message' => 'These credentials do not match our records'], 401);
+            if(!$this->guard()->attempt($request->only(['phone_number', 'password'])))
+                return response()
+                    ->json(['message' => 'These credentials do not match our records'], 401);
         }
 
-        $admin = SysAdmin::where('username', $request['username'])->firstOrFail();
+        $admin = SysAdmin::where('username', $request['username'])->orWhere('phone_number', $request['phone_number'])->firstOrFail();
 
         $token = $admin->createToken('auth_token')->plainTextToken;
         $data = array_merge($admin->toArray(),['role'=>$admin->roles[0]->slug,'access_token' => $token, 'token_type' => 'Bearer']);
