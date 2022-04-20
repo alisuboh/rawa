@@ -34,9 +34,10 @@ class AuthController extends BaseAuthController
         $admin = SysAdmin::where('username', $request['username'])->firstOrFail();
 
         $token = $admin->createToken('auth_token')->plainTextToken;
+        $data = array_merge($admin->toArray(),['role'=>$admin->roles[0]->slug,'access_token' => $token, 'token_type' => 'Bearer']);
 
         return response()
-            ->json(['access_token' => $token, 'token_type' => 'Bearer', ]);
+            ->json(['data'=>$data ]);
     }
 
     // method for user logout and delete token
