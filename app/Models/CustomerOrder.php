@@ -34,7 +34,7 @@ class CustomerOrder extends Model
      * @var array
      */
     protected $fillable = ['customer_id', 'provider_id', 'order_products', 'full_name', 'phone_number', 'customer_address_id', 'total_price', 'order_delivery_date', 'status', 'app_source', 'note', 'reason_note', 'vat', 'price_discount', 'shipping_fees', 'provider_employee_id', 'price', 'created_at', 'updated_at'];
-
+    public $customer_adress ;
     const STATUS = [
         1 => 'Pending',
         2 => 'Start',
@@ -60,5 +60,31 @@ class CustomerOrder extends Model
     public function provider()
     {
         return $this->belongsTo('App\Models\Provider');
+    }
+
+    public function getOrderProductsAttribute($value)
+    {
+        
+        $orders = [];
+        foreach(array_values(json_decode($value, true)) as $key => $order){
+            $orders[$key] = ProviderProduct::find([ 'product_id' => $order['product_id']])->first()->toArray();
+            $pro = Product::find($order['product_id'])->toArray();
+            $orders[$key]['total'] =$order['qty']*$orders[$key]['price']; 
+            $orders[$key] = array_merge($orders[$key],$order);
+            $orders[$key] = array_merge($orders[$key],$pro);
+
+        }
+        // dd($orders);
+        return $orders;
+    }
+
+    public function setOrderProductsAttribute($value)
+    {
+        $this->attributes['order_products'] = json_encode(array_values($value));
+    }
+    public function getCustomerAddressIdAttribute($value)
+    {
+                
+     return $this->customer->customersAddresses()->find($value);
     }
 }

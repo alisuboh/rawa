@@ -1,5 +1,8 @@
 <?php
 
+use Encore\Admin\Grid\Column;
+
+
 /**
  * Laravel-admin - admin builder based on Laravel.
  * @author z-song <https://github.com/z-song>
@@ -19,3 +22,18 @@
  */
 
 Encore\Admin\Form::forget(['map', 'editor']);
+
+// Column::extend('order', function ($value) {
+//     return "<span >$value</span>";
+// });
+// $grid->column('order_products', __('Order products'))->display(function ($order_products) {
+
+//     $order_products = array_map(function ($product) {
+//         // dd($product);
+//         // return "<span class='label label-success'>{$product['product_id']}</span>";
+//         return "<span class='label label-warning'>sssss</span>";
+
+//     }, $order_products);
+
+//     return join('&nbsp;', $order_products);
+// });

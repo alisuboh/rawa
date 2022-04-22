@@ -24,7 +24,7 @@ class OrderResource extends JsonResource
             'provider_id' => $this->provider_id,
             'phone_number' => $this->phone_number,
             'total_price' => $this->total_price,
-
+            'customer_address' => $this->customer_address_id,
             'note' => $this->note,
             'price' => $this->price,
             'order_delivery_date' => $this->order_delivery_date,

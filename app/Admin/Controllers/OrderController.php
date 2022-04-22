@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Models\Customer;
 use App\Models\CustomerOrder;
+use App\Models\Product;
 use App\Models\Provider;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -29,6 +30,26 @@ class OrderController extends AdminController
         $grid = new Grid(new CustomerOrder());
 
         $grid->column('id', __('Id'));
+        // $grid->column('order_products', __('Order products'))->table((['key' => 'key', 'val' => 'value']));
+
+        // $grid->column('order_products', __('Order products'))->display(function ($order_products) {
+
+        //     $order_products = array_map(function ($product) {
+        //         // dd($product);
+        //         // return "<span class='label label-success'>{$product['product_id']}</span>";
+        //         return json_encode($product);
+
+        //     }, $order_products);
+        
+        //     return join('&nbsp;', $order_products);
+        // });
+        // $grid->column('order_products', __('Order products'))->display(function ($order_products) {
+        //     // dd($order_products);
+        //     $count = count($order_products);
+        //     return $count;
+        // })->order();
+        
+
         $grid->column('order_products', __('Order products'));
         $grid->column('customer_id',  __('Customer'))->display(function () {
             return $this->customer->name??'';
@@ -67,7 +88,7 @@ class OrderController extends AdminController
         $show = new Show(CustomerOrder::findOrFail($id));
 
         $show->field('id', __('Id'));
-        $show->field('order_products', __('Order products'));
+        $show->field('order_products', __('Order products'))->json();
         $show->field('customer_id',  __('Customer'))->as(function () {
             return $this->customer->name??'';
         });
@@ -105,7 +126,21 @@ class OrderController extends AdminController
     {
         $form = new Form(new CustomerOrder());
 
-        $form->text('order_products', __('Order products'));
+        // $form->text('order_products', __('Order products'));
+        // $form->embeds('order_products', __('Order products'), function ($form) {
+        //     $form->select('product_id',  __('Product Id'))->options(Product::all()->pluck('product_name','product_id'));
+
+        //     $form->number('qty')->rules('required');
+        //     // $form->email('key2')->rules('required');
+        //     // $form->datetime('key3');
+
+        //     // $form->dateRange('key4','key5','Range')->rules('required');
+        // });
+        $form->table('order_products', __('Order products'), function ($table) {
+            $table->select('product_id',  __('Product Id'))->options(Product::all()->pluck('product_name','product_id'));
+            $table->number('qty')->rules('required');
+            $table->text('desc');
+        });
         $form->select('customer_id', __('Customer'))->options(Customer::all()->pluck('name', 'id'));
         $form->select('provider_id', __('Provider'))->options(Provider::all()->pluck('name', 'id'));
 
