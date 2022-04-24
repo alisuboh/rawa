@@ -22,4 +22,17 @@ class ProvidersEmployee extends Model
      * @var array
      */
     protected $fillable = ['provider_id', 'seq', 'full_name', 'phone_number', 'mobile_number', 'status', 'type', 'created_at', 'updated_at'];
+    const TYPE = [
+        1 => 'Driver',
+   
+    ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function provider()
+    {
+        return $this->belongsTo('App\Models\Provider','id','provider_id');
+    }
+    
 }

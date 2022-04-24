@@ -44,7 +44,6 @@ class SysAdmin extends Model implements AuthenticatableContract,AuthorizableCont
      * @var array
      */
     protected $fillable = [ 'username', 'email', 'password', 'active', 'name', 'provider_id', 'auth_key', 'phone_number', 'avatar', 'remember_token','api_token', 'created_at', 'updated_at'];
-    // protected $fillable = ['user_name', 'email', 'password', 'active', 'full_name', 'provider_id', 'auth_key', 'phone_number', 'created_at', 'updated_at'];
     public $hidden = ['password','api_token'];
 
     /**

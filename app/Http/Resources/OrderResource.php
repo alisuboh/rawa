@@ -28,23 +28,6 @@ class OrderResource extends JsonResource
             'note' => $this->note,
             'price' => $this->price,
             'order_delivery_date' => $this->order_delivery_date,
-            // 'customer_address_id' => $this->customer_address_id,
-
-
-
-            // 'secret' => $this->when($request->user()->isAdmin(), 'secret-value'),
-            // 'secret' => $this->when($request->user()->isAdmin(), function () {
-            //     return 'secret-value';
-            // }),
-            // 'name' => $this->whenNotNull($this->name),
-            // $this->mergeWhen($request->user()->isAdmin(), [
-            //     'first-secret' => 'value',
-            //     'second-secret' => 'value',
-            // ]),
-            // 'posts' => PostResource::collection($this->whenLoaded('posts')),
-            // 'expires_at' => $this->whenPivotLoaded('role_user', function () {
-            //     return $this->pivot->expires_at;
-            // }),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

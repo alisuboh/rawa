@@ -29,3 +29,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect('admin');
 });
+Route::get('/unauthorized', function () {
+    response()
+    ->json(['message' => 'These credentials do not match our records'], 401);});

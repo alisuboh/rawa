@@ -25,6 +25,10 @@ Route::group([
     $router->resource('expense-items', ExpenseItemController::class);
     $router->resource('expense-categories', ExpenseCategoryController::class);
     $router->resource('provider-products', ProviderProductController::class);
+    $router->resource('trips', TripController::class);
+    $router->resource('employees', EmployeeController::class);
+    $router->get("api/drivers", "DriverApiController@drivers");
+
 
 
 });
