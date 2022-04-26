@@ -32,6 +32,7 @@ class TripController extends AdminController
         $grid = new Grid(new Trip());
 
         $grid->column('id', __('Id'));
+        $grid->column('trip_name', __('Trip name'));
         $grid->column('orders_ids', __('Orders ids'));
         // $grid->column('provider_id', __('Provider id'));
         // $grid->column('driver_id', __('Driver id'));
@@ -66,6 +67,7 @@ class TripController extends AdminController
         $show = new Show(Trip::findOrFail($id));
         $mod = Trip::findOrFail($id);
         $show->field('id', __('Id'));
+        $show->field('trip_name', __('Trip name'));
         $show->field('orders_ids', __('Orders'))->json();
         $show->field('provider_id', __('Provider'))->as(function () {
             return $this->provider->name??'';
@@ -98,9 +100,10 @@ class TripController extends AdminController
         $form = new Form(new Trip());
 
         $form->table('orders_ids', __('Orders'), function ($table) {
+            // dd(CustomerOrder::all()->pluck('full_name','id'));
             $table->select('orders_id',  __('Order'))->options(CustomerOrder::all()->pluck('full_name','id'));
-            $table->text('desc');
         });
+        $form->text('trip_name', __('Trip name'));
         if(auth()->user()->roles()->where('name', 'Administrator')->exists())
             $form->select('provider_id', __('Provider'))->options(Provider::all()->pluck('name', 'id'));
         else

@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Models\Customer;
 use App\Models\CustomerOrder;
+use App\Models\CustomersAddress;
 use App\Models\Product;
 use App\Models\Provider;
 use Encore\Admin\Controllers\AdminController;
@@ -102,8 +103,6 @@ class OrderController extends AdminController
         $show->field('order_delivery_date', __('Order delivery date'));
         $show->status()->using(CustomerOrder::STATUS);
         $show->app_source()->using(CustomerOrder::APP_SOURCE);
-
-
         $show->field('note', __('Note'));
         $show->field('reason_note', __('Reason note'));
         $show->field('vat', __('Vat'));
@@ -147,7 +146,7 @@ class OrderController extends AdminController
 
         $form->text('full_name', __('Full name'));
         $form->text('phone_number', __('Phone number'));
-        $form->number('customer_address_id', __('Customer address id'));
+        $form->select('customer_address_id', __('Customer address id'))->options(CustomersAddress::all()->pluck('address_name', 'id'));
         $form->decimal('total_price', __('Total price'));
         $form->datetime('order_delivery_date', __('Order delivery date'))->default(date('Y-m-d H:i:s'));
         $form->select('status',  __('Status'))->options(CustomerOrder::STATUS);

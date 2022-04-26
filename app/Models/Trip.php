@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property integer $id
+ * @property string $trip_name
  * @property integer $provider_id
  * @property mixed $orders_ids
  * @property integer $driver_id
@@ -25,7 +26,7 @@ class Trip extends Model
     /**
      * @var array
      */
-    protected $fillable = ['provider_id', 'orders_ids', 'driver_id', 'driver_name', 'driver_phone', 'status', 'total_price', 'trip_delivery_date', 'app_source', 'note', 'created_at', 'updated_at'];
+    protected $fillable = ['trip_name','provider_id', 'orders_ids', 'driver_id', 'driver_name', 'driver_phone', 'status', 'total_price', 'trip_delivery_date', 'app_source', 'note', 'created_at', 'updated_at'];
 
     const STATUS = [
         1 => 'Pending',
@@ -56,39 +57,18 @@ class Trip extends Model
 
     public function getOrdersIdsAttribute($value)
     {
-        // return array_values(json_decode($value, true) ?: []);
+
         $orders = [];
         foreach(array_values(json_decode($value, true)) as $key => $order){
-            // dd($order);
             $orders[$key] = CustomerOrder::find([ 'id' => $order['orders_id']])->first()->toArray();
-            // $pro = Product::find($order['product_id'])->toArray();
-            // $orders[$key]['total'] =$order['qty']*$orders[$key]['price']; 
-            // $orders[$key] = array_merge($orders[$key],$order);
-            // $orders[$key] = array_merge($orders[$key],$pro);
-
         }
-        // dd($orders);
         return $orders;
     }
 
     public function setOrdersIdsAttribute($value)
     {
-        $this->attributes['orders_ids'] = json_encode(array_values($value));
+        $this->attributes['orders_ids'] = json_encode($value);
     }
 
-    // /**
-    //  * @return \Illuminate\Database\Eloquent\Relations\HasMany
-    //  */
-    // public function customerOrders()
-    // {
-    //     return $this->hasMany('App\Models\CustomerOrder', null, 'orders_ids.');
-    //     return $this->hasManyThrough(
-    //         CustomerOrder::class,
-    //         Environment::class,
-    //         'project_id', // Foreign key on the environments table...
-    //         'environment_id', // Foreign key on the deployments table...
-    //         'id', // Local key on the projects table...
-    //         'id' // Local key on the environments table...
-    //     );
-    // }
+   
 }
