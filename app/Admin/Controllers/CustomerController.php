@@ -35,8 +35,9 @@ class CustomerController extends AdminController
         $grid->column('default_provider_id', __('Default provider id'));
         $grid->column('can_recive_any_time', __('Can recive any time'));
         $grid->column('on_days', __('On days'));
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
+        $grid->column('created_at', __('Created at'))->display(function () {
+            return date('d-m-Y H:i:s', strtotime($this->created_at));
+        });
 
         return $grid;
     }
@@ -63,6 +64,48 @@ class CustomerController extends AdminController
         $show->field('on_days', __('On days'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
+        // customer-avalabilities
+        // 
+        $show->customersAddresses('My Address', function ($address) {
+
+            $address->resource('/admin/customer-address');
+
+
+            $address->id('Id');
+            $address->address_name('Address name');
+            $address->location_lat('Location lat');
+            $address->location_lng('Location lng');
+            $address->is_default('Is default');
+            $address->address_description('Address description');
+            $address->created_at('Created at')->display(function () {
+                return date('d-m-Y', strtotime($this->created_at));
+            });
+
+
+
+            $address->filter(function ($filter) {
+                $filter->disableIdFilter();
+
+                $filter->like('address_name');
+            });
+        });
+
+        $show->customerAvalabilities('My Avalabilities', function ($avalabilities) {
+
+            $avalabilities->resource('/admin/customer-avalabilities');
+
+            $avalabilities->id('Id');
+            $avalabilities->day('Day');
+            $avalabilities->seq('Seq');
+            $avalabilities->from_time('From time');
+            $avalabilities->to_time('To time');
+            $avalabilities->created_at('Created at')->display(function () {
+                return date('d-m-Y', strtotime($this->created_at));
+            });
+            $avalabilities->disableFilter();
+
+            // $avalabilities->filter->disableIdFilter();
+        });
 
         return $show;
     }
@@ -85,7 +128,24 @@ class CustomerController extends AdminController
         $form->number('default_provider_id', __('Default provider id'));
         $form->switch('can_recive_any_time', __('Can recive any time'));
         $form->text('on_days', __('On days'));
+        $form->footer(function ($footer) {
 
+            // disable reset btn
+            $footer->disableReset();
+        
+            // disable submit btn
+            // $footer->disableSubmit();
+        
+            // disable `View` checkbox
+            $footer->disableViewCheck();
+        
+            // disable `Continue editing` checkbox
+            $footer->disableEditingCheck();
+        
+            // disable `Continue Creating` checkbox
+            $footer->disableCreatingCheck();
+        
+        });
         return $form;
     }
 }

@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $reason_note
  * @property float $vat
  * @property float $price_discount
- * @property integer $shipping_fees
+ * @property float $shipping_fees
  * @property integer $provider_employee_id
  * @property float $price
  * @property string $created_at
@@ -67,11 +67,17 @@ class CustomerOrder extends Model
         
         $orders = [];
         foreach(array_values(json_decode($value, true)) as $key => $order){
-            $orders[$key] = ProviderProduct::find([ 'product_id' => $order['product_id']])->first()->toArray();
-            $pro = Product::find($order['product_id'])->toArray();
-            $orders[$key]['total'] =$order['qty']*$orders[$key]['price']; 
-            $orders[$key] = array_merge($orders[$key],$order);
-            $orders[$key] = array_merge($orders[$key],$pro);
+            $providerProduct = ProviderProduct::find([ 'provider_product_id' => $order['provider_product_id']])->first();
+            if($providerProduct){
+                $orders[$key] = $providerProduct->toArray();
+                $pro = [];
+                if(!empty($orders[$key]['product_id']))
+                    $pro = Product::find($orders[$key]['product_id'])->toArray();
+                $orders[$key]['total'] =$order['qty']*$orders[$key]['price']; 
+                $orders[$key] = array_merge($orders[$key],$order);
+                $orders[$key] = array_merge($orders[$key],$pro);
+            }
+           
 
         }
         // dd($orders);
@@ -82,9 +88,9 @@ class CustomerOrder extends Model
     {
         $this->attributes['order_products'] = json_encode(array_values($value));
     }
-    public function getCustomerAddressIdAttribute($value)
-    {
+    // public function getCustomerAddressIdAttribute($value)
+    // {
                 
-     return $this->customer->customersAddresses()->find($value);
-    }
+    //  return $this->customer->customersAddresses()->find($value);
+    // }
 }

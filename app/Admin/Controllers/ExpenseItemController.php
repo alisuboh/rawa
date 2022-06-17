@@ -30,8 +30,10 @@ class ExpenseItemController extends AdminController
         $grid->column('exp_cat_id', __('Exp cat id'));
         $grid->column('description', __('Description'));
         $grid->column('is_active', __('Is active'));
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
+        $grid->column('created_at', __('Created at'))->display(function () {
+            return date('d-m-Y H:i:s', strtotime($this->created_at));
+        });
+        
 
         return $grid;
     }
@@ -68,7 +70,24 @@ class ExpenseItemController extends AdminController
         $form->number('exp_cat_id', __('Exp cat id'));
         $form->textarea('description', __('Description'));
         $form->switch('is_active', __('Is active'));
+        $form->footer(function ($footer) {
 
+            // disable reset btn
+            $footer->disableReset();
+        
+            // disable submit btn
+            // $footer->disableSubmit();
+        
+            // disable `View` checkbox
+            $footer->disableViewCheck();
+        
+            // disable `Continue editing` checkbox
+            $footer->disableEditingCheck();
+        
+            // disable `Continue Creating` checkbox
+            $footer->disableCreatingCheck();
+        
+        });
         return $form;
     }
 }

@@ -31,8 +31,10 @@ class CategoryController extends AdminController
         $grid->column('category_type', __('Category type'));
         $grid->column('description', __('Description'));
         $grid->column('is_active', __('Is active'));
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
+        $grid->column('created_at', __('Created at'))->display(function () {
+            return date('d-m-Y H:i:s', strtotime($this->created_at));
+        });
+        
 
         return $grid;
     }
@@ -71,7 +73,24 @@ class CategoryController extends AdminController
         $form->number('category_type', __('Category type'));
         $form->textarea('description', __('Description'));
         $form->switch('is_active', __('Is active'));
+        $form->footer(function ($footer) {
 
+            // disable reset btn
+            $footer->disableReset();
+        
+            // disable submit btn
+            // $footer->disableSubmit();
+        
+            // disable `View` checkbox
+            $footer->disableViewCheck();
+        
+            // disable `Continue editing` checkbox
+            $footer->disableEditingCheck();
+        
+            // disable `Continue Creating` checkbox
+            $footer->disableCreatingCheck();
+        
+        });
         return $form;
     }
 }

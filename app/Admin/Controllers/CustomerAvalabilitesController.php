@@ -2,20 +2,20 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\RevenueCategory;
+use App\Models\CustomerAvalability;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 
-class RevenueCategoryController extends AdminController
+class CustomerAvalabilitesController extends AdminController
 {
     /**
      * Title for current resource.
      *
      * @var string
      */
-    protected $title = 'RevenueCategory';
+    protected $title = 'CustomerAvalability';
 
     /**
      * Make a grid builder.
@@ -24,16 +24,17 @@ class RevenueCategoryController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new RevenueCategory());
+        $grid = new Grid(new CustomerAvalability());
 
         $grid->column('id', __('Id'));
-        $grid->column('paerant_id', __('Paerant id'));
-        $grid->column('description', __('Description'));
-        $grid->column('is_active', __('Is active'));
+        $grid->column('customer_id', __('Customer id'));
+        $grid->column('seq', __('Seq'));
+        $grid->column('day', __('Day'));
+        $grid->column('from_time', __('From time'));
+        $grid->column('to_time', __('To time'));
         $grid->column('created_at', __('Created at'))->display(function () {
             return date('d-m-Y H:i:s', strtotime($this->created_at));
         });
-        
 
         return $grid;
     }
@@ -46,12 +47,14 @@ class RevenueCategoryController extends AdminController
      */
     protected function detail($id)
     {
-        $show = new Show(RevenueCategory::findOrFail($id));
+        $show = new Show(CustomerAvalability::findOrFail($id));
 
         $show->field('id', __('Id'));
-        $show->field('paerant_id', __('Paerant id'));
-        $show->field('description', __('Description'));
-        $show->field('is_active', __('Is active'));
+        $show->field('customer_id', __('Customer id'));
+        $show->field('seq', __('Seq'));
+        $show->field('day', __('Day'));
+        $show->field('from_time', __('From time'));
+        $show->field('to_time', __('To time'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
 
@@ -65,11 +68,13 @@ class RevenueCategoryController extends AdminController
      */
     protected function form()
     {
-        $form = new Form(new RevenueCategory());
+        $form = new Form(new CustomerAvalability());
 
-        $form->number('paerant_id', __('Paerant id'));
-        $form->textarea('description', __('Description'));
-        $form->switch('is_active', __('Is active'));
+        $form->number('customer_id', __('Customer id'));
+        $form->number('seq', __('Seq'));
+        $form->text('day', __('Day'));
+        $form->date('from_time', __('From time'))->default(date('Y-m-d'));
+        $form->date('to_time', __('To time'))->default(date('Y-m-d'));
         $form->footer(function ($footer) {
 
             // disable reset btn

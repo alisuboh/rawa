@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -34,6 +35,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Provider extends Model
 {
+    use HasFactory;
     /**
      * @var array
      */
@@ -67,6 +69,14 @@ class Provider extends Model
     public function providersSubscriptions()
     {
         return $this->hasMany('App\Models\ProvidersSubscription');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function providersEmployees()
+    {
+        return $this->hasMany('App\Models\ProvidersEmployee');
     }
 
     /**

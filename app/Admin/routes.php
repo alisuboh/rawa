@@ -27,7 +27,9 @@ Route::group([
     $router->resource('provider-products', ProviderProductController::class);
     $router->resource('trips', TripController::class);
     $router->resource('employees', EmployeeController::class);
-    $router->get("api/drivers", "DriverApiController@drivers");
+    // $router->get("api/drivers", "DriverApiController@drivers");
+    $router->resource('customer-address', CustomerAddressController::class);
+    $router->resource('customer-avalabilities', CustomerAvalabilitesController::class);
 
 
 

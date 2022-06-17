@@ -144,7 +144,24 @@ class SysAdminController extends AdminController
             $form->api_token = Str::random(60);
 
         });
+        $form->footer(function ($footer) {
 
+            // disable reset btn
+            $footer->disableReset();
+        
+            // disable submit btn
+            // $footer->disableSubmit();
+        
+            // disable `View` checkbox
+            $footer->disableViewCheck();
+        
+            // disable `Continue editing` checkbox
+            $footer->disableEditingCheck();
+        
+            // disable `Continue Creating` checkbox
+            $footer->disableCreatingCheck();
+        
+        });
         return $form;
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use Encore\Admin\Facades\Admin;
 use Encore\Admin\Grid\Column;
 
 
@@ -20,8 +21,11 @@ use Encore\Admin\Grid\Column;
  * Admin::js('/packages/prettydocs/js/main.js');
  *
  */
-
+Admin::css(asset('adminGrid.css'));
+Admin::js(asset('admin.js'));
+Admin::disablePjax();
 Encore\Admin\Form::forget(['map', 'editor']);
+
 
 // Column::extend('order', function ($value) {
 //     return "<span >$value</span>";

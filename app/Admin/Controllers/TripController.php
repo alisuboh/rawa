@@ -50,8 +50,10 @@ class TripController extends AdminController
         $grid->column('trip_delivery_date', __('Trip delivery date'));
         $grid->column('app_source', __('App source'))->using(Trip::APP_SOURCE);
         $grid->column('note', __('Note'));
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
+        $grid->column('created_at', __('Created at'))->display(function () {
+            return date('d-m-Y H:i:s', strtotime($this->created_at));
+        });
+        
 
         return $grid;
     }
@@ -68,13 +70,13 @@ class TripController extends AdminController
         $mod = Trip::findOrFail($id);
         $show->field('id', __('Id'));
         $show->field('trip_name', __('Trip name'));
-        $show->field('orders_ids', __('Orders'))->json();
+        // $show->field('orders_ids', __('Orders'))->json();
         $show->field('provider_id', __('Provider'))->as(function () {
             return $this->provider->name??'';
         });
-        $show->field('driver_id',  __('Driver'))->as(function () {
-            return $this->customer->name??'';
-        });
+        // $show->field('driver_id',  __('Driver'))->as(function () {
+        //     return $this->customer->name??'';
+        // });
        
         $show->field('driver_name', __('Driver name'));
         $show->field('driver_phone', __('Driver phone'));
@@ -123,7 +125,24 @@ class TripController extends AdminController
         $form->select('app_source', __('App source'))->options(Trip::APP_SOURCE);
 
         $form->text('note', __('Note'));
+        $form->footer(function ($footer) {
 
+            // disable reset btn
+            $footer->disableReset();
+        
+            // disable submit btn
+            // $footer->disableSubmit();
+        
+            // disable `View` checkbox
+            $footer->disableViewCheck();
+        
+            // disable `Continue editing` checkbox
+            $footer->disableEditingCheck();
+        
+            // disable `Continue Creating` checkbox
+            $footer->disableCreatingCheck();
+        
+        });
         return $form;
     }
 }

@@ -37,8 +37,10 @@ class ProductController extends AdminController
         $grid->column('size', __('Size'));
         $grid->column('icon_path', __('Icon path'))->image();
         $grid->column('picture', __('Picture'))->image();
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
+        $grid->column('created_at', __('Created at'))->display(function () {
+            return date('d-m-Y H:i:s', strtotime($this->created_at));
+        });
+        
 
         return $grid;
     }
@@ -51,6 +53,7 @@ class ProductController extends AdminController
      */
     protected function detail($id)
     {
+        // return "<h1>sasasasas</h1>";
         $show = new Show(Product::findOrFail($id));
 
         $show->field('product_id', __('Product id'));
@@ -86,7 +89,24 @@ class ProductController extends AdminController
         $form->number('size', __('Size'));
         $form->image('icon_path', __('Icon path'));
         $form->image('picture', __('Picture'));
+        $form->footer(function ($footer) {
 
+            // disable reset btn
+            $footer->disableReset();
+        
+            // disable submit btn
+            // $footer->disableSubmit();
+        
+            // disable `View` checkbox
+            $footer->disableViewCheck();
+        
+            // disable `Continue editing` checkbox
+            $footer->disableEditingCheck();
+        
+            // disable `Continue Creating` checkbox
+            $footer->disableCreatingCheck();
+        
+        });
         return $form;
     }
 }

@@ -31,8 +31,9 @@ class CityController extends AdminController
         $grid->column('active', __('Active'));
         $grid->column('order', __('Order'));
         $grid->column('code', __('Code'));
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
+        $grid->column('created_at', __('Created at'))->display(function () {
+            return date('d-m-Y H:i:s', strtotime($this->created_at));
+        });
 
         return $grid;
     }
@@ -71,7 +72,24 @@ class CityController extends AdminController
         $form->switch('active', __('Active'));
         $form->number('order', __('Order'));
         $form->text('code', __('Code'));
+        $form->footer(function ($footer) {
 
+            // disable reset btn
+            $footer->disableReset();
+        
+            // disable submit btn
+            // $footer->disableSubmit();
+        
+            // disable `View` checkbox
+            $footer->disableViewCheck();
+        
+            // disable `Continue editing` checkbox
+            $footer->disableEditingCheck();
+        
+            // disable `Continue Creating` checkbox
+            $footer->disableCreatingCheck();
+        
+        });
         return $form;
     }
 }

@@ -34,8 +34,10 @@ class EmployeeController extends AdminController
         $grid->column('mobile_number', __('Mobile number'));
         $grid->column('status', __('Status'));
         $grid->column('type', __('Type'));
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
+        $grid->column('created_at', __('Created at'))->display(function () {
+            return date('d-m-Y H:i:s', strtotime($this->created_at));
+        });
+        
 
         return $grid;
     }
@@ -80,7 +82,24 @@ class EmployeeController extends AdminController
         $form->text('mobile_number', __('Mobile number'));
         $form->text('status', __('Status'))->default('2');
         $form->number('type', __('Type'))->default(1);
+        $form->footer(function ($footer) {
 
+            // disable reset btn
+            $footer->disableReset();
+        
+            // disable submit btn
+            // $footer->disableSubmit();
+        
+            // disable `View` checkbox
+            $footer->disableViewCheck();
+        
+            // disable `Continue editing` checkbox
+            $footer->disableEditingCheck();
+        
+            // disable `Continue Creating` checkbox
+            $footer->disableCreatingCheck();
+        
+        });
         return $form;
     }
 }

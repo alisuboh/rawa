@@ -1,0 +1,9 @@
+.control-label{
+    text-align: left !important;
+}
+.box-header.with-border{
+    border: none !important;
+}
+.box.box-{
+    box-shadow: none !important;
+}

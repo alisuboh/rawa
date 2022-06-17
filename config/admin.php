@@ -22,7 +22,7 @@ return [
     | `img` tag, eg '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo' => '<img src="http://127.0.0.1:8000/admin/rawa_logo.png" alt="Admin logo">',
+    'logo' => '<img src="/rawa_logo.png" alt="Admin logo">',
 
     /*
     |--------------------------------------------------------------------------
@@ -34,7 +34,7 @@ return [
     | '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo-mini' => '<img src="http://127.0.0.1:8000/admin/rawa_logo.png" alt="Admin logo">',
+    'logo-mini' => '<img src="/rawa_logo.png" alt="Admin logo">',
 
     /*
     |--------------------------------------------------------------------------

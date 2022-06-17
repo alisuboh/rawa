@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\CustomersAddress;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,3 +33,7 @@ Route::get('/', function () {
 Route::get('/unauthorized', function () {
     response()
     ->json(['message' => 'These credentials do not match our records'], 401);});
+    Route::get('/customerId/{customer_id}', function ($customer_id) {
+        return CustomersAddress::where('customer_id',$customer_id)->get()->pluck('address_name', 'id');
+
+    });

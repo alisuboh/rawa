@@ -57,10 +57,15 @@ class Trip extends Model
 
     public function getOrdersIdsAttribute($value)
     {
-
         $orders = [];
         foreach(array_values(json_decode($value, true)) as $key => $order){
-            $orders[$key] = CustomerOrder::find([ 'id' => $order['orders_id']])->first()->toArray();
+            // dd(CustomerOrder::find([ 'id' => $order['orders_id']])->first()->toArray());
+            // try{
+                // $orders[$key] = CustomerOrder::find([ 'id' => $order['orders_id']])->first()->toArray();
+
+            // }catch(\Exception $e){
+            //     dd($order);
+            // }
         }
         return $orders;
     }
