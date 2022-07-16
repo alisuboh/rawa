@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Models\Customer;
 use Encore\Admin\Controllers\AdminController;
+use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
@@ -31,9 +32,11 @@ class CustomerController extends AdminController
         $grid->column('user_name', __('User name'));
         $grid->column('mobile_number', __('Mobile number'));
         $grid->column('email', __('Email'));
-        $grid->column('has_branches', __('Has branches'));
-        $grid->column('default_provider_id', __('Default provider id'));
-        $grid->column('can_recive_any_time', __('Can recive any time'));
+        $grid->column('has_branches', __('Has branches'))->bool();
+        $grid->column('default_provider_id', __('provider'))->display(function(){
+            return $this->provider->name??'';
+        });
+        $grid->column('can_recive_any_time', __('Any Time'))->bool();
         $grid->column('on_days', __('On days'));
         $grid->column('created_at', __('Created at'))->display(function () {
             return date('d-m-Y H:i:s', strtotime($this->created_at));
@@ -50,6 +53,8 @@ class CustomerController extends AdminController
      */
     protected function detail($id)
     {
+        // dd('sasa');
+        Admin::css(asset('adminGrid.css'));
         $show = new Show(Customer::findOrFail($id));
 
         $show->field('id', __('Id'));
@@ -58,9 +63,11 @@ class CustomerController extends AdminController
         $show->field('mobile_number', __('Mobile number'));
         $show->field('email', __('Email'));
         $show->field('password', __('Password'));
-        $show->field('has_branches', __('Has branches'));
-        $show->field('default_provider_id', __('Default provider id'));
-        $show->field('can_recive_any_time', __('Can recive any time'));
+        $show->field('has_branches', __('Has branches'))->using([0 => 'No', 1 => 'Yes']);
+        $show->field('default_provider_id', __('Default provider'))->as(function () {
+            return $this->provider->name ?? '';
+        });
+        $show->field('can_recive_any_time', __('Any Time'))->using([0 => 'No', 1 => 'Yes']);
         $show->field('on_days', __('On days'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
@@ -78,7 +85,7 @@ class CustomerController extends AdminController
             $address->is_default('Is default');
             $address->address_description('Address description');
             $address->created_at('Created at')->display(function () {
-                return date('d-m-Y', strtotime($this->created_at));
+                return date('d-m-Y H:i:s', strtotime($this->created_at));
             });
 
 
@@ -97,10 +104,14 @@ class CustomerController extends AdminController
             $avalabilities->id('Id');
             $avalabilities->day('Day');
             $avalabilities->seq('Seq');
-            $avalabilities->from_time('From time');
-            $avalabilities->to_time('To time');
+            $avalabilities->from_time('From time')->display(function () {
+                return date('d-m-Y H:i:s', strtotime($this->from_time));
+            });
+            $avalabilities->to_time('To time')->display(function () {
+                return date('d-m-Y H:i:s', strtotime($this->to_time));
+            });
             $avalabilities->created_at('Created at')->display(function () {
-                return date('d-m-Y', strtotime($this->created_at));
+                return date('d-m-Y H:i:s', strtotime($this->created_at));
             });
             $avalabilities->disableFilter();
 

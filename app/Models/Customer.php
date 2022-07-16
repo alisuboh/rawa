@@ -32,6 +32,16 @@ class Customer extends Model
     protected $fillable = ['name', 'user_name', 'mobile_number', 'email', 'password', 'has_branches', 'default_provider_id', 'can_recive_any_time', 'on_days', 'created_at', 'updated_at'];
 
     public $hidden = ['password'];
+    // public function __construct($provider_id = null)
+    // {
+        // return false;
+        // if($provider_id){
+        //     $this->default_provider_id = $provider_id;
+        //     self::where(['default_provider_id' => $provider_id]);
+            
+        // }
+        
+    // }
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -54,5 +64,13 @@ class Customer extends Model
     public function customersAddresses()
     {
         return $this->hasMany('App\Models\CustomersAddress');
+    }
+
+       /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function provider()
+    {
+        return $this->hasOne('App\Models\Provider','id','default_provider_id');
     }
 }

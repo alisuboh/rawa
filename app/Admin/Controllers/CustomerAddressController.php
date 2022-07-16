@@ -72,7 +72,7 @@ class CustomerAddressController extends AdminController
     {
         $form = new Form(new CustomersAddress());
 
-        $form->number('customer_id', __('Customer id'));
+        $form->decimal('customer_id', __('Customer id'))->default($_GET['customer_id'])->disable();
         $form->decimal('location_lat', __('Location lat'));
         $form->decimal('location_lng', __('Location lng'));
         $form->switch('is_default', __('Is default'));

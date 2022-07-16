@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -23,6 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Trip extends Model
 {
+    use HasFactory;
     /**
      * @var array
      */
@@ -60,19 +62,27 @@ class Trip extends Model
         $orders = [];
         foreach(array_values(json_decode($value, true)) as $key => $order){
             // dd(CustomerOrder::find([ 'id' => $order['orders_id']])->first()->toArray());
-            // try{
-                // $orders[$key] = CustomerOrder::find([ 'id' => $order['orders_id']])->first()->toArray();
+            try{
+                if($model = CustomerOrder::find([ 'id' => $order['orders_id']])->first())
+                    $orders[$key] = $model->toArray();
 
-            // }catch(\Exception $e){
-            //     dd($order);
-            // }
+            }catch(\Exception $e){
+                return [];
+            }
         }
+        // dd($orders);
+
         return $orders;
     }
 
     public function setOrdersIdsAttribute($value)
     {
         $this->attributes['orders_ids'] = json_encode($value);
+    }
+    public function orders(){
+        // dd(array_column($this->orders_ids, 'id'));
+        return CustomerOrder::whereIn('id',array_column($this->orders_ids, 'id'))->get();
+
     }
 
    

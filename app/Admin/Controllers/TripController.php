@@ -9,6 +9,7 @@ use App\Models\Provider;
 use App\Models\ProvidersEmployee;
 use App\Models\Trip;
 use Encore\Admin\Controllers\AdminController;
+use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
@@ -66,8 +67,9 @@ class TripController extends AdminController
      */
     protected function detail($id)
     {
-        $show = new Show(Trip::findOrFail($id));
+        Admin::css(asset('adminGrid.css'));
         $mod = Trip::findOrFail($id);
+        $show = new Show($mod);
         $show->field('id', __('Id'));
         $show->field('trip_name', __('Trip name'));
         // $show->field('orders_ids', __('Orders'))->json();
@@ -88,8 +90,31 @@ class TripController extends AdminController
         $show->field('note', __('Note'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
+        // $show->orders('My Address', function ($order) {
 
-        return $show;
+        //     $order->resource('/admin/orders');
+
+
+        //     $order->id('Id');
+        //     $order->address_name('Address name');
+        //     $order->location_lat('Location lat');
+        //     $order->location_lng('Location lng');
+        //     $order->is_default('Is default');
+        //     $order->address_description('Address description');
+        //     $order->created_at('Created at')->display(function () {
+        //         return date('d-m-Y H:i:s', strtotime($this->created_at));
+        //     });
+
+
+
+        //     $order->filter(function ($filter) {
+        //         $filter->disableIdFilter();
+
+        //         $filter->like('address_name');
+        //     });
+        // });
+
+        return view('trip.index',['data'=>$show,'orders'=>$mod->orders()]);
     }
 
     /**
@@ -109,7 +134,7 @@ class TripController extends AdminController
         if(auth()->user()->roles()->where('name', 'Administrator')->exists())
             $form->select('provider_id', __('Provider'))->options(Provider::all()->pluck('name', 'id'));
         else
-            $form->number('provider_id',_('Provider'))->value(auth()->user()->provider_id)->disabled();
+            $form->decimal('provider_id',_('Provider'))->value(auth()->user()->provider_id);
       
         if(auth()->user()->roles()->where('name', 'Administrator')->exists())
             $form->select('driver_id', 'Choose a Driver')->rules('required')->options(ProvidersEmployee::all()->pluck('full_name', 'id'));

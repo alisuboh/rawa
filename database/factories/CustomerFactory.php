@@ -18,6 +18,7 @@ class CustomerFactory extends Factory
      */
     public function definition()
     {
+       
         return [
             'name' => $this->faker->name(),
             'user_name' => $this->faker->name(),
@@ -26,7 +27,8 @@ class CustomerFactory extends Factory
             'password' => Hash::make('123456'), // password
             'default_provider_id' => Provider::all()->random()->id,
             'has_branches' => 0,
-            'can_recive_any_time' => 1,
+            'can_recive_any_time' => 1
         ];
+
     }
 }

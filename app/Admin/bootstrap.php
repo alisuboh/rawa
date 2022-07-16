@@ -21,9 +21,9 @@ use Encore\Admin\Grid\Column;
  * Admin::js('/packages/prettydocs/js/main.js');
  *
  */
-Admin::css(asset('adminGrid.css'));
+// Admin::css(asset('adminGrid.css'));
 Admin::js(asset('admin.js'));
-Admin::disablePjax();
+// Admin::disablePjax();
 Encore\Admin\Form::forget(['map', 'editor']);
 
 

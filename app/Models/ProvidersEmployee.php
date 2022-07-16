@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -18,21 +19,31 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ProvidersEmployee extends Model
 {
+    use HasFactory;
     /**
      * @var array
      */
     protected $fillable = ['provider_id', 'seq', 'full_name', 'phone_number', 'mobile_number', 'status', 'type', 'created_at', 'updated_at'];
     const TYPE = [
+        0 => '',
         1 => 'Driver',
+        2 => 'Sales',
+        3 => 'Worker',
    
     ];
+    const ACTIVE = [
+        1 => 'Active',
+        0 => 'In Active',
+    
+    ];
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function provider()
     {
-        return $this->belongsTo('App\Models\Provider','id','provider_id');
+        return $this->belongsTo('App\Models\Provider');
     }
     
 }

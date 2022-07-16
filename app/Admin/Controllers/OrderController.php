@@ -89,7 +89,7 @@ class OrderController extends AdminController
             return $this->provider->name ?? '';
         });
 
-        $show->setParent('ss');
+        // $show->setParent('ss');
 
 
 

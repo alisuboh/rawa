@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Models\Product;
 use App\Models\ProductsCategory;
 use Encore\Admin\Controllers\AdminController;
+use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
@@ -28,6 +29,7 @@ class ProductController extends AdminController
         $grid = new Grid(new Product());
 
         $grid->column('product_id', __('Product id'));
+        $grid->column('icon_path', __('Icon path'))->image('',50,50);
         $grid->column('category_id',  __('Category'))->display(function () {
             return $this->productsCategory->category_name??'';
         });
@@ -35,8 +37,7 @@ class ProductController extends AdminController
         $grid->column('product_name', __('Product name'));
         $grid->column('product_description', __('Product description'));
         $grid->column('size', __('Size'));
-        $grid->column('icon_path', __('Icon path'))->image();
-        $grid->column('picture', __('Picture'))->image();
+        // $grid->column('picture', __('Picture'))->image();
         $grid->column('created_at', __('Created at'))->display(function () {
             return date('d-m-Y H:i:s', strtotime($this->created_at));
         });
@@ -53,10 +54,14 @@ class ProductController extends AdminController
      */
     protected function detail($id)
     {
+        Admin::css(asset('adminGrid.css'));
+
         // return "<h1>sasasasas</h1>";
         $show = new Show(Product::findOrFail($id));
-
         $show->field('product_id', __('Product id'));
+        $show->field('icon_path', __('Icon path'))->image('',50,50);
+
+        
         $show->field('category_id',  __('Category'))->as(function () {
             return $this->productsCategory->category_name??'';
         });
@@ -64,7 +69,6 @@ class ProductController extends AdminController
         $show->field('product_name', __('Product name'));
         $show->field('product_description', __('Product description'));
         $show->field('size', __('Size'));
-        $show->field('icon_path', __('Icon path'))->image();
         $show->field('picture', __('Picture'))->image();
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));

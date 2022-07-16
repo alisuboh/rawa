@@ -28,8 +28,6 @@ class ProviderFactory extends Factory
             'is_on_top_search' => 0,
             'rate'=>0,
             'contact_phone' => $this->faker->phoneNumber()
-
-
         ];
     }
 }

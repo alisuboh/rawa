@@ -17,6 +17,17 @@ use Illuminate\Database\Eloquent\Model;
  */
 class CustomerAvalability extends Model
 {
+    const DAY = [
+        0 => 'All',
+        1 => 'Sunday',
+        2 => 'Monday',
+        3 => 'Tuesday',
+        4 => 'Wednesday',
+        5 => 'Thursday',
+        6 => 'Friday',
+        7 => 'Saturday',
+
+    ]; 
     /**
      * @var array
      */

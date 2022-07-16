@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -30,6 +31,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class CustomerOrder extends Model
 {
+    use HasFactory;
     /**
      * @var array
      */
@@ -82,6 +84,10 @@ class CustomerOrder extends Model
         }
         // dd($orders);
         return $orders;
+    }
+    public function disableDynamicAccessors()
+    {
+        $this->getOrderProductsAttribute([]);
     }
 
     public function setOrderProductsAttribute($value)

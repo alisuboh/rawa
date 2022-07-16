@@ -70,11 +70,16 @@ class CustomerAvalabilitesController extends AdminController
     {
         $form = new Form(new CustomerAvalability());
 
-        $form->number('customer_id', __('Customer id'));
         $form->number('seq', __('Seq'));
-        $form->text('day', __('Day'));
-        $form->date('from_time', __('From time'))->default(date('Y-m-d'));
-        $form->date('to_time', __('To time'))->default(date('Y-m-d'));
+        $form->multipleSelect('day', __('Day'))->options(CustomerAvalability::DAY)->setWidth(4, 2);
+        
+        $form->time('from_time', __('From time'))->format('HH:mm:ss')->required();
+        
+        $form->time('to_time', __('To time'))->format('HH:mm:ss')->required();
+
+        $form->saving(function (Form $form) {
+                $form->customer_id = $_GET['customer_id']??null;
+        });
         $form->footer(function ($footer) {
 
             // disable reset btn

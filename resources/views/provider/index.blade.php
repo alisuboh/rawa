@@ -1,28 +1,7 @@
 <?php 
 use App\Models\ProvidersEmployee;
 use App\Models\ProviderProduct;
-// // dd($provider);
-// 0 => "email"
-// 1 => "name"
-// 2 => "code"
-// 3 => "commercial_name"
-// 4 => "password"
-// 5 => "address_line_1"
-// 6 => "address_line_2"
-// 7 => "city_id"
-// 8 => "status"
-// 9 => "image_name"
-// 10 => "location_lat"
-// 11 => "location_lng"
-// 12 => "logo_path"
-// 13 => "contact_name"
-// 14 => "contact_phone"
-// 15 => "contact_mobile"
-// 16 => "has_branches"
-// 17 => "is_on_top_search"
-// 18 => "rate"
-// 19 => "created_at"
-// 20 => "updated_at"
+
 ?>
     <div class="box box-info">
         <div class="box-header with-border">
@@ -173,7 +152,7 @@ use App\Models\ProviderProduct;
                         <div class="form-group ">
                             <label class="col-sm-0  control-label"></label>
                             <div class="col-sm-12">
-                                <h3>info</h3>
+                                <h3>Address Info</h3>
                             </div>
                         </div>
   
@@ -243,7 +222,7 @@ use App\Models\ProviderProduct;
                                                                     class="box box-solid box-default no-margin box-show">
                                                                     <!-- /.box-header -->
                                                                     <div class="box-body">
-                                                                        0&nbsp;
+                                                                        {!! $provider->has_branches?'<i class="fa fa-check text-green"></i>':'<i class="fa fa-close text-red"></i>' !!}
                                                                     </div><!-- /.box-body -->
                                                                 </div>
                                                             </div>
@@ -334,7 +313,7 @@ use App\Models\ProviderProduct;
                                                             <td class="column-created_at">
                                                                 {{date('d-m-Y H:i:s', strtotime($employees->created_at))}}
                                                             </td>
-                                                            <td class="column-__actions__ pull-right">
+                                                            <td class="column-__actions__ ">
                                                        
 
                                                                 <div class='btn-group'>
@@ -428,7 +407,7 @@ use App\Models\ProviderProduct;
                                                             <td class="column-created_at">
                                                                 {{date('d-m-Y H:i:s', strtotime($product->created_at))}}
                                                             </td>
-                                                            <td class="column-__actions__ pull-right">
+                                                            <td class="column-__actions__ ">
                                                         
 
                                                                 <div class='btn-group'>

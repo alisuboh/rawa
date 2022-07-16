@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Http\Middleware\CheckRole;
 use App\Models\AdminRolePermissions;
 use App\Models\AdminRoleUsers;
 use App\Models\City;
@@ -245,6 +246,15 @@ class ProviderController extends AdminController
      */
     protected function detail($id)
     {
+        // dd($id);
+        if($id == 'profile'){
+            if (!empty(auth()->user()->provider_id)) {
+                $id = auth()->user()->provider_id;
+            }else{
+                return redirect('/',302);
+
+            }
+        }
  
 // $locale = App::currentLocale();
 // App::setLocale("ar");
@@ -255,85 +265,85 @@ class ProviderController extends AdminController
 
         return view('provider.index',['provider' => Provider::findOrFail($id)]);
 
-        $show = new Show(Provider::findOrFail($id));
-        // $show->divider();
+        // $show = new Show(Provider::findOrFail($id));
+        // // $show->divider();
 
-        $show->field('id', __('Id'));
-        $show->field('name', __('Name'));
-        $show->field('email', __('Email'));
-        $show->field('city_id',  __('City'))->as(function () {
-            return $this->city->name ?? '';
-        });
-        $show->field('address_line_1', __('Address line 1'));
-        $show->field('address_line_2', __('Address line 2'));
-        $show->field('location_lat', __('Location lat'));
-        $show->field('location_lng', __('Location lng'));
-
-
-
-        $show->field('contact_name', __('Contact name'));
-        $show->field('contact_phone', __('Contact phone'));
-        $show->field('contact_mobile', __('Contact mobile'));
-        $show->field('has_branches', __('Has branches'));
-        $show->field('is_on_top_search', __('Is on top search'));
-        $show->field('rate', __('Rate'));
-
-        $show->field('code', __('Code'));
-        $show->field('commercial_name', __('Commercial name'));
-
-        $show->status()->using(Provider::STATUS);
-
-        // $show->field('image_name', __('Image name'));
-
-        $show->logo_path()->image();
-        $show->image_name()->image();
-
-        // $show->field('logo_path', __('Logo path'));
-
-        $show->field('created_at', __('Created at'))->date('Y-m-d');
-        $show->field('updated_at', __('Updated at'))->date('Y-m-d');
-
-        $show->providersEmployees('My Employees', function ($employees) {
-
-            $employees->resource('/admin/employees');
-
-            $employees->id();
-            $employees->full_name('Name'); //->limit(10);
-            $employees->phone_number();
-            $employees->status();
-            $employees->type();
-            $employees->created_at();
-            // $employees->updated_at();
-            $employees->paginate(10);
-
-            $employees->filter(function ($filter) {
-                $filter->disableIdFilter();
-                $filter->like('full_name');
-            });
-        });
-
-        $show->providerProducts('My Product', function ($providerProducts) {
-
-            $providerProducts->resource('/admin/provider-products');
-
-            $providerProducts->provider_product_id('Id');
-            $providerProducts->provider_product_name(); //->limit(10);
-            $providerProducts->is_active();
-            $providerProducts->discount();
-            $providerProducts->price();
-            $providerProducts->created_at();
-            // $providerProducts->updated_at();
-            $providerProducts->paginate(10);
-
-            $providerProducts->filter(function ($filter) {
-                $filter->disableIdFilter();
-                $filter->like('provider_product_name');
-            });
-        });
+        // $show->field('id', __('Id'));
+        // $show->field('name', __('Name'));
+        // $show->field('email', __('Email'));
+        // $show->field('city_id',  __('City'))->as(function () {
+        //     return $this->city->name ?? '';
+        // });
+        // $show->field('address_line_1', __('Address line 1'));
+        // $show->field('address_line_2', __('Address line 2'));
+        // $show->field('location_lat', __('Location lat'));
+        // $show->field('location_lng', __('Location lng'));
 
 
 
-        return $show;
+        // $show->field('contact_name', __('Contact name'));
+        // $show->field('contact_phone', __('Contact phone'));
+        // $show->field('contact_mobile', __('Contact mobile'));
+        // $show->field('has_branches', __('Has branches'));
+        // $show->field('is_on_top_search', __('Is on top search'));
+        // $show->field('rate', __('Rate'));
+
+        // $show->field('code', __('Code'));
+        // $show->field('commercial_name', __('Commercial name'));
+
+        // $show->status()->using(Provider::STATUS);
+
+        // // $show->field('image_name', __('Image name'));
+
+        // $show->logo_path()->image();
+        // $show->image_name()->image();
+
+        // // $show->field('logo_path', __('Logo path'));
+
+        // $show->field('created_at', __('Created at'))->date('Y-m-d');
+        // $show->field('updated_at', __('Updated at'))->date('Y-m-d');
+
+        // $show->providersEmployees('My Employees', function ($employees) {
+
+        //     $employees->resource('/admin/employees');
+
+        //     $employees->id();
+        //     $employees->full_name('Name'); //->limit(10);
+        //     $employees->phone_number();
+        //     $employees->status();
+        //     $employees->type();
+        //     $employees->created_at();
+        //     // $employees->updated_at();
+        //     $employees->paginate(10);
+
+        //     $employees->filter(function ($filter) {
+        //         $filter->disableIdFilter();
+        //         $filter->like('full_name');
+        //     });
+        // });
+
+        // $show->providerProducts('My Product', function ($providerProducts) {
+
+        //     $providerProducts->resource('/admin/provider-products');
+
+        //     $providerProducts->provider_product_id('Id');
+        //     $providerProducts->provider_product_name(); //->limit(10);
+        //     $providerProducts->is_active();
+        //     $providerProducts->discount();
+        //     $providerProducts->price();
+        //     $providerProducts->created_at();
+        //     // $providerProducts->updated_at();
+        //     $providerProducts->paginate(10);
+
+        //     $providerProducts->filter(function ($filter) {
+        //         $filter->disableIdFilter();
+        //         $filter->like('provider_product_name');
+        //     });
+        // });
+
+
+
+        // return $show;
     }
 
     /**
