@@ -19,7 +19,8 @@ class TripController extends Controller
      */
     public function index()
     {
-        $driver_id = request()->driver_id;
+        $driver_id = auth()->user()->driver_id??request()->driver_id;
+        
         if($driver_id){
             $listOfTrip = Trip::where('provider_id', '=', auth()->user()->provider_id)->where('driver_id', '=', $driver_id)->paginate();
         }else{
