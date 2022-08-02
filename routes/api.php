@@ -46,7 +46,7 @@ Route::get('/unauthorized', function () {
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/orders', function (Request $request) {
-        $driver_id = $request->input('driver_id');
+        $driver_id = auth()->user()->driver_id??$request->input('driver_id');
         if($driver_id)
             return orderResource::collection(CustomerOrder::where('provider_id', '=', auth()->user()->provider_id)->where('provider_employee_id', '=', $driver_id)->paginate());
 
