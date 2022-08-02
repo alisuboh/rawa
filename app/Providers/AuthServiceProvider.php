@@ -25,7 +25,9 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
         $this->registerPolicies();
+        
         // Auth::viaRequest('token', function ($request) {
         //     dd(auth()->user());;
         //     // dd($request);

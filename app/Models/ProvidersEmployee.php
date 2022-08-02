@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $full_name
  * @property string $phone_number
  * @property string $mobile_number
+ * @property string $password
  * @property string $status
  * @property integer $type
  * @property string $created_at
@@ -23,7 +24,7 @@ class ProvidersEmployee extends Model
     /**
      * @var array
      */
-    protected $fillable = ['provider_id', 'seq', 'full_name', 'phone_number', 'mobile_number', 'status', 'type', 'created_at', 'updated_at'];
+    protected $fillable = ['provider_id', 'seq', 'full_name', 'phone_number', 'mobile_number', 'status', 'type','password', 'created_at', 'updated_at'];
     const TYPE = [
         0 => '',
         1 => 'Driver',

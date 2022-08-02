@@ -19,12 +19,18 @@ class TripController extends Controller
      */
     public function index()
     {
-
+        $driver_id = request()->driver_id;
+        if($driver_id){
+            $listOfTrip = Trip::where('provider_id', '=', auth()->user()->provider_id)->where('driver_id', '=', $driver_id)->paginate();
+        }else{
+            $listOfTrip = Trip::where('provider_id', '=', auth()->user()->provider_id)->paginate();
+        }
         return response()->json([
             "success" => true,
             "message" => "Trip List",
             "data" => [
-                'trips' => TripResource::collection(Trip::where('provider_id', '=', auth()->user()->provider_id)->paginate()), 'drivers' => DriverResource::collection(ProvidersEmployee::where('provider_id', '=', auth()->user()->provider_id)->where('type', '=', 1)->get())
+                'trips' => TripResource::collection($listOfTrip),
+                'drivers' => DriverResource::collection(ProvidersEmployee::where('provider_id', '=', auth()->user()->provider_id)->where('type', '=', 1)->get())
             ]
         ]);
     }
@@ -41,19 +47,23 @@ class TripController extends Controller
             'trip_name' => 'required',
             "orders_ids"    => "required|array",
             'orders_ids.*.orders_id' => 'required|numeric|distinct|exists:customer_orders,id',
-            'driver_id' => 'nullable|numeric|exists:providers_employees,id'
+            'driver_id' => 'nullable|numeric|exists:providers_employees,id',
+            'status' => 'nullable',
+            'note' => 'nullable'
+
 
         ]);
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
         $input["provider_id"] = auth()->user()->provider_id;
-        $input["status"] = '1';
         if (!empty($input['driver_id'])) {
             $driver = ProvidersEmployee::find($input['driver_id']);
             $input['driver_id'] = $driver->id;
             $input['driver_name'] = $driver->full_name;
             $input['driver_phone'] = $driver->phone_number ?? $driver->mobile_number;
+            if(empty($input['status']))
+                $input["status"] = '1';
         }
         $trip = Trip::create($input);
         return response()->json([
@@ -94,7 +104,9 @@ class TripController extends Controller
             'trip_name' => 'nullable',
             "orders_ids"    => "nullable|array",
             'orders_ids.*.orders_id' => 'required|numeric|distinct|exists:customer_orders,id',
-            'driver_id' => 'nullable|numeric|exists:providers_employees,id'
+            'driver_id' => 'nullable|numeric|exists:providers_employees,id',
+            'status' => 'nullable',
+            'note' => 'nullable'
 
         ]);
         if ($validator->fails()) {
@@ -108,7 +120,10 @@ class TripController extends Controller
 
         if (!empty($input['trip_delivery_date']))
             $trip->trip_delivery_date = $input['trip_delivery_date'];
-
+        if (!empty($input['status']))
+            $trip->status = $input['status'];
+        if (!empty($input['note']))
+            $trip->note = $input['note'];
         if (!empty($input['driver_id'])) {
             $driver = ProvidersEmployee::find($input['driver_id']);
             $trip->driver_id = $driver->id;

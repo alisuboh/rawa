@@ -74,8 +74,8 @@ class OrderController extends AdminController
     protected function detail($id)
     {
 
-        $order = CustomerOrder::findOrFail($id);
-        return view('order.show_order',['order'=>$order]);
+        // $order = CustomerOrder::findOrFail($id);
+        // return view('order.show_order',['order'=>$order]);
 
 
         

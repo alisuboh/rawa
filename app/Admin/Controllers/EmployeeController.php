@@ -9,6 +9,7 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use Illuminate\Support\Facades\Hash;
 
 class EmployeeController extends AdminController
 {
@@ -118,20 +119,26 @@ class EmployeeController extends AdminController
             // $tools->disableDelete();
         });
         $form->column(1 / 2, function ($form) {
-            if (auth()->user()->roles()->where('name', 'Administrator')->exists()) {
-                $form->select('provider_id', __('Provider'))->options(Provider::all()->pluck('name', 'id'))->rules('required');
-            } else {
+            // if (auth()->user()->roles()->where('name', 'Administrator')->exists()) {
+            //     $form->select('provider_id', __('Provider'))->options(Provider::all()->pluck('name', 'id'))->rules('required');
+            // } else {
                 $form->hidden('provider_id');
-            }
-            $form->text('full_name', __('Full name'));
-            $form->text('status', __('Status'))->default('2');
-            $form->number('seq', __('Seq'));
+            // }
+            $form->text('full_name', __('Full name'))->rules('required');
+            $form->text('phone_number', __('Phone number'))->rules('required');
+            $form->text('mobile_number', __('Mobile number'));
+
+            $form->password('password', trans('admin.password'))->rules('required|confirmed');
+            $form->password('password_confirmation', trans('admin.password_confirmation'))->rules('required');
+            $form->ignore(['password_confirmation']);
+
         });
         $form->column(1 / 2, function ($form) {
 
-            $form->text('phone_number', __('Phone number'));
-            $form->text('mobile_number', __('Mobile number'));
-            $form->select('type', __('Type'))->options(ProvidersEmployee::TYPE);
+   
+            $form->select('type', __('Type'))->options(ProvidersEmployee::TYPE)->rules('required');
+            $form->switch('status', __('Status'));
+            $form->number('seq', __('Seq'));
         });
         $form->footer(function ($footer) {
 
@@ -152,10 +159,20 @@ class EmployeeController extends AdminController
         });
 
         $form->saving(function (Form $form) use($provider_id) {
-            // $form->model()->name
+         
+            if($form->type != 1){
+                $form->ignore(['password']);
+
+            }else{
+                $form->password = Hash::make($form->password);
+            }
+
             if (empty($form->provider_id)) {
                 $form->provider_id = $provider_id;
             }
+
+        });
+        $form->saved(function (Form $form) use($provider_id) {
             return redirect("/admin/providers/$provider_id");
 
         });

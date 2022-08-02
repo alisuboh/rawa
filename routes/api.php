@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\api\OrderController;
 use App\Http\Controllers\api\TripController;
 use App\Http\Resources\DriverResource;
 use App\Http\Resources\Order;
@@ -24,8 +25,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::post('/provider/login', [App\Http\Controllers\api\AuthController::class, 'login']);
-Route::get('/provider/validateToken', [App\Http\Controllers\api\AuthController::class, 'validateToken']);
+Route::post('/login', [App\Http\Controllers\api\AuthController::class, 'login']);
+Route::get('/validateToken', [App\Http\Controllers\api\AuthController::class, 'validateToken']);
 
 
 
@@ -44,14 +45,18 @@ Route::get('/unauthorized', function () {
 });
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/orders', function () {
+    Route::get('/orders', function (Request $request) {
+        $driver_id = $request->input('driver_id');
+        if($driver_id)
+            return orderResource::collection(CustomerOrder::where('provider_id', '=', auth()->user()->provider_id)->where('provider_employee_id', '=', $driver_id)->paginate());
+
         return orderResource::collection(CustomerOrder::where('provider_id', '=', auth()->user()->provider_id)->paginate());
     });
     Route::get('/order/{id}', function ($id) {
         return new OrderResource(CustomerOrder::findOrFail($id));
     });
+    Route::post('/order/{id}', [OrderController::class,'update']);
+    Route::resource('trips', TripController::class);
+
 });
 
-Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::resource('trips', TripController::class);
-});

@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use App\Models\Provider;
 use App\Models\ProviderProduct;
+use App\Models\ProvidersEmployee;
 use App\Observers\AdminObserver;
+use App\Observers\EmployeeObserver;
 use App\Observers\ProviderProductObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -31,8 +33,9 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Provider::observe(AdminObserver::class);
-        // ProviderProduct::observe(ProviderProductObserver::class);
+        Provider::observe(AdminObserver::class);
+        ProviderProduct::observe(ProviderProductObserver::class);
+        ProvidersEmployee::observe(EmployeeObserver::class);
         // parent::boot();
     }
 

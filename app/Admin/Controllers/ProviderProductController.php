@@ -130,16 +130,16 @@ class ProviderProductController extends AdminController
                 $form->hidden('provider_id');
             }
             $form->select('product_id', __('Product'))->options(Product::all()->pluck('product_name', 'product_id'));
+            $form->select('measurement', __('Measurement'))->options(ProviderProduct::MEASUREMENT);
 
-            $form->decimal('price', __('Price'));
             
         });
         $form->column(6, function ($form) {
 
-            $form->select('measurement', __('Measurement'))->options(ProviderProduct::MEASUREMENT);
-            $form->switch('is_active', __('Is active'));
-            $form->decimal('discount', __('Discount'))->rules(['required']);
             $form->image('icon_path', __('Icon path'));
+            $form->decimal('price', __('Price'));
+            $form->decimal('discount', __('Discount'))->rules(['required']);
+            $form->switch('is_active', __('Is active'));
         });
 
         $form->saving(function (Form $form) {
@@ -167,7 +167,7 @@ class ProviderProductController extends AdminController
         // $form->tab('view tab',function($form) use ($grid){
         $form->column(12, function ($form) use ($provider_id) {
             $form->html('<button type="submit" class="btn btn-primary">Submit</button>');
-dd($provider_id);
+// dd($provider_id);
             $grid = $this->grid($provider_id);
 
             $form->html('</br></br></br></br>');
