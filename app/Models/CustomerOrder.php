@@ -98,7 +98,7 @@ class CustomerOrder extends Model
                 
      return $this->customer->customersAddresses()->find($this->customer_address_id);
     }
-    public function addresses()
+    public function address()
     {
         return $this->belongsTo(\App\Models\CustomersAddress::class, 'customer_address_id');
                 
