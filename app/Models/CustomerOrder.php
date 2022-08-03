@@ -93,9 +93,9 @@ class CustomerOrder extends Model
     {
         $this->attributes['order_products'] = json_encode(array_values($value));
     }
-    public function getCustomerAddresses()
+    public function addresses()
     {
+        return $this->hasOne(\App\Models\customersAddresses::class, 'customer_address_id');
                 
-     return $this->customer->customersAddresses()->find($this->customer_address_id);
     }
 }
