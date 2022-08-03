@@ -103,5 +103,5 @@ class CustomerOrder extends Model
         return $this->belongsTo(\App\Models\CustomersAddress::class, 'customer_address_id');
                 
     }
-}
+
 }
