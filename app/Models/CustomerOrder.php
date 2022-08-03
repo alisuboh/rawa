@@ -95,7 +95,7 @@ class CustomerOrder extends Model
     }
     public function addresses()
     {
-        return $this->hasOne(\App\Models\CustomersAddress::class, 'customer_address_id');
+        return $this->belongsTo(\App\Models\CustomersAddress::class, 'customer_address_id');
                 
     }
 }
