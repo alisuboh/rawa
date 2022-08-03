@@ -82,7 +82,6 @@ class CustomerOrder extends Model
            
 
         }
-        // dd($orders);
         return $orders;
     }
     public function disableDynamicAccessors()
@@ -94,9 +93,9 @@ class CustomerOrder extends Model
     {
         $this->attributes['order_products'] = json_encode(array_values($value));
     }
-    // public function getCustomerAddressIdAttribute($value)
-    // {
+    public function getCustomerAddresses()
+    {
                 
-    //  return $this->customer->customersAddresses()->find($value);
-    // }
+     return $this->customer->customersAddresses()->find($this->customer_address_id);
+    }
 }
