@@ -31,7 +31,8 @@ class OrderController extends Controller
         $validator = Validator::make($input, [
             'status' => 'nullable',
             "note"   => "nullable",
-            "driver_id" => "nullable"
+            "driver_id" => "nullable",
+            'type' => "nullable"
           
         ]);
         if ($validator->fails()) {
@@ -46,7 +47,10 @@ class OrderController extends Controller
             
         if (!empty($input['driver_id']))
             $order->provider_employee_id = $input['driver_id'];
-
+        
+        if (!empty($input['type']))
+            $order->type = $input['type'];
+        
         $order->save();
         return response()->json([
             "success" => true,

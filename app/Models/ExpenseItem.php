@@ -18,7 +18,7 @@ class ExpenseItem extends Model
     /**
      * @var array
      */
-    protected $fillable = ['exp_cat_id', 'description', 'is_active', 'created_at', 'updated_at'];
+    protected $fillable = ['exp_cat_id', 'description', 'provider_id','is_active', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

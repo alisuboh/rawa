@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Models\ExpenseCategory;
+use App\Models\ExpenseParant;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -27,13 +28,18 @@ class ExpenseCategoryController extends AdminController
         $grid = new Grid(new ExpenseCategory());
 
         $grid->column('id', __('Id'));
-        $grid->column('paerant_id', __('Paerant id'));
+        $grid->column('parant_id',  __('Parant'))->display(function () {
+            return $this->expenseParant->name ?? '';
+        });
         $grid->column('description', __('Description'));
-        $grid->column('is_active', __('Is active'));
+        $grid->column('is_active', __('Is active'))->display(function () {
+            return ExpenseCategory::ACTIVE[$this->is_active];
+        });
+        // $grid->switch('is_active', __('Is active'));
         $grid->column('created_at', __('Created at'))->display(function () {
             return date('d-m-Y H:i:s', strtotime($this->created_at));
         });
-        
+
 
         return $grid;
     }
@@ -49,7 +55,7 @@ class ExpenseCategoryController extends AdminController
         $show = new Show(ExpenseCategory::findOrFail($id));
 
         $show->field('id', __('Id'));
-        $show->field('paerant_id', __('Paerant id'));
+        $show->field('parant_id', __('Parant id'));
         $show->field('description', __('Description'));
         $show->field('is_active', __('Is active'));
         $show->field('created_at', __('Created at'));
@@ -66,27 +72,29 @@ class ExpenseCategoryController extends AdminController
     protected function form()
     {
         $form = new Form(new ExpenseCategory());
+        $form->column(6, function ($form) {
 
-        $form->number('paerant_id', __('Paerant id'));
-        $form->textarea('description', __('Description'));
-        $form->switch('is_active', __('Is active'));
+            $form->select('parant_id', __('Parant'))->options(ExpenseParant::all()->pluck('name', 'id'));
+            $form->textarea('description', __('Description'));
+            $form->switch('is_active', __('Is active'));
+        });
+
         $form->footer(function ($footer) {
 
             // disable reset btn
             $footer->disableReset();
-        
+
             // disable submit btn
             // $footer->disableSubmit();
-        
+
             // disable `View` checkbox
             $footer->disableViewCheck();
-        
+
             // disable `Continue editing` checkbox
             $footer->disableEditingCheck();
-        
+
             // disable `Continue Creating` checkbox
             $footer->disableCreatingCheck();
-        
         });
         return $form;
     }

@@ -43,6 +43,9 @@ class OrderController extends AdminController
                 return $this->provider->name ?? '';
             }); // Todo show for admin only
         $grid->column('phone_number', __('Phone number'));
+        $grid->column('type', __('Type'))->display(function () {
+            return CustomerOrder::TYPE[$this->type];
+        });
         // $grid->column('customer_address_id', __('Customer address id'));
         // $grid->column('total_price', __('Total price'));
         $grid->column('status', __('Status'))->using(CustomerOrder::STATUS);
@@ -153,19 +156,6 @@ class OrderController extends AdminController
 
         $form = new Form(new CustomerOrder());
 
-        // $form->text('order_products', __('Order products'));
-        // $form->embeds('order_products', __('Order products'), function ($form) {
-        //     $form->select('product_id',  __('Product Id'))->options(Product::all()->pluck('product_name','product_id'));
-
-        //     $form->number('qty')->rules('required');
-        //     // $form->email('key2')->rules('required');
-        //     // $form->datetime('key3');
-
-        //     // $form->dateRange('key4','key5','Range')->rules('required');
-        // });
-
-        // $form->column(1 / 2, function ($form) {
-
         $form->select('customer_id', __('Customer'))->options(Customer::all()->pluck('name', 'id'));
         if (auth()->user()->roles()->where('name', 'Administrator')->exists()) {
             $form->select('provider_id', __('Provider'))->options(Provider::all()->pluck('name', 'id'))->rules('required');
@@ -175,13 +165,15 @@ class OrderController extends AdminController
         } else {
             $form->hidden('provider_id');
         }
+
+        $form->select('type', __('Type'))->options(CustomerOrder::TYPE);
+
+
         $form->text('full_name', __('Full name'));
         $form->text('phone_number', __('Phone number'));
 
         $form->select('customer_address_id', __('Customer Address'))->options(function () {
-            // if($this->customer_id)
             return CustomersAddress::where('customer_id', $this->customer_id)->get()->pluck('address_name', 'id');
-            // return [];
         });
 
 
@@ -193,13 +185,6 @@ class OrderController extends AdminController
         $form->text('note', __('Note'));
         $form->datetime('order_delivery_date', __('Order delivery date'))->default(date('Y-m-d H:i:s'));
         $form->decimal('shipping_fees', __('Shipping fees'));
-
-        // $form->rows( function ($form) {
-
-        // });
-        // });
-
-        // $form->column(1 / 2, function ($form) {
 
         $form->table('order_products', __('products'), function ($table) {
             $table->select('provider_product_id',  __('Product'))->options(ProviderProduct::where(
@@ -219,18 +204,6 @@ class OrderController extends AdminController
         $form->hidden('price');
         $form->hidden('total_price');
 
-
-
-        // $form->decimal('vat', __('Vat'));
-        // $form->decimal('price_discount', __('Price discount'));
-        // $form->decimal('price', __('Price'));
-
-        // });
-
-
-        // $form->select('status',  __('Status'))->options(CustomerOrder::STATUS);
-        // $form->select('app_source',  __('App source'))->options(CustomerOrder::APP_SOURCE)->default(CustomerOrder::APP_SOURCE[1]);
-        // $form->decimal('total_price', __('Total price'));
         $form->footer(function ($footer) {
 
             // disable reset btn
