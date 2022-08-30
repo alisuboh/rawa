@@ -70,6 +70,7 @@ class RevenueItemController extends AdminController
         $form->number('rev_cat_id', __('Rev cat id'));
         $form->textarea('description', __('Description'));
         $form->switch('is_active', __('Is active'));
+    
         $form->footer(function ($footer) {
 
             // disable reset btn

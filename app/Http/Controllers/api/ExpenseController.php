@@ -16,14 +16,14 @@ class ExpenseController extends Controller
      */
     public function index()
     {
-        $driver_id = auth()->user()->driver_id??request()->driver_id;
+        $provider_id = auth()->user()->provider_id??request()->provider_id;
         
-        if($driver_id){
-            $listOfExpense = ExpenseItem::where('provider_id', '=', auth()->user()->provider_id)->where('driver_id', '=', $driver_id)->paginate();
+        if($provider_id){
+            $listOfExpense = ExpenseItem::where('provider_id', '=', auth()->user()->provider_id)->paginate();
         }else{
             return response()->json([
                 "success" => false,
-                "message" => "driver id missing",
+                "message" => "provider id missing",
                 "data" =>  [],
             ]);
         }

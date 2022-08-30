@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\api\ExpenseController;
 use App\Http\Controllers\api\OrderController;
+use App\Http\Controllers\api\RevenueController;
 use App\Http\Controllers\api\TripController;
 use App\Http\Resources\DriverResource;
 use App\Http\Resources\Order;
@@ -57,6 +59,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
     Route::post('/order/{id}', [OrderController::class,'update']);
     Route::resource('trips', TripController::class);
+    Route::resource('revenue', RevenueController::class);
+    Route::resource('expense', ExpenseController::class);
+
 
 });
 
