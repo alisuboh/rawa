@@ -1,14 +1,13 @@
 <?php
 
-use App\Http\Controllers\api\ExpenseController;
+// use App\Http\Controllers\api\ExpenseController;
 use App\Http\Controllers\api\OrderController;
-use App\Http\Controllers\api\RevenueController;
 use App\Http\Controllers\api\TripController;
-use App\Http\Resources\DriverResource;
-use App\Http\Resources\Order;
-use App\Http\Resources\OrderCollection;
+// use App\Http\Resources\DriverResource;
+// use App\Http\Resources\Order;
+// use App\Http\Resources\OrderCollection;
 use App\Http\Resources\OrderResource;
-use App\Http\Resources\TripResource;
+// use App\Http\Resources\TripResource;
 use App\Models\CustomerOrder;
 use App\Models\ProvidersEmployee;
 use App\Models\Trip;
@@ -59,9 +58,19 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
     Route::post('/order/{id}', [OrderController::class,'update']);
     Route::resource('trips', TripController::class);
-    Route::resource('revenue', RevenueController::class);
-    Route::resource('expense', ExpenseController::class);
 
+    Route::apiResource("purchase", App\Http\Controllers\api\PurchaseController::class);
+    Route::apiResource("purchases-detail", App\Http\Controllers\api\PurchasesDetailController::class);
+    Route::apiResource("expense", App\Http\Controllers\api\ExpenseItemController::class);
+    Route::apiResource("supplier", App\Http\Controllers\api\SupplierController::class);
+    Route::apiResource("revenue", App\Http\Controllers\api\RevenueItemController::class);
+    Route::apiResource("revenue-category", App\Http\Controllers\api\RevenueCategoryController::class);
+    Route::apiResource("expense-category", App\Http\Controllers\api\ExpenseCategoryController::class);
+    Route::apiResource("revenue-parant", App\Http\Controllers\api\RevenueParantController::class);    
+    Route::apiResource("expense-parant", App\Http\Controllers\api\ExpenseParantController::class);
+    
 
 });
+
+
 

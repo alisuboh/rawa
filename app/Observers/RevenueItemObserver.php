@@ -6,60 +6,60 @@ use App\Models\RevenueItem;
 
 class RevenueItemObserver
 {
-    /**
-     * Handle the RevenueItem "creating" event.
-     *
-     * @param  \App\Models\RevenueItem  $revenueItem
-     * @return void
-     */
-    public function creating(RevenueItem $revenueItem)
-    {
+    public function retrieved(RevenueItem $revenueItem){
+    }
+
+    public function creating(RevenueItem $revenueItem){
+   
+    }
+
+    public function created(RevenueItem $revenueItem){
+
+    }
+
+    public function updating(RevenueItem $revenueItem){
+
+    }
+
+    public function updated(RevenueItem $revenueItem){
+
+    }
+
+    public function saving(RevenueItem $revenueItem){
         if(auth()->user()->provider_id)
             $revenueItem->provider_id = auth()->user()->provider_id;
 
     }
 
-    /**
-     * Handle the RevenueItem "updated" event.
-     *
-     * @param  \App\Models\RevenueItem  $revenueItem
-     * @return void
-     */
-    public function updated(RevenueItem $revenueItem)
-    {
-        //
+    public function saved(RevenueItem $revenueItem){
+
     }
 
-    /**
-     * Handle the RevenueItem "deleted" event.
-     *
-     * @param  \App\Models\RevenueItem  $revenueItem
-     * @return void
-     */
-    public function deleted(RevenueItem $revenueItem)
-    {
-        //
+    public function deleting(RevenueItem $revenueItem){
+
     }
 
-    /**
-     * Handle the RevenueItem "restored" event.
-     *
-     * @param  \App\Models\RevenueItem  $revenueItem
-     * @return void
-     */
-    public function restored(RevenueItem $revenueItem)
-    {
-        //
+    public function deleted(RevenueItem $revenueItem){
+
     }
 
-    /**
-     * Handle the RevenueItem "force deleted" event.
-     *
-     * @param  \App\Models\RevenueItem  $revenueItem
-     * @return void
-     */
-    public function forceDeleted(RevenueItem $revenueItem)
-    {
-        //
+    public function trashed(RevenueItem $revenueItem){
+
+    }
+
+    public function forceDeleted(RevenueItem $revenueItem){
+
+    }
+
+    public function restoring(RevenueItem $revenueItem){
+
+    }
+
+    public function restored(RevenueItem $revenueItem){
+
+    }
+
+    public function replicating(RevenueItem $revenueItem){
+
     }
 }

@@ -28,6 +28,12 @@ class ExpenseItemObserver
     {
         //
     }
+    public function saving(ExpenseItem $expenseItem)
+    {
+        if(auth()->user()->provider_id)
+            $expenseItem->provider_id = auth()->user()->provider_id;
+    }
+
 
     /**
      * Handle the ExpenseItem "deleted" event.

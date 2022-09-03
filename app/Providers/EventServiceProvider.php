@@ -2,12 +2,25 @@
 
 namespace App\Providers;
 
+use App\Models\CustomerOrder;
+use App\Models\ExpenseItem;
 use App\Models\Provider;
 use App\Models\ProviderProduct;
 use App\Models\ProvidersEmployee;
+use App\Models\Purchase;
+use App\Models\PurchasesDetail;
+use App\Models\RevenueItem;
+use App\Models\Supplier;
+use App\Models\SysAdmin;
 use App\Observers\AdminObserver;
 use App\Observers\EmployeeObserver;
+use App\Observers\ExpenseItemObserver;
+use App\Observers\OrderObserver;
 use App\Observers\ProviderProductObserver;
+use App\Observers\PurchaseObserver;
+use App\Observers\PurchasesDetailObserver;
+use App\Observers\RevenueItemObserver;
+use App\Observers\SupplierObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -36,6 +49,13 @@ class EventServiceProvider extends ServiceProvider
         Provider::observe(AdminObserver::class);
         ProviderProduct::observe(ProviderProductObserver::class);
         ProvidersEmployee::observe(EmployeeObserver::class);
+        SysAdmin::observe(AdminObserver::class);
+        CustomerOrder::observe(OrderObserver::class);
+        Purchase::observe(PurchaseObserver::class);
+        PurchasesDetail::observe(PurchasesDetailObserver::class);
+        RevenueItem::observe(RevenueItemObserver::class);
+        ExpenseItem::observe(ExpenseItemObserver::class);
+        Supplier::observe(SupplierObserver::class);
         // parent::boot();
     }
 

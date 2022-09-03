@@ -30,6 +30,8 @@ Route::group([
     // $router->get("api/drivers", "DriverApiController@drivers");
     $router->resource('customer-address', CustomerAddressController::class);
     $router->resource('customer-avalabilities', CustomerAvalabilitesController::class);
+    $router->resource('purchases', PurchaseController::class);
+    $router->resource('suppliers', SupplierController::class);
 
 
 
