@@ -29,8 +29,8 @@ class CustomerOrderRequest extends MainRequest
     protected function rulesArray(): array
     {
         return [
-            'customer_id' => "required", "integer",
-            'provider_id' => "required", "integer",
+            'customer_id' => "nullable", "integer",
+            // 'provider_id' => "required", "integer",
             'order_products' => "sometimes",
             'full_name' => "sometimes", "string", "max:100",
             'phone_number' => "sometimes", "string", "max:60",

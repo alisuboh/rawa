@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class ProviderProductResource extends MainResource
 {
@@ -14,7 +15,7 @@ class ProviderProductResource extends MainResource
             "price" => $this->price,
             "measurement" => $this->measurement,
             "discount" => $this->discount,
-            "img" => $this->icon_path
+            "img" => Storage::url($this->icon_path)
         ];
     }
 }
