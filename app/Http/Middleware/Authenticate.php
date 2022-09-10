@@ -19,7 +19,7 @@ class Authenticate extends Middleware
             if(!strpos($request->server('REQUEST_URI'),"api"))
                 return route('login');
 
-            dd('asas');
+            die(json_encode(['message' => 'Unauthorized']));
             // return response()
             //     ->json(['message' => 'Unauthorized'], 401);
         }

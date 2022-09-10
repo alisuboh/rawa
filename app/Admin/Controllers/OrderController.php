@@ -239,7 +239,6 @@ class OrderController extends AdminController
             $form->price = $price;
             $form->total_price = $price + $form->shipping_fees;
 
-            // dd('sasas');
 
 
 
