@@ -44,6 +44,7 @@ class CustomerOrderController extends Controller
      */
     public function store(CustomerOrderRequest $request)
     {
+        $request->request->set('provider_id',auth()->user()->provider_id);
         return new CustomerOrderResource(CustomerOrder::create($request->validated()));
     }
 
