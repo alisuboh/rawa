@@ -44,8 +44,28 @@ class CustomerOrderController extends Controller
      */
     public function store(CustomerOrderRequest $request)
     {
-        $request->request->set('provider_id',auth()->user()->provider_id);
-        return new CustomerOrderResource(CustomerOrder::create($request->validated()));
+        // dd(auth()->user()->provider_id);
+        // $request->request->set('provider_id',auth()->user()->provider_id);
+        // $request->request->add(['provider_id',auth()->user()->provider_id]);
+        // $request->merge([
+        //     'provider_id' => auth()->user()->provider_id,
+        // ]);
+        // dd(array_merge($request->all(), ['provider_id' => auth()->user()->provider_id]));
+        if($request->validated()){
+            if($order = CustomerOrder::create(array_merge($request->all(), ['provider_id' => auth()->user()->provider_id])))
+                return [
+                    "success" => true,
+                    "message" => "Order added successfully!",
+                    "order" => new CustomerOrderResource($order)
+                ];
+            else
+                return [
+                    "success" => false,
+                    "message" => "Order not added!",
+                    "order" => null
+                ];
+        }
+             
     }
 
     /**

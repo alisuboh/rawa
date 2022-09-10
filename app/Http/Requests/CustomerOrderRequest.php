@@ -29,7 +29,7 @@ class CustomerOrderRequest extends MainRequest
     protected function rulesArray(): array
     {
         return [
-            'customer_id' => "nullable", "integer",
+            'customer_id' => "sometimes", "integer",
             // 'provider_id' => "required", "integer",
             'order_products' => "sometimes",
             'full_name' => "sometimes", "string", "max:100",
@@ -46,7 +46,7 @@ class CustomerOrderRequest extends MainRequest
             'shipping_fees' => "sometimes",
             'provider_employee_id' => "sometimes", "integer",
             'price' => "sometimes",
-            'type' => "sometimes", "integer",
+            'type' => "required", "integer",
 
         ];
     }
