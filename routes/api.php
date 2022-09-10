@@ -70,8 +70,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::apiResource("expense-parant", App\Http\Controllers\api\ExpenseParantController::class);
     Route::apiResource("customer-order", App\Http\Controllers\api\CustomerOrderController::class);
     Route::apiResource("product", App\Http\Controllers\api\ProviderProductController::class);
+    Route::apiResource("customer", App\Http\Controllers\api\CustomerController::class);
 
 
 });
+
 
 
