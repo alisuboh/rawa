@@ -12,11 +12,11 @@ class ExpenseItemObserver
      * @param  \App\Models\ExpenseItem  $expenseItem
      * @return void
      */
-    public function creating(ExpenseItem $expenseItem)
-    {
-        if(auth()->user()->provider_id)
-            $expenseItem->provider_id = auth()->user()->provider_id;
-    }
+    // public function creating(ExpenseItem $expenseItem)
+    // {
+    //     if($provider_id = auth()->user()->provider_id)
+    //         $expenseItem->provider_id = $provider_id;
+    // }
 
     /**
      * Handle the ExpenseItem "updated" event.
@@ -28,12 +28,26 @@ class ExpenseItemObserver
     {
         //
     }
+    /**
+     * Handle the ExpenseItem "saving" event.
+     *
+     * @param  \App\Models\ExpenseItem  $expenseItem
+     * @return void
+     */
     public function saving(ExpenseItem $expenseItem)
     {
-        if(auth()->user()->provider_id)
-            $expenseItem->provider_id = auth()->user()->provider_id;
+        if($provider_id = auth()->user()->provider_id)
+            $expenseItem->provider_id = $provider_id;
     }
+    /**
+     * Handle the ExpenseItem "updating" event.
+     *
+     * @param  \App\Models\ExpenseItem  $expenseItem
+     * @return void
+     */
+    public function updating(ExpenseItem $purchase){
 
+    }
 
     /**
      * Handle the ExpenseItem "deleted" event.

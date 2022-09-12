@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PurchasesDetailRequest;
 use App\Http\Resources\PurchasesDetailResource;
 use App\Models\PurchasesDetail;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class PurchasesDetailController extends Controller
 {
@@ -16,7 +17,19 @@ class PurchasesDetailController extends Controller
      */
     public function index()
     {
-        return PurchasesDetailResource::collection(PurchasesDetail::paginate());
+        $purchaseDetail = QueryBuilder::for(PurchasesDetail::where('provider_id', '=', auth()->user()->provider_id))
+        ->defaultSort('-created_at')
+        ->allowedFilters([
+            'description',
+            'note',
+            'created_at'
+        ])
+        ->allowedSorts([
+            'total_price',
+            'created_at'
+        ])
+        ->paginate(); 
+        return PurchasesDetailResource::collection($purchaseDetail);
     }
 
     /**

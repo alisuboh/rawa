@@ -6,6 +6,35 @@ use App\Models\Supplier;
 
 class SupplierObserver
 {
+     /**
+     * Handle the ExpenseItem "saving" event.
+     *
+     * @param  \App\Models\Supplier  $expenseItem
+     * @return void
+     */
+    public function saving(Supplier $supplier)
+    {
+        if($provider_id = auth()->user()->provider_id)
+            $supplier->provider_id = $provider_id;
+    }
+    /**
+     * Handle the ExpenseItem "updating" event.
+     *
+     * @param  \App\Models\Supplier  $expenseItem
+     * @return void
+     */
+    public function updating(Supplier $supplier){
+
+    }
+    /**
+     * Handle the ExpenseItem "saved" event.
+     *
+     * @param  \App\Models\Supplier  $expenseItem
+     * @return void
+     */
+    public function saved(Supplier $purchase){
+
+    }
     public function retrieved(Supplier $supplier){
 
     }
@@ -18,24 +47,10 @@ class SupplierObserver
 
     }
 
-    public function updating(Supplier $supplier){
-
-    }
-
     public function updated(Supplier $supplier){
 
     }
 
-    public function saving(Supplier $supplier){
-        if(auth()->user()->provider_id)
-            $supplier->provider_id = auth()->user()->provider_id;
-    
-    
-    }
-
-    public function saved(Supplier $supplier){
-
-    }
 
     public function deleting(Supplier $supplier){
 

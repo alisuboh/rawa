@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RevenueItemRequest;
 use App\Http\Resources\RevenueItemResource;
 use App\Models\RevenueItem;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class RevenueItemController extends Controller
 {
@@ -16,8 +17,12 @@ class RevenueItemController extends Controller
      */
     public function index()
     {
- 
-        return RevenueItemResource::collection(RevenueItem::where('provider_id', '=', auth()->user()->provider_id)->paginate());
+        $revenueItem = QueryBuilder::for(RevenueItem::where('provider_id', '=', auth()->user()->provider_id))
+            ->defaultSort('-created_at')        
+            ->allowedFilters(['description','created_at'])
+            ->allowedSorts('created_at')
+            ->paginate(); 
+        return RevenueItemResource::collection($revenueItem);
     }
 
     /**

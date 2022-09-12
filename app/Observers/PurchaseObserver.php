@@ -6,6 +6,35 @@ use App\Models\Purchase;
 
 class PurchaseObserver
 {
+     /**
+     * Handle the ExpenseItem "saving" event.
+     *
+     * @param  \App\Models\Purchase  $expenseItem
+     * @return void
+     */
+    public function saving(Purchase $Purchase)
+    {
+        if($provider_id = auth()->user()->provider_id)
+            $Purchase->provider_id = $provider_id;
+    }
+    /**
+     * Handle the ExpenseItem "updating" event.
+     *
+     * @param  \App\Models\Purchase  $expenseItem
+     * @return void
+     */
+    public function updating(Purchase $Purchase){
+
+    }
+    /**
+     * Handle the ExpenseItem "saved" event.
+     *
+     * @param  \App\Models\Purchase  $expenseItem
+     * @return void
+     */
+    public function saved(Purchase $purchase){
+
+    }
     public function retrieved(Purchase $purchase){
 
     }
@@ -18,21 +47,13 @@ class PurchaseObserver
 
     }
 
-    public function updating(Purchase $purchase){
 
-    }
 
     public function updated(Purchase $purchase){
 
     }
 
-    public function saving(Purchase $purchase){
 
-    }
-
-    public function saved(Purchase $purchase){
-
-    }
 
     public function deleting(Purchase $purchase){
 

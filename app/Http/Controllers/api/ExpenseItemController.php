@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ExpenseItemRequest;
 use App\Http\Resources\ExpenseItemResource;
 use App\Models\ExpenseItem;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ExpenseItemController extends Controller
 {
@@ -16,7 +17,12 @@ class ExpenseItemController extends Controller
      */
     public function index()
     {
-        return ExpenseItemResource::collection(ExpenseItem::where('provider_id', '=', auth()->user()->provider_id)->paginate());
+        $expenseItem = QueryBuilder::for(ExpenseItem::where('provider_id', '=', auth()->user()->provider_id))
+            ->defaultSort('-created_at')
+            ->allowedFilters(['description','created_at'])
+            ->allowedSorts('created_at')
+            ->paginate(); 
+        return ExpenseItemResource::collection($expenseItem);
     }
 
     /**

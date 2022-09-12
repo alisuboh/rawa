@@ -6,6 +6,35 @@ use App\Models\PurchasesDetail;
 
 class PurchasesDetailObserver
 {
+     /**
+     * Handle the ExpenseItem "saving" event.
+     *
+     * @param  \App\Models\PurchasesDetail  $expenseItem
+     * @return void
+     */
+    public function saving(PurchasesDetail $purchasesDetail)
+    {
+        if($provider_id = auth()->user()->provider_id)
+            $purchasesDetail->provider_id = $provider_id;
+    }
+    /**
+     * Handle the ExpenseItem "updating" event.
+     *
+     * @param  \App\Models\PurchasesDetail  $expenseItem
+     * @return void
+     */
+    public function updating(PurchasesDetail $purchasesDetail){
+
+    }
+    /**
+     * Handle the ExpenseItem "saved" event.
+     *
+     * @param  \App\Models\PurchasesDetail  $expenseItem
+     * @return void
+     */
+    public function saved(PurchasesDetail $purchase){
+
+    }
     public function retrieved(PurchasesDetail $purchasesDetail){
 
     }
@@ -18,19 +47,8 @@ class PurchasesDetailObserver
 
     }
 
-    public function updating(PurchasesDetail $purchasesDetail){
-
-    }
 
     public function updated(PurchasesDetail $purchasesDetail){
-
-    }
-
-    public function saving(PurchasesDetail $purchasesDetail){
-
-    }
-
-    public function saved(PurchasesDetail $purchasesDetail){
 
     }
 

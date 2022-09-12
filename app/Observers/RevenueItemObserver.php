@@ -6,6 +6,36 @@ use App\Models\RevenueItem;
 
 class RevenueItemObserver
 {
+     /**
+     * Handle the ExpenseItem "saving" event.
+     *
+     * @param  \App\Models\RevenueItem  $expenseItem
+     * @return void
+     */
+    public function saving(RevenueItem $revenueItem)
+    {
+        if($provider_id = auth()->user()->provider_id)
+            $revenueItem->provider_id = $provider_id;
+    }
+    /**
+     * Handle the ExpenseItem "updating" event.
+     *
+     * @param  \App\Models\RevenueItem  $expenseItem
+     * @return void
+     */
+    public function updating(RevenueItem $revenueItem){
+
+    }
+    /**
+     * Handle the ExpenseItem "saved" event.
+     *
+     * @param  \App\Models\RevenueItem  $expenseItem
+     * @return void
+     */
+    public function saved(RevenueItem $purchase){
+
+    }
+    
     public function retrieved(RevenueItem $revenueItem){
     }
 
@@ -17,23 +47,11 @@ class RevenueItemObserver
 
     }
 
-    public function updating(RevenueItem $revenueItem){
-
-    }
 
     public function updated(RevenueItem $revenueItem){
 
     }
 
-    public function saving(RevenueItem $revenueItem){
-        if(auth()->user()->provider_id)
-            $revenueItem->provider_id = auth()->user()->provider_id;
-
-    }
-
-    public function saved(RevenueItem $revenueItem){
-
-    }
 
     public function deleting(RevenueItem $revenueItem){
 

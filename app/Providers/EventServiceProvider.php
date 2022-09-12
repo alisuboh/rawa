@@ -13,6 +13,7 @@ use App\Models\RevenueItem;
 use App\Models\Supplier;
 use App\Models\SysAdmin;
 use App\Observers\AdminObserver;
+use App\Observers\CustomerOrderObserver;
 use App\Observers\EmployeeObserver;
 use App\Observers\ExpenseItemObserver;
 use App\Observers\OrderObserver;
@@ -50,7 +51,7 @@ class EventServiceProvider extends ServiceProvider
         ProviderProduct::observe(ProviderProductObserver::class);
         ProvidersEmployee::observe(EmployeeObserver::class);
         SysAdmin::observe(AdminObserver::class);
-        CustomerOrder::observe(OrderObserver::class);
+        CustomerOrder::observe(CustomerOrderObserver::class);
         Purchase::observe(PurchaseObserver::class);
         PurchasesDetail::observe(PurchasesDetailObserver::class);
         RevenueItem::observe(RevenueItemObserver::class);

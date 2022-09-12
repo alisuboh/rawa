@@ -35,7 +35,7 @@ class CustomerOrder extends Model
     /**
      * @var array
      */
-    protected $fillable = ['customer_id', 'provider_id', 'order_products', 'full_name', 'phone_number', 'customer_address_id', 'total_price', 'order_delivery_date', 'status', 'app_source', 'note', 'reason_note', 'vat', 'price_discount', 'shipping_fees', 'provider_employee_id', 'price','type', 'created_at', 'updated_at'];
+    protected $fillable = ['customer_id', 'provider_id', 'order_products', 'full_name', 'phone_number', 'customer_address_id', 'total_price', 'order_delivery_date', 'status', 'app_source', 'note', 'reason_note', 'vat', 'price_discount', 'shipping_fees', 'provider_employee_id', 'price','type', 'payment_type','created_at', 'updated_at'];
     public $customer_adress ;
     const STATUS = [
         1 => 'Pending',
@@ -51,6 +51,11 @@ class CustomerOrder extends Model
     const TYPE = [
         1 => 'Direct',
         2 => 'Tabular',
+    ];
+    const PAYMENT_TYPE = [
+        1 => 'cash',
+        2 => 'coupon',
+        3 => 'postponed'
     ];
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
