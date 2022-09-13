@@ -35,9 +35,8 @@ class CustomerOrderObserver
         }
         $price = 0;
         foreach($customerOrder->order_products as $product){
-            $item = ProviderProduct::find($product->provider_product_id);
-            $price += $item->price * $product->qty;
-          
+            $item = ProviderProduct::find($product['provider_product_id']);
+            $price += $item->price * $product['qty']; 
         }
 
         $customerOrder->price = $price;
