@@ -29,7 +29,7 @@ class Customer extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name', 'user_name', 'mobile_number', 'email', 'password', 'has_branches', 'default_provider_id', 'can_recive_any_time', 'on_days', 'created_at', 'updated_at'];
+    protected $fillable = ['name', 'user_name', 'mobile_number', 'email', 'password', 'has_branches', 'default_provider_id', 'can_recive_any_time', 'on_days','location_lat', 'location_lng', 'address_description', 'created_at', 'updated_at'];
 
     public $hidden = ['password'];
     // public function __construct($provider_id = null)

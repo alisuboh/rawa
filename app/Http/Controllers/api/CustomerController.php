@@ -32,13 +32,13 @@ class CustomerController extends Controller
                 return [
                     "success" => true,
                     "message" => "Customer added successfully!",
-                    "order" => new CustomerResource($order)
+                    "data" => new CustomerResource($order)
                 ];
             else
                 return [
                     "success" => false,
                     "message" => "Customer not added!",
-                    "order" => null
+                    "data" => null
                 ];
         }
 

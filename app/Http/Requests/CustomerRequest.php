@@ -38,6 +38,9 @@ class CustomerRequest extends MainRequest
             'default_provider_id' => "sometimes", "integer",
             'can_recive_any_time' => "sometimes", "boolean",
             'on_days' => "sometimes", "string",
+            'location_lat' => "sometimes", "string", "max:50",
+            'location_lng' => "sometimes", "string", "max:50",
+            'address_description' => "sometimes", "string", "max:200",
 
         ];
     }
