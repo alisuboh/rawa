@@ -3,9 +3,58 @@
 namespace App\Observers;
 
 use App\Models\Customer;
+use Illuminate\Support\Facades\Hash;
 
 class CustomerObserver
 {
+
+     /**
+     * Handle the ExpenseItem "creating" event.
+     *
+     * @param  \App\Models\Customer  $customer
+     * @return void
+     */
+    // public function creating(Customer $customer)
+    // {
+    //     if($provider_id = auth()->user()->provider_id)
+    //         $customer->provider_id = $provider_id;
+    // }
+
+    /**
+     * Handle the Customer "updated" event.
+     *
+     * @param  \App\Models\Customer  $customer
+     * @return void
+     */
+    public function updated(Customer $customer)
+    {
+        //
+    }
+    /**
+     * Handle the Customer "saving" event.
+     *
+     * @param  \App\Models\Customer  $customer
+     * @return void
+     */
+    public function saving(Customer $customer)
+    {
+        if($provider_id = auth()->user()->provider_id){
+            $customer->default_provider_id = $provider_id;
+            $customer->password = Hash::make("password");
+        }
+        // dd($customer);
+            
+    }
+    /**
+     * Handle the Customer "updating" event.
+     *
+     * @param  \App\Models\Customer  $customer
+     * @return void
+     */
+    public function updating(Customer $purchase){
+
+    }
+
     public function retrieved(Customer $customer){
 
     }
@@ -15,18 +64,6 @@ class CustomerObserver
     }
 
     public function created(Customer $customer){
-
-    }
-
-    public function updating(Customer $customer){
-
-    }
-
-    public function updated(Customer $customer){
-
-    }
-
-    public function saving(Customer $customer){
 
     }
 

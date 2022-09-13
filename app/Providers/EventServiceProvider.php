@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Customer;
 use App\Models\CustomerOrder;
 use App\Models\ExpenseItem;
 use App\Models\Provider;
@@ -13,6 +14,7 @@ use App\Models\RevenueItem;
 use App\Models\Supplier;
 use App\Models\SysAdmin;
 use App\Observers\AdminObserver;
+use App\Observers\CustomerObserver;
 use App\Observers\CustomerOrderObserver;
 use App\Observers\EmployeeObserver;
 use App\Observers\ExpenseItemObserver;
@@ -57,6 +59,7 @@ class EventServiceProvider extends ServiceProvider
         RevenueItem::observe(RevenueItemObserver::class);
         ExpenseItem::observe(ExpenseItemObserver::class);
         Supplier::observe(SupplierObserver::class);
+        Customer::observe((CustomerObserver::class));
         // parent::boot();
     }
 

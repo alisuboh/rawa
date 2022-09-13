@@ -33,7 +33,7 @@ class CustomerRequest extends MainRequest
             'user_name' => "required", "max:65535",
             'mobile_number' => "required", "string", "max:50",
             'email' => "sometimes", "string", "max:200",
-            'password' => "required", "string", "max:255",
+            // 'password' => "required", "string", "max:255",
             'has_branches' => "sometimes", "boolean",
             'default_provider_id' => "sometimes", "integer",
             'can_recive_any_time' => "sometimes", "boolean",

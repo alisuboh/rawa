@@ -27,6 +27,22 @@ class CustomerController extends Controller
      */
     public function store(CustomerRequest $request)
     {
+        if($request->validated()){
+            if($order = Customer::create($request->all()))
+                return [
+                    "success" => true,
+                    "message" => "Customer added successfully!",
+                    "order" => new CustomerResource($order)
+                ];
+            else
+                return [
+                    "success" => false,
+                    "message" => "Customer not added!",
+                    "order" => null
+                ];
+        }
+
+
         return new CustomerResource(Customer::create($request->validated()));
     }
 
