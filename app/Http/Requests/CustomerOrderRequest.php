@@ -31,6 +31,7 @@ class CustomerOrderRequest extends MainRequest
         return [
             'type' => "required", "integer",
             'customer_id' => 'required_if:type,2|integer',
+            'payment_type' => 'required_if:type,2|integer',
             // 'provider_id' => "required", "integer",
             'order_products' => "sometimes",
             'full_name' => "sometimes", "string", "max:100",
@@ -47,6 +48,21 @@ class CustomerOrderRequest extends MainRequest
             'shipping_fees' => "sometimes",
             'provider_employee_id' => "sometimes", "integer",
             'price' => "sometimes",
+
+        ];
+    }
+
+     /**
+     * Get the validation messages that apply to the request.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'payment_type.required_if' => 'payment_type is required when type 2',
+            'customer_id.required_if' => 'customer_id is required when type 2',
+            'type.required' => 'type is required',
 
         ];
     }

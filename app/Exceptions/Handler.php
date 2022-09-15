@@ -2,8 +2,12 @@
 
 namespace App\Exceptions;
 
+use ErrorException;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -35,14 +39,38 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
+        $this->renderable(function (NotFoundHttpException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'message' => 'Record not found.'
+                ], 404);
+            }
+        });
         $this->reportable(function (Throwable $e) {
             //
         });
     }
     public function render($request,$exception){
-        dd($exception,$request);
         if ($exception instanceof AuthenticationException) {
             return response()->json(['message' => 'unauthenticated'], 401);
         }
+        if ($exception instanceof ValidationException) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'errors' => collect($exception->errors())
+                ], 422);
+            }
+        }
+        if ($exception instanceof QueryException || $exception instanceof ErrorException) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'errors' => $exception->getMessage()
+                ], 500);
+            }
+        }
+
     }
+
+
+    
 }

@@ -13,9 +13,12 @@ class ExpenseItemResource extends MainResource
             "exp_cat_id" => $this->exp_cat_id,
             "description" => $this->description,
             "is_active" => $this->is_active,
-            "created_at" => $this->created_at,
-            "updated_at" => $this->updated_at,
             "provider_id" => $this->provider_id,
+            'transaction_date' => $this->transaction_date,
+            'code' => $this->code,
+            'total_price' => $this->total_price,
+            'bond_no' => $this->bond_no,
+            "created_at" => $this->created_at
 
         ];
     }

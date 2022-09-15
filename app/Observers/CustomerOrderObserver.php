@@ -2,9 +2,11 @@
 
 namespace App\Observers;
 
+use App\Constants\TransCode;
 use App\Models\Customer;
 use App\Models\CustomerOrder;
 use App\Models\ProviderProduct;
+use App\Models\RevenueCategory;
 use App\Models\RevenueItem;
 
 class CustomerOrderObserver
@@ -22,15 +24,23 @@ class CustomerOrderObserver
             $customerOrder->provider_id = $provider_id;
 
         $customerOrder->status = 1;
-
         if($customerOrder->type == 1){
             $customerOrder->full_name = 'direct';
             $customerOrder->payment_type = 1;
+            $rev_cat_id = RevenueCategory::where(['description' => 'مبيعات مباشرة'])->first()->id;
+            $code = TransCode::DIRECT_ORDER;
+            $description = 'مبيعات مباشرة';
+            $payment_type = 1;
 
         }else if($customerOrder->type == 2){
             $customer = Customer::find($customerOrder->customer_id);
             $customerOrder->full_name = $customer->name;
             $customerOrder->phone_number = $customer->mobile_number;
+            $rev_cat_id = RevenueCategory::where(['description' => 'مبيعات طلبات'])->first()->id;
+            $code = TransCode::TABULAR_ORDER;
+            $description = 'مبيعات طلبات';
+            $payment_type = $customerOrder->payment_type;
+
 
         }
         $price = 0;
@@ -41,22 +51,34 @@ class CustomerOrderObserver
 
         $customerOrder->price = $price;
         $customerOrder->total_price = $price;
-        // $revenueItem = new RevenueItem();
-        // switch ($customer->payment_type){
-        //     case 1://cash
-        //         $revenueItem
-        //         break;
-        //     case 2://coupon
+        
+        $revenueItem = [
+                    'is_active' => 1, 
+                    'provider_id' => $provider_id,
+                    'rev_cat_id' => $rev_cat_id,
+                    'code' => $code,
+                    'description' => $description
+        ];
 
-        //         break;
-        //     case 3://postponed
+        switch ($payment_type){
+            case 1://cash
+                $revenueItem['total_price'] = $price;
+                break;
+            case 2://coupon
+                $revenueItem['total_price'] = 0;
 
-        //         break;
-        //     default:
+                break;
+            case 3://postponed
+                $revenueItem['total_price'] = -$price;
 
-        // }
+                break;
+            default:
+                $revenueItem['total_price'] = $price;
 
+        }
 
+        RevenueItem::create($revenueItem);
+        
         
     }
     /**

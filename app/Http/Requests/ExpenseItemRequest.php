@@ -33,7 +33,10 @@ class ExpenseItemRequest extends MainRequest
             'description' => "required", "max:65535",
             'is_active' => "sometimes", "boolean",
             // 'provider_id' => "required", "integer",
-
+            'transaction_date' => "sometimes", "string", "max:50",
+            'code' => "sometimes", "string", "max:50",
+            'total_price' => "sometimes",'numeric',
+            'bond_no' => "sometimes", "string", "max:50",
         ];
     }
 }

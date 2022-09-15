@@ -52,6 +52,7 @@ class CustomerOrderController extends Controller
         // ]);
         // dd(array_merge($request->all(), ['provider_id' => auth()->user()->provider_id]));
         if($request->validated()){
+            // dd(CustomerOrder::create(array_merge($request->all(), ['provider_id' => auth()->user()->provider_id])));
             if($order = CustomerOrder::create(array_merge($request->all(), ['provider_id' => auth()->user()->provider_id])))
                 return [
                     "success" => true,
