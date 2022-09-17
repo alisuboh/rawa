@@ -42,9 +42,9 @@ class RevenueItemController extends Controller
      * @param \App\Models\RevenueItem $revenueItem
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
-    public function show(RevenueItem $revenueItem)
+    public function show($revenueItem_id)
     {
-        return new RevenueItemResource($revenueItem);
+        return new RevenueItemResource(RevenueItem::find($revenueItem_id));
     }
 
     /**
@@ -54,8 +54,9 @@ class RevenueItemController extends Controller
      * @param \App\Models\RevenueItem $revenueItem
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
-    public function update(RevenueItemRequest $request, RevenueItem $revenueItem)
+    public function update(RevenueItemRequest $request, $revenueItem_id)
     {
+        $revenueItem = RevenueItem::find($revenueItem_id);
         $revenueItem->update($request->validated());
         return new RevenueItemResource($revenueItem);
     }
@@ -66,8 +67,10 @@ class RevenueItemController extends Controller
      * @param \App\Models\RevenueItem $revenueItem
      * @return \Illuminate\Http\Response
      */
-    public function destroy(RevenueItem $revenueItem)
+    public function destroy($revenueItem_id)
     {
+        $revenueItem = RevenueItem::find($revenueItem_id);
+
         $revenueItem->delete();
     }
 }

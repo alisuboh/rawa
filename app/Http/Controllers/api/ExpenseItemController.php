@@ -42,8 +42,9 @@ class ExpenseItemController extends Controller
      * @param \App\Models\ExpenseItem $expenseItem
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
-    public function show(ExpenseItem $expenseItem)
+    public function show($expenseItem_id)
     {
+        $expenseItem = ExpenseItem::find($expenseItem_id);
         return new ExpenseItemResource($expenseItem);
     }
 
@@ -54,8 +55,9 @@ class ExpenseItemController extends Controller
      * @param \App\Models\ExpenseItem $expenseItem
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
-    public function update(ExpenseItemRequest $request, ExpenseItem $expenseItem)
+    public function update(ExpenseItemRequest $request, $expenseItem_id)
     {
+        $expenseItem = ExpenseItem::find($expenseItem_id);
         $expenseItem->update($request->validated());
         return new ExpenseItemResource($expenseItem);
     }
@@ -66,8 +68,9 @@ class ExpenseItemController extends Controller
      * @param \App\Models\ExpenseItem $expenseItem
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ExpenseItem $expenseItem)
+    public function destroy($expenseItem_id)
     {
+        $expenseItem = ExpenseItem::find($expenseItem_id);
         $expenseItem->delete();
     }
 }
