@@ -33,7 +33,7 @@ class RevenueCategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \Hyperpay\reporting\Models\RevenueCategory $revenueCategory
+     * @param \App\Models\RevenueCategory $revenueCategory
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
     public function show(RevenueCategory $revenueCategory)
@@ -45,7 +45,7 @@ class RevenueCategoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Hyperpay\reporting\Models\RevenueCategory $revenueCategory
+     * @param \App\Models\RevenueCategory $revenueCategory
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
     public function update(RevenueCategoryRequest $request, RevenueCategory $revenueCategory)
@@ -57,7 +57,7 @@ class RevenueCategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \Hyperpay\reporting\Models\RevenueCategory $revenueCategory
+     * @param \App\Models\RevenueCategory $revenueCategory
      * @return \Illuminate\Http\Response
      */
     public function destroy(RevenueCategory $revenueCategory)

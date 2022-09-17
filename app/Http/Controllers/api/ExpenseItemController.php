@@ -39,7 +39,7 @@ class ExpenseItemController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \Hyperpay\reporting\Models\ExpenseItem $expenseItem
+     * @param \App\Models\ExpenseItem $expenseItem
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
     public function show(ExpenseItem $expenseItem)
@@ -51,7 +51,7 @@ class ExpenseItemController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Hyperpay\reporting\Models\ExpenseItem $expenseItem
+     * @param \App\Models\ExpenseItem $expenseItem
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
     public function update(ExpenseItemRequest $request, ExpenseItem $expenseItem)
@@ -63,7 +63,7 @@ class ExpenseItemController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \Hyperpay\reporting\Models\ExpenseItem $expenseItem
+     * @param \App\Models\ExpenseItem $expenseItem
      * @return \Illuminate\Http\Response
      */
     public function destroy(ExpenseItem $expenseItem)

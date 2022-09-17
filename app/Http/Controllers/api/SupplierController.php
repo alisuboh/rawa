@@ -37,7 +37,7 @@ class SupplierController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \Hyperpay\reporting\Models\Supplier $supplier
+     * @param \App\Models\Supplier $supplier
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
     public function show(Supplier $supplier)
@@ -49,7 +49,7 @@ class SupplierController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Hyperpay\reporting\Models\Supplier $supplier
+     * @param \App\Models\Supplier $supplier
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
     public function update(SupplierRequest $request, Supplier $supplier)
@@ -61,7 +61,7 @@ class SupplierController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \Hyperpay\reporting\Models\Supplier $supplier
+     * @param \App\Models\Supplier $supplier
      * @return \Illuminate\Http\Response
      */
     public function destroy(Supplier $supplier)

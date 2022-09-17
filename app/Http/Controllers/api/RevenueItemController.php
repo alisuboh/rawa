@@ -39,7 +39,7 @@ class RevenueItemController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \Hyperpay\reporting\Models\RevenueItem $revenueItem
+     * @param \App\Models\RevenueItem $revenueItem
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
     public function show(RevenueItem $revenueItem)
@@ -51,7 +51,7 @@ class RevenueItemController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Hyperpay\reporting\Models\RevenueItem $revenueItem
+     * @param \App\Models\RevenueItem $revenueItem
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
     public function update(RevenueItemRequest $request, RevenueItem $revenueItem)
@@ -63,7 +63,7 @@ class RevenueItemController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \Hyperpay\reporting\Models\RevenueItem $revenueItem
+     * @param \App\Models\RevenueItem $revenueItem
      * @return \Illuminate\Http\Response
      */
     public function destroy(RevenueItem $revenueItem)

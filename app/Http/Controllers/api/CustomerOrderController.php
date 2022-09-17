@@ -72,7 +72,7 @@ class CustomerOrderController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \Hyperpay\reporting\Models\CustomerOrder $customerOrder
+     * @param \App\Models\CustomerOrder $customerOrder
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
     public function show(CustomerOrder $customerOrder)
@@ -84,7 +84,7 @@ class CustomerOrderController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Hyperpay\reporting\Models\CustomerOrder $customerOrder
+     * @param \App\Models\CustomerOrder $customerOrder
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
     public function update(CustomerOrderRequest $request, CustomerOrder $customerOrder)
@@ -96,7 +96,7 @@ class CustomerOrderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \Hyperpay\reporting\Models\CustomerOrder $customerOrder
+     * @param \App\Models\CustomerOrder $customerOrder
      * @return \Illuminate\Http\Response
      */
     public function destroy(CustomerOrder $customerOrder)

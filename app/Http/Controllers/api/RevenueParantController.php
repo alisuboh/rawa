@@ -33,7 +33,7 @@ class RevenueParantController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \Hyperpay\reporting\Models\RevenueParant $revenueParant
+     * @param \App\Models\RevenueParant $revenueParant
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
     public function show(RevenueParant $revenueParant)
@@ -45,7 +45,7 @@ class RevenueParantController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Hyperpay\reporting\Models\RevenueParant $revenueParant
+     * @param \App\Models\RevenueParant $revenueParant
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
     public function update(RevenueParantRequest $request, RevenueParant $revenueParant)
@@ -57,7 +57,7 @@ class RevenueParantController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \Hyperpay\reporting\Models\RevenueParant $revenueParant
+     * @param \App\Models\RevenueParant $revenueParant
      * @return \Illuminate\Http\Response
      */
     public function destroy(RevenueParant $revenueParant)

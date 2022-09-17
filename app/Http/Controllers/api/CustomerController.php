@@ -49,7 +49,7 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \Hyperpay\reporting\Models\Customer $customer
+     * @param \App\Models\Customer $customer
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
     public function show(Customer $customer)
@@ -61,7 +61,7 @@ class CustomerController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Hyperpay\reporting\Models\Customer $customer
+     * @param \App\Models\Customer $customer
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
     public function update(CustomerRequest $request, Customer $customer)
@@ -73,7 +73,7 @@ class CustomerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \Hyperpay\reporting\Models\Customer $customer
+     * @param \App\Models\Customer $customer
      * @return \Illuminate\Http\Response
      */
     public function destroy(Customer $customer)

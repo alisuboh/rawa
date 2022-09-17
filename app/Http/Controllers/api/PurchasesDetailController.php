@@ -46,7 +46,7 @@ class PurchasesDetailController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \Hyperpay\reporting\Models\PurchasesDetail $purchasesDetail
+     * @param \App\Models\PurchasesDetail $purchasesDetail
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
     public function show(PurchasesDetail $purchasesDetail)
@@ -58,7 +58,7 @@ class PurchasesDetailController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Hyperpay\reporting\Models\PurchasesDetail $purchasesDetail
+     * @param \App\Models\PurchasesDetail $purchasesDetail
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
     public function update(PurchasesDetailRequest $request, PurchasesDetail $purchasesDetail)
@@ -70,7 +70,7 @@ class PurchasesDetailController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \Hyperpay\reporting\Models\PurchasesDetail $purchasesDetail
+     * @param \App\Models\PurchasesDetail $purchasesDetail
      * @return \Illuminate\Http\Response
      */
     public function destroy(PurchasesDetail $purchasesDetail)

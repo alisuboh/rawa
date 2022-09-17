@@ -33,7 +33,7 @@ class ExpenseCategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \Hyperpay\reporting\Models\ExpenseCategory $expenseCategory
+     * @param \App\Models\ExpenseCategory $expenseCategory
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
     public function show(ExpenseCategory $expenseCategory)
@@ -45,7 +45,7 @@ class ExpenseCategoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Hyperpay\reporting\Models\ExpenseCategory $expenseCategory
+     * @param \App\Models\ExpenseCategory $expenseCategory
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
     public function update(ExpenseCategoryRequest $request, ExpenseCategory $expenseCategory)
@@ -57,7 +57,7 @@ class ExpenseCategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \Hyperpay\reporting\Models\ExpenseCategory $expenseCategory
+     * @param \App\Models\ExpenseCategory $expenseCategory
      * @return \Illuminate\Http\Response
      */
     public function destroy(ExpenseCategory $expenseCategory)
