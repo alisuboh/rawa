@@ -44,7 +44,7 @@ class RevenueItem extends Model
         // dd(date('Y-m-d', $value));
         $this->attributes['transaction_date'] = strtotime($value);
     }
-    public function scopeCreatedBetween(Builder $query, $id_date): Builder
+    public function scopeCreated(Builder $query, $id_date): Builder
     {
         $createdAt = Carbon::parse();
         $to = $createdAt->format('Y-m-d 23:59:59'); 
