@@ -56,7 +56,7 @@ class RevenueItem extends Model
                 $from = Carbon::now()->subDays(7)->format('Y-m-d 00:00:00');
                 break;
             case 3:
-                $from = Carbon::now()->subDays(7)->format('Y-m-d 00:00:00');
+                $from = Carbon::now()->subDays(30)->format('Y-m-d 00:00:00');
                 break;
             default:
             $from = $createdAt->format('Y-m-d 00:00:00');
