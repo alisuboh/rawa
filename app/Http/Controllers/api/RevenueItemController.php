@@ -57,7 +57,7 @@ class RevenueItemController extends Controller
         }
 
 
-        return new RevenueItemResource(RevenueItem::create($request->validated()));
+        // return new RevenueItemResource(RevenueItem::create($request->validated()));
     }
 
     /**

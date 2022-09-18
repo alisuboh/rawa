@@ -33,7 +33,25 @@ class ExpenseItemController extends Controller
      */
     public function store(ExpenseItemRequest $request)
     {
-        return new ExpenseItemResource(ExpenseItem::create($request->validated()));
+
+        if($request->validated()){
+            if($expense = ExpenseItem::create(array_merge($request->all())))
+                return [
+                    "success" => true,
+                    "message" => "Expense added successfully!",
+                    "data" => new ExpenseItemResource($expense)
+                ];
+            else
+                return [
+                    "success" => false,
+                    "message" => "Expense not added!",
+                    "data" => null
+                ];
+        }
+
+
+
+        // return new ExpenseItemResource(ExpenseItem::create($request->validated()));
     }
 
     /**

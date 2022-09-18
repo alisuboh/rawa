@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Constants\TransCode;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -24,7 +26,7 @@ class ExpenseItem extends Model
     /**
      * @var array
      */
-    protected $fillable = ['exp_cat_id', 'description', 'provider_id', 'is_active', 'transaction_date', 'code', 'total_price', 'bond_no','beneficiary_id','beneficiary_name','beneficiary_type', 'created_at', 'updated_at'];
+    protected $fillable = ['exp_cat_id', 'description', 'provider_id', 'is_active', 'transaction_date', 'code', 'total_price', 'bond_no','beneficiary_id','beneficiary_name','beneficiary_type','beneficiary_mobile', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -56,5 +58,37 @@ class ExpenseItem extends Model
                 return null;
                 break;
         }
+    }
+
+
+    public function setTransactionDateAttribute($value)
+    {
+        $this->attributes['transaction_date'] = date('Y-m-d', strtotime($value));
+    }
+    public function getTransactionDateAttribute($value)
+    {
+        // dd(date('Y-m-d', $value));
+        $this->attributes['transaction_date'] = strtotime($value);
+    }
+    public function scopeCreated(Builder $query, $id_date): Builder
+    {
+        $createdAt = Carbon::parse();
+        $to = $createdAt->format('Y-m-d 23:59:59'); 
+        switch($id_date){
+            case 1:
+                $from = $createdAt->format('Y-m-d 00:00:00');
+                break;
+            case 2:
+                $from = Carbon::now()->subDays(7)->format('Y-m-d 00:00:00');
+                break;
+            case 3:
+                $from = Carbon::now()->subDays(30)->format('Y-m-d 00:00:00');
+                break;
+            default:
+            $from = $createdAt->format('Y-m-d 00:00:00');
+
+
+        }
+        return $query->whereBetween('created_at', [$from." 00:00:00", $to." 23:59:59"]);
     }
 }
