@@ -28,5 +28,12 @@ class TransCode
       4 => "other"
    ];
 
+   const BENEFICIARY_AR = [
+      1 => "مورد",
+      2 => "عميل",
+      3 => "موظف",
+      4 => "اخرى"
+   ];
+
 
 }

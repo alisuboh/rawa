@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Constants\TransCode;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ExpenseItemResource extends MainResource
@@ -32,7 +33,7 @@ class ExpenseItemResource extends MainResource
             'transaction_date' => $this->transaction_date??$this->created_at,
             'total_price' => $this->total_price??"لا يوجد",
             'bond_no' => $this->bond_no??"لا يوجد",               
-            'beneficiary_type' => $this->beneficiary_type??"لا يوجد",
+            'beneficiary_type' => $this->beneficiary_type?TransCode::BENEFICIARY_AR[$this->beneficiary_type]:"لا يوجد",
             'beneficiary_name' => $this->beneficiary_name??"لا يوجد",
             'beneficiary_mobile' => $this->beneficiary_mobile??"لا يوجد",
             "id" => $this->id
