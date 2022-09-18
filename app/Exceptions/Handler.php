@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use ErrorException;
+use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -46,11 +47,25 @@ class Handler extends ExceptionHandler
                 ], 404);
             }
         });
-        $this->reportable(function (Throwable $e) {
-            //
+
+        $this->renderable(function (Exception $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'message' => 'Record not found.'
+                ], 404);
+            }
         });
+        $this->reportable(function (Throwable $e) {
+            // dd($e->getMessage());
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+            
+        });
+
     }
     public function render($request,$exception){
+        // dd('sss');
         if ($exception instanceof AuthenticationException) {
             return response()->json(['message' => 'unauthenticated'], 401);
         }
@@ -61,13 +76,13 @@ class Handler extends ExceptionHandler
                 ], 422);
             }
         }
-        if ($exception instanceof QueryException || $exception instanceof ErrorException) {
+        // if ($exception instanceof QueryException || $exception instanceof ErrorException) {
             if ($request->is('api/*')) {
                 return response()->json([
                     'errors' => $exception->getMessage()
                 ], 500);
             }
-        }
+        // }
 
     }
 
