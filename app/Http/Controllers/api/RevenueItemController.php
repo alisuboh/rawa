@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RevenueItemRequest;
+use App\Http\Resources\RevenueItemCollection;
 use App\Http\Resources\RevenueItemResource;
 use App\Models\RevenueItem;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -20,9 +21,11 @@ class RevenueItemController extends Controller
         $revenueItem = QueryBuilder::for(RevenueItem::where('provider_id', '=', auth()->user()->provider_id))
             ->defaultSort('-created_at')        
             ->allowedFilters(['description','created_at'])
-            ->allowedSorts('created_at')
+            ->allowedSorts('created_at','total_price')
             ->paginate(); 
-        return RevenueItemResource::collection($revenueItem);
+            
+        return new RevenueItemCollection($revenueItem);
+            
     }
 
     /**
@@ -33,6 +36,22 @@ class RevenueItemController extends Controller
      */
     public function store(RevenueItemRequest $request)
     {
+        if($request->validated()){
+            if($revenue = RevenueItem::create(array_merge($request->all())))
+                return [
+                    "success" => true,
+                    "message" => "Revenue added successfully!",
+                    "data" => new RevenueItemResource($revenue)
+                ];
+            else
+                return [
+                    "success" => false,
+                    "message" => "Revenue not added!",
+                    "data" => null
+                ];
+        }
+
+
         return new RevenueItemResource(RevenueItem::create($request->validated()));
     }
 

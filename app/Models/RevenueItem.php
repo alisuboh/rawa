@@ -32,4 +32,15 @@ class RevenueItem extends Model
     {
         return $this->belongsTo('App\Models\RevenueCategory', 'rev_cat_id');
     }
+
+    public function setTransactionDateAttribute($value)
+    {
+        // dd(date('Y-m-d', $value));
+        $this->attributes['transaction_date'] = date('Y-m-d', $value);
+    }
+    public function getTransactionDateAttribute($value)
+    {
+        // dd(date('Y-m-d', $value));
+        $this->attributes['transaction_date'] = strtotime($value);
+    }
 }

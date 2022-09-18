@@ -9,17 +9,15 @@ class RevenueItemResource extends MainResource
     public function combinedAttrs()
     {
         return [
-            "id" => $this->id,
-            "rev_cat_id" => $this->rev_cat_id,
-            "description" => $this->description,
-            "is_active" => $this->is_active,
-            "provider_id" => $this->provider_id,
-            'transaction_date' => $this->transaction_date,
-            'code' => $this->code,
-            'total_price' => $this->total_price,
-            'bond_no' => $this->bond_no,
-            "created_at" => $this->created_at
-
+                'transaction_date' => $this->transaction_date??$this->created_at,
+                "revenue_parant" => $this->revenueCategory->revenueParant->name??"لا يوجد",
+                "revenue_category" => $this->revenueCategory->description??"لا يوجد",
+                'total_price' => $this->total_price,
+                // "description" => $this->description,
+                //customer
+                //customer name
+                'bond_no' => $this->bond_no,                
+                "id" => $this->id,
         ];
     }
 }
