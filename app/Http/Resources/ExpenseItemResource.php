@@ -15,6 +15,7 @@ class ExpenseItemResource extends MainResource
 
         if(strpos(request()->path(),'expense/')){
             return [
+                "expense_parant" => $this->expenseCategory->expenseParant->id??'',
                 "expense_category" => $this->expenseCategory->id??'',
                 'transaction_date' => $this->transaction_date??$this->created_at,
                 'total_price' => $this->total_price??'',
@@ -29,6 +30,7 @@ class ExpenseItemResource extends MainResource
         ];
         }
         return [
+            "expense_parant" => $this->expenseCategory->expenseParant->id??"لا يوجد",
             "expense_category" => $this->expenseCategory->id??"لا يوجد",
             'transaction_date' => $this->transaction_date??$this->created_at,
             'total_price' => $this->total_price??"لا يوجد",

@@ -17,6 +17,7 @@ class ExpenseItemCollection extends ResourceCollection
 
         return [
             "keys" => [
+                'فئة المصروف',
                 'نوع المصروف',
                 'التاريخ',
                 'القيمة',
