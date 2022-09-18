@@ -4,8 +4,10 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ExpenseItemRequest;
+use App\Http\Resources\ExpenseItemCollection;
 use App\Http\Resources\ExpenseItemResource;
 use App\Models\ExpenseItem;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ExpenseItemController extends Controller
@@ -17,12 +19,26 @@ class ExpenseItemController extends Controller
      */
     public function index()
     {
+
         $expenseItem = QueryBuilder::for(ExpenseItem::where('provider_id', '=', auth()->user()->provider_id))
-            ->defaultSort('-created_at')
-            ->allowedFilters(['description','created_at'])
-            ->allowedSorts('created_at')
-            ->paginate(); 
-        return ExpenseItemResource::collection($expenseItem);
+        ->defaultSort('-created_at')        
+        ->allowedFilters([
+            'description',
+            'created_at',
+            AllowedFilter::scope('created'),
+            ])
+        ->allowedSorts('created_at','total_price')
+        ->paginate(); 
+        
+    return new ExpenseItemCollection($expenseItem);
+
+
+        // $expenseItem = QueryBuilder::for(ExpenseItem::where('provider_id', '=', auth()->user()->provider_id))
+        //     ->defaultSort('-created_at')
+        //     ->allowedFilters(['description','created_at'])
+        //     ->allowedSorts('created_at')
+        //     ->paginate(); 
+        // return ExpenseItemResource::collection($expenseItem);
     }
 
     /**
