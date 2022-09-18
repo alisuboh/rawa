@@ -14,8 +14,10 @@ class RevenueItemObserver
      */
     public function saving(RevenueItem $revenueItem)
     {
-        if($provider_id = auth()->user()->provider_id)
+        if($provider_id = auth()->user()->provider_id){
             $revenueItem->provider_id = $provider_id;
+        }
+            
     }
     /**
      * Handle the ExpenseItem "updating" event.

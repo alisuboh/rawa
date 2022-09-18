@@ -8,7 +8,6 @@ class RevenueItemResource extends MainResource
 {
     public function combinedAttrs()
     {
-        // dd(request()->path());
         if(strpos(request()->path(),'revenue/')){
             return [
                 'transaction_date' => $this->transaction_date??$this->created_at,

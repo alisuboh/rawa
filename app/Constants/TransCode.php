@@ -14,6 +14,13 @@ class TransCode
    const CUSTOMER = "CST-001";
    const SUPPLIER = "SUP-001";
 
+
+
+   const BENEFICIARY_SUPPLIER = 1;
+   const BENEFICIARY_CUSTOMER = 2;
+   const BENEFICIARY_EMPLOYEE = 3;
+   const BENEFICIARY_OTHER = 4;
+
    const BENEFICIARY = [
       1 => "supplier",
       2 => "customer",

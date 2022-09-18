@@ -27,7 +27,6 @@ class RevenueItemController extends Controller
                 AllowedFilter::scope('created'),
                 ])
             ->allowedSorts('created_at','total_price')
-            
             ->paginate(); 
             
         return new RevenueItemCollection($revenueItem);
