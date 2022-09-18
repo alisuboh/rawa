@@ -30,7 +30,7 @@ class ExpenseItemRequest extends MainRequest
     {
         return [
             'exp_cat_id' => "sometimes", "integer",
-            'description' => "required", "max:65535",
+            'description' => "sometimes", "max:65535",
             'is_active' => "sometimes", "boolean",
             // 'provider_id' => "required", "integer",
             'transaction_date' => "sometimes", "string", "max:50",

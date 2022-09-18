@@ -14,18 +14,21 @@ class ExpenseItemCollection extends ResourceCollection
      */
     public function toArray($request)
     {
+
         return [
             "keys" => [
+                'نوع المصروف',
                 'التاريخ',
-                'فئة الايراد',
-                'نوع الايراد',
                 'القيمة',
                 // 'نوع العميل',
                 // 'العميل',
                 'رقم السند',
+                'نوع المستفيد',
+                'المستفيد',
+                'رقم جوال المستفيد',
             ],
             "rows" => [
-                parent::toArray($request)         
+                parent::toArray($request)
             ],
             "id" => $request->id,
         ];
