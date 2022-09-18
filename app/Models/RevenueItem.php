@@ -35,8 +35,7 @@ class RevenueItem extends Model
 
     public function setTransactionDateAttribute($value)
     {
-        // dd(date('Y-m-d', $value));
-        $this->attributes['transaction_date'] = date('Y-m-d', $value);
+        $this->attributes['transaction_date'] = date('Y-m-d', strtotime($value));
     }
     public function getTransactionDateAttribute($value)
     {
