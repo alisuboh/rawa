@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -42,4 +44,26 @@ class RevenueItem extends Model
         // dd(date('Y-m-d', $value));
         $this->attributes['transaction_date'] = strtotime($value);
     }
+    public function scopeCreatedBetween(Builder $query, $id_date): Builder
+    {
+        $createdAt = Carbon::parse();
+        $to = $createdAt->format('Y-m-d 23:59:59'); 
+        switch($id_date){
+            case 1:
+                $from = $createdAt->format('Y-m-d 00:00:00');
+                break;
+            case 2:
+                $from = Carbon::now()->subDays(7)->format('Y-m-d 00:00:00');
+                break;
+            case 3:
+                $from = Carbon::now()->subDays(7)->format('Y-m-d 00:00:00');
+                break;
+            default:
+            $from = $createdAt->format('Y-m-d 00:00:00');
+
+
+        }
+        return $query->whereBetween('created_at', [$from." 00:00:00", $to." 23:59:59"]);
+    }
+
 }

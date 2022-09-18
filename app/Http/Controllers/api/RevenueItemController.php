@@ -7,6 +7,7 @@ use App\Http\Requests\RevenueItemRequest;
 use App\Http\Resources\RevenueItemCollection;
 use App\Http\Resources\RevenueItemResource;
 use App\Models\RevenueItem;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class RevenueItemController extends Controller
@@ -20,8 +21,13 @@ class RevenueItemController extends Controller
     {
         $revenueItem = QueryBuilder::for(RevenueItem::where('provider_id', '=', auth()->user()->provider_id))
             ->defaultSort('-created_at')        
-            ->allowedFilters(['description','created_at'])
+            ->allowedFilters([
+                'description',
+                'created_at',
+                AllowedFilter::scope('created_between'),
+                ])
             ->allowedSorts('created_at','total_price')
+            
             ->paginate(); 
             
         return new RevenueItemCollection($revenueItem);
