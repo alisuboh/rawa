@@ -24,7 +24,7 @@ class RevenueItemController extends Controller
             ->allowedFilters([
                 'description',
                 'created_at',
-                AllowedFilter::scope('created_between'),
+                AllowedFilter::scope('created'),
                 ])
             ->allowedSorts('created_at','total_price')
             
