@@ -10,8 +10,8 @@ class RevenueItemResource extends MainResource
     {
         return [
                 'transaction_date' => $this->transaction_date??$this->created_at,
-                "revenue_parant" => $this->revenueCategory->revenueParant->name??"لا يوجد",
-                "revenue_category" => $this->revenueCategory->description??"لا يوجد",
+                "revenue_parant" => $this->revenueCategory->revenueParant->id??null,
+                "revenue_category" => $this->revenueCategory->id??null,
                 'total_price' => $this->total_price,
                 // "description" => $this->description,
                 //customer
