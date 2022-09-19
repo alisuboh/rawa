@@ -14,6 +14,7 @@ class ExpenseItemObserver
      */
     public function creating(ExpenseItem $expenseItem)
     {
+        dd('sss');
         if($provider_id = auth()->user()->provider_id)
             $expenseItem->provider_id = $provider_id;
 

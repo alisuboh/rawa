@@ -10,7 +10,7 @@ class ExpenseItemResource extends MainResource
     public function combinedAttrs()
     {
 
-        return null;
+        
 
 
         if(strpos(request()->path(),'expense/')){
