@@ -36,29 +36,29 @@ class ExpenseItem extends Model
         return $this->belongsTo('App\Models\ExpenseCategory', 'exp_cat_id');
     }
     // beneficiary_name,beneficiary_type
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function beneficiary()
-    {
-        switch ($this->beneficiary_type) {
-            case TransCode::BENEFICIARY_SUPPLIER:
-                return $this->belongsTo('App\Models\Supplier', 'beneficiary_id');
+    // /**
+    //  * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+    //  */
+    // public function beneficiary()
+    // {
+    //     switch ($this->beneficiary_type) {
+    //         case TransCode::BENEFICIARY_SUPPLIER:
+    //             return $this->belongsTo('App\Models\Supplier', 'beneficiary_id');
 
-                break;
-            case TransCode::BENEFICIARY_CUSTOMER:
-                return $this->belongsTo('App\Models\Customer', 'beneficiary_id');
+    //             break;
+    //         case TransCode::BENEFICIARY_CUSTOMER:
+    //             return $this->belongsTo('App\Models\Customer', 'beneficiary_id');
 
-                break;
-            case TransCode::BENEFICIARY_EMPLOYEE:
-                return $this->belongsTo('App\Models\ProvidersEmployee', 'beneficiary_id');
+    //             break;
+    //         case TransCode::BENEFICIARY_EMPLOYEE:
+    //             return $this->belongsTo('App\Models\ProvidersEmployee', 'beneficiary_id');
 
-                break;
-            case TransCode::BENEFICIARY_OTHER:
-                return null;
-                break;
-        }
-    }
+    //             break;
+    //         case TransCode::BENEFICIARY_OTHER:
+    //             return null;
+    //             break;
+    //     }
+    // }
 
 
     public function setTransactionDateAttribute($value)
