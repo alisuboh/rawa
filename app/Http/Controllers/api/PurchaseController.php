@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PurchaseRequest;
+use App\Http\Resources\PurchaseCollection;
 use App\Http\Resources\PurchaseResource;
 use App\Models\Purchase;
 use App\Models\PurchasesDetail;
@@ -35,7 +36,7 @@ class PurchaseController extends Controller
                 'created_at'
             ])
             ->paginate();
-        return PurchaseResource::collection($purchase);
+        return new PurchaseCollection($purchase);
     }
 
     /**

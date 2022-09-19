@@ -46,4 +46,13 @@ class Purchase extends Model
     {
         $this->attributes['invoice_date'] = strtotime($value);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function supplier()
+    {
+        return $this->belongsTo('App\Models\Supplier', 'supplier_id');
+    }
+
 }
