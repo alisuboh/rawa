@@ -37,6 +37,10 @@ class ExpenseItemRequest extends MainRequest
             'code' => "sometimes", "string", "max:50",
             'total_price' => "sometimes",'numeric',
             'bond_no' => "sometimes", "string", "max:50",
+            'beneficiary_id' => "sometimes", "integer",
+            'beneficiary_name'=> "sometimes", "string", "max:50",
+            'beneficiary_type'=> "sometimes", "integer",
+            'beneficiary_mobile'=> "sometimes", "string", "max:50",
         ];
     }
 }
