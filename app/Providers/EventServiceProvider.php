@@ -52,7 +52,7 @@ class EventServiceProvider extends ServiceProvider
         Provider::observe(AdminObserver::class);
         ProviderProduct::observe(ProviderProductObserver::class);
         ProvidersEmployee::observe(EmployeeObserver::class);
-        SysAdmin::observe(AdminObserver::class);
+        // SysAdmin::observe(AdminObserver::class);
         CustomerOrder::observe(CustomerOrderObserver::class);
         Purchase::observe(PurchaseObserver::class);
         PurchasesDetail::observe(PurchasesDetailObserver::class);
