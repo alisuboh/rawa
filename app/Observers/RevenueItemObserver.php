@@ -14,9 +14,7 @@ class RevenueItemObserver
      */
     public function saving(RevenueItem $revenueItem)
     {
-        if($provider_id = auth()->user()->provider_id){
-            $revenueItem->provider_id = $provider_id;
-        }
+        
             
     }
     /**
@@ -34,7 +32,8 @@ class RevenueItemObserver
      * @param  \App\Models\RevenueItem  $expenseItem
      * @return void
      */
-    public function saved(RevenueItem $purchase){
+    public function saved(RevenueItem $revenueItem){
+      
 
     }
     
@@ -42,11 +41,16 @@ class RevenueItemObserver
     }
 
     public function creating(RevenueItem $revenueItem){
-   
+        if($provider_id = auth()->user()->provider_id){
+            $revenueItem->provider_id = $provider_id;
+        }
     }
 
     public function created(RevenueItem $revenueItem){
-
+        if(empty($revenueItem->transaction_date)){
+            $revenueItem->transaction_date = $revenueItem->created_at;
+            $revenueItem->save();
+        }
     }
 
 

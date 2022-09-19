@@ -25,7 +25,7 @@ class RevenueItem extends Model
     /**
      * @var array
      */
-    protected $fillable = ['rev_cat_id', 'description','provider_id', 'is_active', 'transaction_date','code','total_price','bond_no', 'created_at', 'updated_at'];
+    protected $fillable = ['rev_cat_id', 'description','provider_id', 'is_active', 'transaction_date','code','total_price','bond_no','customer_id', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
