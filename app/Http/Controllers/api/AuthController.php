@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Auth;
 use Validator;
 use App\Models\User;
+use App\Rules\MatchOldPassword;
 use Encore\Admin\Controllers\AuthController as BaseAuthController;
 
 
@@ -44,11 +45,24 @@ class AuthController extends BaseAuthController
     }
     public function validateToken(Request $request)
     {
-        dd(auth("api")->check());
         if (! $request->user() || ! $request->user()->currentAccessToken()) {
             return false;
         }
         return true;
+
+
+    }
+
+    public function ChangePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => ['required', new MatchOldPassword],
+            'new_password' => ['required'],
+            'new_confirm_password' => ['same:new_password'],
+        ]);
+   
+        SysAdmin::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
+   
 
 
     }
