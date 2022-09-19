@@ -9,6 +9,7 @@ use App\Http\Resources\PurchaseResource;
 use App\Models\Purchase;
 use App\Models\PurchasesDetail;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class PurchaseController extends Controller
@@ -21,20 +22,27 @@ class PurchaseController extends Controller
     public function index()
     {
         $purchase = QueryBuilder::for(Purchase::where('provider_id', '=', auth()->user()->provider_id))
-            ->defaultSort('-created_at')
+            // ->defaultSort('-created_at')
+            // ->allowedFilters([
+            //     'invoice_number',
+            //     'invoice_date',
+            //     'supplier_id',
+            //     'created_at'
+            // ])
+            // ->allowedSorts([
+            //     'invoice_number',
+            //     'invoice_date',
+            //     'price',
+            //     'total_price',
+            //     'created_at'
+            // ])
+            ->defaultSort('-created_at')        
             ->allowedFilters([
                 'invoice_number',
-                'invoice_date',
                 'supplier_id',
-                'created_at'
-            ])
-            ->allowedSorts([
-                'invoice_number',
-                'invoice_date',
-                'price',
-                'total_price',
-                'created_at'
-            ])
+                AllowedFilter::scope('created'),
+                ])
+            ->allowedSorts('created_at','total_price')
             ->paginate();
         return new PurchaseCollection($purchase);
     }

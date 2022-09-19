@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 
 class Purchase extends Model
 {
@@ -54,5 +56,28 @@ class Purchase extends Model
     {
         return $this->belongsTo('App\Models\Supplier', 'supplier_id');
     }
+
+    public function scopeCreated(Builder $query, $id_date): Builder
+    {
+        $createdAt = Carbon::parse();
+        $to = $createdAt->format('Y-m-d 23:59:59'); 
+        switch($id_date){
+            case 1:
+                $from = $createdAt->format('Y-m-d 00:00:00');
+                break;
+            case 2:
+                $from = Carbon::now()->subDays(7)->format('Y-m-d 00:00:00');
+                break;
+            case 3:
+                $from = Carbon::now()->subDays(30)->format('Y-m-d 00:00:00');
+                break;
+            default:
+            $from = $createdAt->format('Y-m-d 00:00:00');
+
+
+        }
+        return $query->whereBetween('created_at', [$from." 00:00:00", $to." 23:59:59"]);
+    }
+
 
 }
