@@ -21,10 +21,23 @@ class Supplier extends Model
         'type',
         'provider_id'
     ];
+    const TYPE = [
+        1 => 'تنك مياه',
+        2 => 'مواد خام',
+    ];
 
     protected $casts = [];
 
     /**
      * @return Relation
      */
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function provider()
+    {
+        return $this->belongsTo('App\Models\Provider');
+    }
+
 }

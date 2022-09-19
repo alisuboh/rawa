@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Models\Provider;
 use App\Models\Supplier;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -31,9 +32,15 @@ class SupplierController extends AdminController
         $grid->column('phone', __('Phone'));
         $grid->column('address', __('Address'));
         $grid->column('description', __('Description'));
-        $grid->column('type', __('Type'));
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
+        $grid->column('type', __('Type'))->display(function () {
+            return Supplier::TYPE[$this->type];
+        });        $grid->column('provider_id', __('provider'))->display(function(){
+            return $this->provider->name??'';
+        });
+        $grid->column('created_at', __('Created at'))->display(function () {
+            return date('d-m-Y H:i:s', strtotime($this->created_at));
+        });
+
 
         return $grid;
     }
@@ -53,7 +60,11 @@ class SupplierController extends AdminController
         $show->field('phone', __('Phone'));
         $show->field('address', __('Address'));
         $show->field('description', __('Description'));
-        $show->field('type', __('Type'));
+        $show->type()->using(Supplier::TYPE);
+
+        $show->field('provider_id', __('provider'))->as(function () {
+            return $this->provider->name ?? '';
+        });        
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
 
@@ -70,10 +81,23 @@ class SupplierController extends AdminController
         $form = new Form(new Supplier());
 
         $form->text('name', __('Name'));
-        $form->number('phone', __('Phone'));
+        $form->text('phone', __('Phone'));
         $form->text('address', __('Address'));
         $form->text('description', __('Description'));
-        $form->number('type', __('Type'));
+        $form->select('type', __('Type'))->options(Supplier::TYPE);
+        if (auth()->user()->roles()->where('name', 'Administrator')->exists()) {
+            $form->select('provider_id', __('Provider'))->options(Provider::all()->pluck('name', 'id'))->rules('required');
+        } else {
+            $form->hidden('provider_id');
+        }
+
+        $form->saving(function (Form $form) {
+            // $form->model()->name
+            if (empty($form->provider_id)) {
+                $form->provider_id = auth()->user()->provider_id;
+            }
+           
+        });
 
         return $form;
     }

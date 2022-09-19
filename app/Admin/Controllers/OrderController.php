@@ -44,7 +44,7 @@ class OrderController extends AdminController
             }); // Todo show for admin only
         $grid->column('phone_number', __('Phone number'));
         $grid->column('type', __('Type'))->display(function () {
-            return CustomerOrder::TYPE[$this->type];
+            return CustomerOrder::TYPE[$this->type]??"لا يوجد";
         });
         // $grid->column('customer_address_id', __('Customer address id'));
         // $grid->column('total_price', __('Total price'));
