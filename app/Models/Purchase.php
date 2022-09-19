@@ -29,4 +29,21 @@ class Purchase extends Model
     /**
      * @return Relation
      */
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function purchasesDetail()
+    {
+        return $this->hasMany('App\Models\PurchasesDetail', 'purchas_id', 'id');
+    }
+
+    public function setInvoiceDateAttribute($value)
+    {
+        $this->attributes['invoice_date'] = date('Y-m-d', strtotime($value));
+    }
+    public function getInvoiceDateAttribute($value)
+    {
+        $this->attributes['invoice_date'] = strtotime($value);
+    }
 }

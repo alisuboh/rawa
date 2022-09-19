@@ -29,4 +29,12 @@ class PurchasesDetail extends Model
     /**
      * @return Relation
      */
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function purchase()
+    {
+        return $this->belongsTo('App\Models\Purchase', 'purchas_id');
+    }
 }

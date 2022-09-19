@@ -14,8 +14,7 @@ class PurchasesDetailObserver
      */
     public function saving(PurchasesDetail $purchasesDetail)
     {
-        if($provider_id = auth()->user()->provider_id)
-            $purchasesDetail->provider_id = $provider_id;
+        
     }
     /**
      * Handle the ExpenseItem "updating" event.

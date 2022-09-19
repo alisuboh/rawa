@@ -32,10 +32,10 @@ class PurchaseRequest extends MainRequest
             'invoice_number' => "required", "string", "max:255",
             'invoice_date' => "required", "date",
             // 'provider_id' => "required", "integer",
-            'supplier_id' => "required", "integer",
-            'price' => "required",
-            'tax' => "required",
-            'discount' => "required",
+            'supplier_id' => "sometimes", "integer",
+            'price' => "sometimes",'numeric',
+            'tax' => "sometimes",'numeric',
+            'discount' => "sometimes",'numeric',
             'total_price' => "required",
 
         ];

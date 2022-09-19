@@ -29,14 +29,14 @@ class PurchasesDetailRequest extends MainRequest
     protected function rulesArray(): array
     {
         return [
-            // 'purchas_id' => "required", "integer",
+            'purchas_id' => "required", "integer",
             'description' => "required", "string", "max:255",
             'unit_price' => "required",
             'quantity' => "required", "integer",
-            'tax' => "required",
-            'discount' => "required",
             'total_price' => "required",
-            'note' => "required", "string", "max:255",
+            'tax' => "sometimes",'numeric',
+            'discount' => "sometimes",'numeric',
+            'note' => "sometimes", "string", "max:255",
 
         ];
     }

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PurchaseRequest;
 use App\Http\Resources\PurchaseResource;
 use App\Models\Purchase;
+use App\Models\PurchasesDetail;
+use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class PurchaseController extends Controller
@@ -32,9 +34,8 @@ class PurchaseController extends Controller
                 'total_price',
                 'created_at'
             ])
-            ->paginate(); 
+            ->paginate();
         return PurchaseResource::collection($purchase);
-
     }
 
     /**
@@ -43,9 +44,47 @@ class PurchaseController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
-    public function store(PurchaseRequest $request)
+    public function store(Request $request)
     {
-        return new PurchaseResource(Purchase::create($request->validated()));
+        $purchase_data = $request->get("purchase");
+        $purchase_detail_data = $request->get("purchase_details");
+        $total_price = 0;
+        $tax = 0;
+        $discount = 0;
+        $db_details = [];
+        foreach ($purchase_detail_data as $key => $detail) {
+            unset($detail['id']);
+            $detail['total_price'] = number_format((float)$detail['total_price'], 2, '.', '');
+            $detail['tax'] = number_format((float)$detail['tax'], 2, '.', '');
+            $detail['discount'] = number_format((float)$detail['discount'], 2, '.', '');
+
+            $total_price += $detail['total_price'];
+            $tax += $detail['tax'];
+            $discount += $detail['discount'];
+            $db_details[$key] = $detail;
+        }
+        $purchase_data['total_price'] = $total_price;
+        $purchase_data['tax'] = $tax;
+        $purchase_data['discount'] = $discount;
+
+        if ($purchase = Purchase::create($purchase_data)) {
+            foreach ($db_details as $row => $detail) {
+                $db_details[$row]['purchas_id'] = $purchase->id;
+            }
+            PurchasesDetail::insert($db_details);
+
+            return [
+                "success" => true,
+                "message" => "Revenue added successfully!",
+                "data" => new PurchaseResource($purchase)
+            ];
+        } else {
+            return [
+                "success" => false,
+                "message" => "Purchase not added!",
+                "data" => null
+            ];
+        }
     }
 
     /**

@@ -18,6 +18,7 @@ class PurchaseResource extends MainResource
             "tax" => $this->tax,
             "discount" => $this->discount,
             "total_price" => $this->total_price,
+            "purchase_details" => $this->purchasesDetail,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
 
