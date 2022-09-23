@@ -33,6 +33,11 @@ class EmployeeObserver
             $roles = new AdminRoleUsers(['user_id'=>$admin->id, 'role_id'=>3]);
             $admin->roles()->save($roles);
         }
+
+        if(auth()->user()->provider_id){
+            $providersEmployee->seq = $providersEmployee->getLastSeq();
+             
+        }
         
     }
 

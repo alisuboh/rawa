@@ -17,6 +17,8 @@ class CustomerController extends Controller
      */
     public function index()
     {
+        $customer = new Customer();
+        $customer->getLastSeq();
         $customer = QueryBuilder::for(Customer::where('default_provider_id', '=', auth()->user()->provider_id))
             ->defaultSort('-created_at')
             ->allowedFilters([

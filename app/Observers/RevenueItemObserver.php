@@ -43,6 +43,8 @@ class RevenueItemObserver
     public function creating(RevenueItem $revenueItem){
         if($provider_id = auth()->user()->provider_id){
             $revenueItem->provider_id = $provider_id;
+            $revenueItem->seq = $revenueItem->getLastSeq();
+
         }
     }
 

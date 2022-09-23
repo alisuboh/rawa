@@ -39,8 +39,11 @@ class PurchaseObserver
     }
 
     public function creating(Purchase $purchase){
-        if($provider_id = auth()->user()->provider_id)
+        if($provider_id = auth()->user()->provider_id){
             $purchase->provider_id = $provider_id;
+            $purchase->seq = $purchase->getLastSeq();
+
+        }
     }
 
     public function created(Purchase $purchase){
@@ -61,6 +64,7 @@ class PurchaseObserver
 
     public function deleted(Purchase $purchase){
 
+        
     }
 
     public function trashed(Purchase $purchase){

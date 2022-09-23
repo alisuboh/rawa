@@ -25,7 +25,7 @@ class RevenueItem extends Model
     /**
      * @var array
      */
-    protected $fillable = ['rev_cat_id', 'description','provider_id', 'is_active', 'transaction_date','code','total_price','bond_no','customer_id', 'created_at', 'updated_at'];
+    protected $fillable = ['rev_cat_id', 'description','provider_id', 'is_active', 'transaction_date','code','total_price','bond_no','customer_id','seq', 'created_at', 'updated_at'];
 
     const SOURCE = [
         1 => 'Revenue',
@@ -70,5 +70,13 @@ class RevenueItem extends Model
         }
         return $query->whereBetween('created_at', [$from." 00:00:00", $to." 23:59:59"]);
     }
+    public function getLastSeq(){
+        $last = SELF::where('provider_id',auth()->user()->provider_id)->max('seq')??0;
+        return ($last + 1);
+    }
 
+    public static function getLastSeqNumber(){
+        $last = SELF::where('provider_id',auth()->user()->provider_id)->max('seq')??0;
+        return ($last + 1);
+    }
 }

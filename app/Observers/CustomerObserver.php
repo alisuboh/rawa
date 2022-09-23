@@ -14,11 +14,15 @@ class CustomerObserver
      * @param  \App\Models\Customer  $customer
      * @return void
      */
-    // public function creating(Customer $customer)
-    // {
-    //     if($provider_id = auth()->user()->provider_id)
-    //         $customer->provider_id = $provider_id;
-    // }
+    public function creating(Customer $customer)
+    {
+        if($provider_id = auth()->user()->provider_id){
+            $customer->default_provider_id = $provider_id;
+            $customer->password = Hash::make("password");
+            $customer->seq = $customer->getLastSeq();
+             
+        }
+    }
 
     /**
      * Handle the Customer "updated" event.
@@ -38,10 +42,7 @@ class CustomerObserver
      */
     public function saving(Customer $customer)
     {
-        if($provider_id = auth()->user()->provider_id){
-            $customer->default_provider_id = $provider_id;
-            $customer->password = Hash::make("password");
-        }
+      
         // dd($customer);
             
     }
@@ -59,9 +60,6 @@ class CustomerObserver
 
     }
 
-    public function creating(Customer $customer){
-
-    }
 
     public function created(Customer $customer){
 

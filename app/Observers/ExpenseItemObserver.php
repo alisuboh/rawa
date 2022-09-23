@@ -14,8 +14,11 @@ class ExpenseItemObserver
      */
     public function creating(ExpenseItem $expenseItem)
     {
-        if($provider_id = auth()->user()->provider_id)
+        if($provider_id = auth()->user()->provider_id){
             $expenseItem->provider_id = $provider_id;
+            $expenseItem->seq = $expenseItem->getLastSeq();
+
+        }
 
         if(!empty($expenseItem->beneficiary_id) && is_numeric($expenseItem->beneficiary_id)){
 

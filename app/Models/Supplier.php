@@ -20,7 +20,8 @@ class Supplier extends Model
         'description',
         'type',
         'provider_id',
-        'is_active'
+        'is_active',
+        'seq'
     ];
     const TYPE = [
         1 => 'تنك مياه',
@@ -40,5 +41,13 @@ class Supplier extends Model
     {
         return $this->belongsTo('App\Models\Provider');
     }
+    public function getLastSeq(){
+        $last = SELF::where('provider_id',auth()->user()->provider_id)->max('seq')??0;
+        return ($last + 1);
+    }
 
+    public static function getLastSeqNumber(){
+        $last = SELF::where('provider_id',auth()->user()->provider_id)->max('seq')??0;
+        return ($last + 1);
+    }
 }

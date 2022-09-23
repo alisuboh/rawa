@@ -14,8 +14,7 @@ class SupplierObserver
      */
     public function saving(Supplier $supplier)
     {
-        if($provider_id = auth()->user()->provider_id)
-            $supplier->provider_id = $provider_id;
+       
     }
     /**
      * Handle the ExpenseItem "updating" event.
@@ -40,7 +39,10 @@ class SupplierObserver
     }
 
     public function creating(Supplier $supplier){
-
+        if($provider_id = auth()->user()->provider_id){
+            $supplier->seq = $supplier->getLastSeq();
+            $supplier->provider_id = $provider_id;
+        }
     }
 
     public function created(Supplier $supplier){
