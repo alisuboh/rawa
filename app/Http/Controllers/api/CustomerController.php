@@ -17,7 +17,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customer = QueryBuilder::for(Customer::where('default_provider_id', '=', auth()->user()->provider_id)->where('is_active', '1'))
+        $customer = QueryBuilder::for(Customer::where('default_provider_id', '=', auth()->user()->provider_id))
             ->defaultSort('-created_at')
             ->allowedFilters([
                 'user_name',
