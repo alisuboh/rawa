@@ -27,6 +27,11 @@ class RevenueItem extends Model
      */
     protected $fillable = ['rev_cat_id', 'description','provider_id', 'is_active', 'transaction_date','code','total_price','bond_no','customer_id', 'created_at', 'updated_at'];
 
+    const SOURCE = [
+        1 => 'Revenue',
+        2 => 'Order'
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

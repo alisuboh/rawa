@@ -57,7 +57,8 @@ class CustomerOrderObserver
                     'provider_id' => $provider_id,
                     'rev_cat_id' => $rev_cat_id,
                     'code' => $code,
-                    'description' => $description
+                    'description' => $description,
+                    'source' => 2
         ];
 
         switch ($payment_type){

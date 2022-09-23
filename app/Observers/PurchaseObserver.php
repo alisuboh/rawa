@@ -12,10 +12,9 @@ class PurchaseObserver
      * @param  \App\Models\Purchase  $expenseItem
      * @return void
      */
-    public function saving(Purchase $Purchase)
+    public function saving(Purchase $purchase)
     {
-        if($provider_id = auth()->user()->provider_id)
-            $Purchase->provider_id = $provider_id;
+        
     }
     /**
      * Handle the ExpenseItem "updating" event.
@@ -23,7 +22,7 @@ class PurchaseObserver
      * @param  \App\Models\Purchase  $expenseItem
      * @return void
      */
-    public function updating(Purchase $Purchase){
+    public function updating(Purchase $purchase){
 
     }
     /**
@@ -40,7 +39,8 @@ class PurchaseObserver
     }
 
     public function creating(Purchase $purchase){
-
+        if($provider_id = auth()->user()->provider_id)
+            $purchase->provider_id = $provider_id;
     }
 
     public function created(Purchase $purchase){
