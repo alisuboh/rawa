@@ -29,11 +29,12 @@ class SupplierRequest extends MainRequest
     protected function rulesArray(): array
     {
         return [
-            'name' => "required", "string", "max:255",
-            'phone' => "required", "integer",
-            'address' => "required", "string", "max:255",
-            'description' => "required", "string", "max:255",
-            'type' => "required", "integer",
+            'name' => "sometimes", "string", "max:255",
+            'phone' => "sometimes", "integer",
+            'address' => "sometimes", "string", "max:255",
+            'description' => "sometimes", "string", "max:255",
+            'type' => "sometimes", "integer",
+            'is_active' => "sometimes", "integer",
 
         ];
     }
