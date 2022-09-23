@@ -19,7 +19,8 @@ class Supplier extends Model
         'address',
         'description',
         'type',
-        'provider_id'
+        'provider_id',
+        'is_active'
     ];
     const TYPE = [
         1 => 'تنك مياه',

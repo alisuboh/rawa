@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\SupplierRequest;
 use App\Http\Resources\SupplierResource;
 use App\Models\Supplier;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class SupplierController extends Controller
 {
@@ -20,7 +21,15 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        return SupplierResource::collection(Supplier::where('provider_id', '=', auth()->user()->provider_id)->paginate());
+        $supplier = QueryBuilder::for(Supplier::where('provider_id', '=', auth()->user()->provider_id)->where('is_active','1'))
+        ->defaultSort('-created_at')        
+        ->allowedFilters([
+            'phone',
+            'name',
+            ])
+        ->paginate(); 
+
+        return SupplierResource::collection($supplier);
     }
 
     /**

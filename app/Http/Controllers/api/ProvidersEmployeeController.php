@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProvidersEmployeeRequest;
 use App\Http\Resources\ProvidersEmployeeResource;
 use App\Models\ProvidersEmployee;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ProvidersEmployeeController extends Controller
 {
@@ -16,7 +17,14 @@ class ProvidersEmployeeController extends Controller
      */
     public function index()
     {
-        return ProvidersEmployeeResource::collection(ProvidersEmployee::where('provider_id', '=', auth()->user()->provider_id)->paginate());
+        $employee = QueryBuilder::for(ProvidersEmployee::where('provider_id', '=', auth()->user()->provider_id)->where('status', '1'))
+            ->defaultSort('-created_at')
+            ->allowedFilters([
+                'full_name', 'phone_number', 'mobile_number',
+            ])
+            ->paginate();
+
+        return ProvidersEmployeeResource::collection($employee);
     }
 
     /**

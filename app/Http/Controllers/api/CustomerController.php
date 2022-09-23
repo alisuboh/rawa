@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CustomerRequest;
 use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class CustomerController extends Controller
 {
@@ -16,7 +17,17 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        return CustomerResource::collection(Customer::where('default_provider_id', '=', auth()->user()->provider_id)->paginate());
+        $customer = QueryBuilder::for(Customer::where('default_provider_id', '=', auth()->user()->provider_id)->where('is_active', '1'))
+            ->defaultSort('-created_at')
+            ->allowedFilters([
+                'user_name',
+                'mobile_number',
+                'email',
+                'name',
+            ])
+            ->paginate();
+
+        return CustomerResource::collection($customer);
     }
 
     /**
@@ -27,8 +38,8 @@ class CustomerController extends Controller
      */
     public function store(CustomerRequest $request)
     {
-        if($request->validated()){
-            if($order = Customer::create($request->all()))
+        if ($request->validated()) {
+            if ($order = Customer::create($request->all()))
                 return [
                     "success" => true,
                     "message" => "Customer added successfully!",

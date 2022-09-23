@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 /**
  * @property integer $id
@@ -25,7 +27,9 @@ use Illuminate\Database\Eloquent\Model;
 class Customer extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
+    protected $dates = ['deleted_at'];
     /**
      * @var array
      */
@@ -42,6 +46,11 @@ class Customer extends Model
         // }
         
     // }
+    const ACTIVE = [
+        1 => 'Active',
+        0 => 'In Active',
+    
+    ];
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
