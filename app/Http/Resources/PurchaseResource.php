@@ -13,7 +13,7 @@ class PurchaseResource extends MainResource
             return [
                 "id" => $this->id,
                 "invoice_number" => $this->invoice_number,
-                "invoice_date" => $this->invoice_date??$this->created_at,
+                "invoice_date" => date('Y-m-d H:i:s', strtotime($this->invoice_date)),
                 "provider_id" => $this->provider_id,
                 "supplier_id" => $this->supplier_id,
                 "price" => $this->price,
@@ -25,7 +25,7 @@ class PurchaseResource extends MainResource
         }
         return [
             "invoice_number" => $this->invoice_number?? "لا يوجد",
-            "invoice_date" => $this->invoice_date?? $this->created_at,
+            "invoice_date" => date('Y-m-d H:i:s', strtotime($this->invoice_date)),
             "supplier_id" => $this->supplier->name?? "لا يوجد",
             "total_price" => $this->total_price?? "لا يوجد",
             "id" => $this->id,

@@ -45,10 +45,13 @@ class Purchase extends Model
     {
         $this->attributes['invoice_date'] = date('Y-m-d', strtotime($value));
     }
-    public function getInvoiceDateAttribute($value)
-    {
-        $this->attributes['invoice_date'] = strtotime($value);
-    }
+    // public function getInvoiceDateAttribute($value)
+    // {
+    //     // 2022-09-19T17:11:36.000000Z
+    //     // dd(date('Y-m-d H:i:s', strtotime($value)));
+
+    //     $this->attributes['invoice_date'] = date('Y-m-d H:i:s', strtotime($value));
+    // }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
