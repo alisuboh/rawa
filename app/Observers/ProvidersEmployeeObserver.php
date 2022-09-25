@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\ProvidersEmployee;
+use Illuminate\Support\Facades\Hash;
 
 class ProvidersEmployeeObserver
 {
@@ -13,6 +14,10 @@ class ProvidersEmployeeObserver
     public function creating(ProvidersEmployee $providersEmployee){
         if($provider_id = auth()->user()->provider_id){
             $providersEmployee->provider_id = $provider_id;
+        }
+
+        if($providersEmployee->type == 1 && empty($providersEmployee->password)){
+            $providersEmployee->password = Hash::make(123456);
         }
     }
 
