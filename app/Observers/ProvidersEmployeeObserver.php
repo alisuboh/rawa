@@ -15,6 +15,10 @@ class ProvidersEmployeeObserver
         if($provider_id = auth()->user()->provider_id){
             $providersEmployee->provider_id = $provider_id;
         }
+        
+        if($providersEmployee->status !== 0){
+            $providersEmployee->status = 1;
+        }
 
         if($providersEmployee->type == 1 && empty($providersEmployee->password)){
             $providersEmployee->password = Hash::make(123456);
