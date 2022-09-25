@@ -5,10 +5,32 @@ namespace App\Observers;
 use App\Models\AdminRoleUsers;
 use App\Models\ProvidersEmployee;
 use App\Models\SysAdmin;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class EmployeeObserver
 {
+
+    /**
+     * Handle the ProvidersEmployee "creating" event.
+     *
+     * @param  \App\Models\ProvidersEmployee  $providersEmployee
+     * @return void
+     */
+    public function creating(ProvidersEmployee $providersEmployee){
+        if(empty($providersEmployee->provider_id) &&  $provider_id = auth()->user()->provider_id){
+            $providersEmployee->provider_id = $provider_id;
+        }
+        
+        if($providersEmployee->status !== 0){
+            $providersEmployee->status = 1;
+        }
+
+        if($providersEmployee->type == 1 && empty($providersEmployee->password)){
+            $providersEmployee->password = Hash::make(123456);
+        }
+    }
+
     /**
      * Handle the ProvidersEmployee "created" event.
      *
