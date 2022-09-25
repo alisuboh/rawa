@@ -44,8 +44,9 @@ class ProvidersEmployeeController extends Controller
      * @param \Hyperpay\reporting\Models\ProvidersEmployee $providersEmployee
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
-    public function show(ProvidersEmployee $providersEmployee)
+    public function show($providersEmployee_id)
     {
+        $providersEmployee = ProvidersEmployee::find($providersEmployee_id);
         return new ProvidersEmployeeResource($providersEmployee);
     }
 
@@ -56,8 +57,9 @@ class ProvidersEmployeeController extends Controller
      * @param \Hyperpay\reporting\Models\ProvidersEmployee $providersEmployee
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
-    public function update(ProvidersEmployeeRequest $request, ProvidersEmployee $providersEmployee)
+    public function update(ProvidersEmployeeRequest $request, $providersEmployee_id)
     {
+        $providersEmployee = ProvidersEmployee::find($providersEmployee_id);
         $providersEmployee->update($request->validated());
         return new ProvidersEmployeeResource($providersEmployee);
     }
@@ -68,8 +70,8 @@ class ProvidersEmployeeController extends Controller
      * @param \Hyperpay\reporting\Models\ProvidersEmployee $providersEmployee
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProvidersEmployee $providersEmployee)
+    public function destroy(ProvidersEmployee $providersEmployee_id)
     {
-        $providersEmployee->delete();
+        $providersEmployee = ProvidersEmployee::find($providersEmployee_id)->delete();
     }
 }

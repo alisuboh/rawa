@@ -48,6 +48,7 @@ class CustomerOrderObserver
         if ($provider_id = auth()->user()->provider_id)
             $customerOrder->provider_id = $provider_id;
 
+        $customer_id = null;
         $customerOrder->status = 1;
         if ($customerOrder->type == 1) {
             $customerOrder->full_name = 'direct';
@@ -58,6 +59,7 @@ class CustomerOrderObserver
             $payment_type = 1;
         } else if ($customerOrder->type == 2) {
             $customer = Customer::find($customerOrder->customer_id);
+            $customer_id = $customer->id;
             $customerOrder->full_name = $customer->name;
             $customerOrder->phone_number = $customer->mobile_number;
             $rev_cat_id = RevenueCategory::where(['description' => 'مبيعات طلبات'])->first()->id;
@@ -84,7 +86,8 @@ class CustomerOrderObserver
             'rev_cat_id' => $rev_cat_id,
             'code' => $code,
             'description' => $description,
-            'source' => 2
+            'source' => 2,
+            'customer_id' => $customer_id
         ];
 
         switch ($payment_type) {

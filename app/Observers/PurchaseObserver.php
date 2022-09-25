@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Purchase;
+use App\Models\PurchasesDetail;
 
 class PurchaseObserver
 {
@@ -64,7 +65,8 @@ class PurchaseObserver
 
     public function deleted(Purchase $purchase){
 
-        
+        PurchasesDetail::whereIn('purchas_id', $purchase->id)->delete();
+
     }
 
     public function trashed(Purchase $purchase){

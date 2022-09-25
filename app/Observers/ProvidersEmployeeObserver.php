@@ -11,7 +11,9 @@ class ProvidersEmployeeObserver
     }
 
     public function creating(ProvidersEmployee $providersEmployee){
-
+        if($provider_id = auth()->user()->provider_id){
+            $providersEmployee->provider_id = $provider_id;
+        }
     }
 
     public function created(ProvidersEmployee $providersEmployee){

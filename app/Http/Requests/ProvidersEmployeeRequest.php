@@ -29,7 +29,7 @@ class ProvidersEmployeeRequest extends MainRequest
     protected function rulesArray(): array
     {
         return [
-            'provider_id' => "required", "integer",
+            'provider_id' => "nullable", "integer",
             'seq' => "sometimes", "integer",
             'full_name' => "sometimes", "string", "max:45",
             'phone_number' => "sometimes", "string", "max:45",
