@@ -27,7 +27,8 @@ class RevenueItemResource extends MainResource
                 "revenue_category" => $this->revenueCategory->description??"لا يوجد",
                 'total_price' => $this->total_price??"لا يوجد",
                 'customer_name' => $this->customer->name??'',
-                'bond_no' => $this->bond_no??"لا يوجد",               
+                'bond_no' => $this->bond_no??"لا يوجد",   
+                'created_at' => $this->created_at->format('Y-m-d H:i:s'),            
                 "id" => $this->id
         ];
     }

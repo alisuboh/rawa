@@ -34,6 +34,7 @@ class ExpenseItemResource extends MainResource
             'beneficiary_type' => $this->beneficiary_type ? TransCode::BENEFICIARY_AR[$this->beneficiary_type] : "لا يوجد",
             'beneficiary_name' => $this->beneficiary_name ?? "لا يوجد",
             'beneficiary_mobile' => $this->beneficiary_mobile ?? "لا يوجد",
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             "id" => $this->id
 
         ];

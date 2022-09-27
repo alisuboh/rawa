@@ -23,6 +23,7 @@ class RevenueItemCollection extends ResourceCollection
                 // 'نوع العميل',
                 'العميل',
                 'رقم السند',
+                'تاريخ الانشاء',
             ],
             "rows" => [
                 parent::toArray($request)         

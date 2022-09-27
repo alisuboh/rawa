@@ -27,6 +27,7 @@ class ExpenseItemCollection extends ResourceCollection
                 'نوع المستفيد',
                 'المستفيد',
                 'رقم جوال المستفيد',
+                'تاريخ الانشاء',
             ],
             "rows" => [
                 parent::toArray($request)

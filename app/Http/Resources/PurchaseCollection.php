@@ -22,6 +22,7 @@ class PurchaseCollection extends ResourceCollection
                 'التاريخ',
                 'المورد',
                 'المجموع',
+                'تاريخ الانشاء',
             ],
             "rows" => [
                 parent::toArray($request)
