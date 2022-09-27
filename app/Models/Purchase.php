@@ -14,6 +14,7 @@ class Purchase extends Model
 
     protected $table = 'purchases';
     protected $primaryKey = 'id';
+    // Pre-Tax Price  =  TP – [(TP / (1 + r) x r]
 
     protected $fillable = [
         'invoice_number',

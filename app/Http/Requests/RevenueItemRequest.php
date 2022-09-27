@@ -36,6 +36,7 @@ class RevenueItemRequest extends MainRequest
             'code' => "sometimes", "string", "max:50",
             'total_price' => "sometimes",'numeric',
             'bond_no' => "sometimes", "string", "max:50",
+            'customer_id'=> "sometimes", "integer",
             // 'provider_id' => "required", "integer",
 
         ];
