@@ -10,7 +10,7 @@ class RevenueItemResource extends MainResource
     {
         if(strpos(request()->path(),'revenue/')){
             return [
-                'transaction_date' => date('Y-m-d H:i:s', strtotime($this->invoice_date)),
+                'transaction_date' => date('Y-m-d H:i:s', strtotime($this->transaction_date)),
                 "revenue_parant" => $this->revenueCategory->revenueParant->id??'',
                 "revenue_category" => $this->revenueCategory->id??'',
                 'total_price' => $this->total_price??'',
@@ -22,7 +22,7 @@ class RevenueItemResource extends MainResource
         ];
         }
         return [
-                'transaction_date' => date('Y-m-d H:i:s', strtotime($this->invoice_date)),
+                'transaction_date' => date('Y-m-d H:i:s', strtotime($this->transaction_date)),
                 "revenue_parant" => $this->revenueCategory->revenueParant->name??"لا يوجد",
                 "revenue_category" => $this->revenueCategory->description??"لا يوجد",
                 'total_price' => $this->total_price??"لا يوجد",

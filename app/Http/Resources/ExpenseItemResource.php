@@ -13,7 +13,7 @@ class ExpenseItemResource extends MainResource
             return [
                 "expense_parant" => $this->expenseCategory->expenseParant->id ?? '',
                 "expense_category" => $this->expenseCategory->id ?? '',
-                'transaction_date' => date('Y-m-d H:i:s', strtotime($this->invoice_date)),
+                'transaction_date' => date('Y-m-d H:i:s', strtotime($this->transaction_date)),
                 'total_price' => $this->total_price ?? '',
                 'bond_no' => $this->bond_no ?? '',
                 'beneficiary_id' => $this->beneficiary_id ?? '',
@@ -28,7 +28,7 @@ class ExpenseItemResource extends MainResource
         return [
             "expense_parant" => $this->expenseCategory->expenseParant->name ?? "لا يوجد",
             "expense_category" => $this->expenseCategory->description ?? "لا يوجد",
-            'transaction_date' => date('Y-m-d H:i:s', strtotime($this->invoice_date)),
+            'transaction_date' => date('Y-m-d H:i:s', strtotime($this->transaction_date)),
             'total_price' => $this->total_price ?? "لا يوجد",
             'bond_no' => $this->bond_no ?? "لا يوجد",
             'beneficiary_type' => $this->beneficiary_type ? TransCode::BENEFICIARY_AR[$this->beneficiary_type] : "لا يوجد",
