@@ -65,11 +65,11 @@ class ExpenseItem extends Model
     {
         $this->attributes['transaction_date'] = date('Y-m-d', strtotime($value));
     }
-    public function getTransactionDateAttribute($value)
-    {
-        // dd(date('Y-m-d', $value));
-        $this->attributes['transaction_date'] = strtotime($value);
-    }
+    // public function getTransactionDateAttribute($value)
+    // {
+    //     // dd(date('Y-m-d', $value));
+    //     $this->attributes['transaction_date'] = strtotime($value);
+    // }
     public function scopeCreated(Builder $query, $id_date): Builder
     {
         $createdAt = Carbon::parse();
@@ -89,7 +89,7 @@ class ExpenseItem extends Model
 
 
         }
-        return $query->whereBetween('created_at', [$from." 00:00:00", $to." 23:59:59"]);
+        return $query->whereBetween('transaction_date', [$from." 00:00:00", $to." 23:59:59"]);
     }
     public function getLastSeq(){
         $last = SELF::where('provider_id',auth()->user()->provider_id)->max('seq')??0;

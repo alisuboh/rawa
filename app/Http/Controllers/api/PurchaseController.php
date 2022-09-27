@@ -42,7 +42,7 @@ class PurchaseController extends Controller
                 'supplier_id',
                 AllowedFilter::scope('created'),
                 ])
-            ->allowedSorts('created_at','total_price')
+            ->allowedSorts('transaction_date','created_at','total_price')
             ->paginate();
         return new PurchaseCollection($purchase);
     }

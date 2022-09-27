@@ -21,7 +21,7 @@ class RevenueItemCollection extends ResourceCollection
                 'نوع الايراد',
                 'القيمة',
                 // 'نوع العميل',
-                // 'العميل',
+                'العميل',
                 'رقم السند',
             ],
             "rows" => [
