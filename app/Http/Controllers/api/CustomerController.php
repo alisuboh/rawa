@@ -17,6 +17,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
+        $perPage = request()->get('perPage');
         $customer = new Customer();
         $customer->getLastSeq();
         $customer = QueryBuilder::for(Customer::where('default_provider_id', '=', auth()->user()->provider_id))
@@ -27,7 +28,7 @@ class CustomerController extends Controller
                 'email',
                 'name',
             ])
-            ->paginate();
+            ->paginate($perPage);
 
         return CustomerResource::collection($customer);
     }

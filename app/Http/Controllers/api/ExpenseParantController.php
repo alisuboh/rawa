@@ -16,7 +16,8 @@ class ExpenseParantController extends Controller
      */
     public function index()
     {
-        return ExpenseParantResource::collection(ExpenseParant::paginate());
+        $perPage = request()->get('perPage');
+        return ExpenseParantResource::collection(ExpenseParant::paginate($perPage));
     }
 
     /**

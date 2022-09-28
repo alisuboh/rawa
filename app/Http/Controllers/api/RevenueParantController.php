@@ -16,7 +16,8 @@ class RevenueParantController extends Controller
      */
     public function index()
     {
-        return RevenueParantResource::collection(RevenueParant::paginate());
+        $perPage = request()->get('perPage');
+        return RevenueParantResource::collection(RevenueParant::paginate($perPage));
     }
 
     /**

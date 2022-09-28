@@ -19,6 +19,7 @@ class RevenueItemController extends Controller
      */
     public function index()
     {
+        $perPage = request()->get('perPage');
         $revenueItem = QueryBuilder::for(RevenueItem::where('provider_id', '=', auth()->user()->provider_id))
             ->defaultSort('-created_at')        
             ->allowedFilters([
@@ -27,7 +28,7 @@ class RevenueItemController extends Controller
                 AllowedFilter::scope('created'),
                 ])
             ->allowedSorts('transaction_date','created_at','total_price')
-            ->paginate(); 
+            ->paginate($perPage); 
             
         return new RevenueItemCollection($revenueItem);
             

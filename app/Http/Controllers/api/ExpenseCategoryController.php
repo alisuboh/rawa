@@ -16,7 +16,8 @@ class ExpenseCategoryController extends Controller
      */
     public function index()
     {
-        return ExpenseCategoryResource::collection(ExpenseCategory::paginate());
+        $perPage = request()->get('perPage');
+        return ExpenseCategoryResource::collection(ExpenseCategory::paginate($perPage));
     }
 
     /**

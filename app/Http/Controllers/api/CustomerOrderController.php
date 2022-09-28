@@ -17,19 +17,19 @@ class CustomerOrderController extends Controller
      */
     public function index()
     {
-           
+        $perPage = request()->get('perPage');
         $driver_id = auth()->user()->driver_id??request()->driver_id;
         if($driver_id){
             $order = QueryBuilder::for(CustomerOrder::where('provider_id', '=', auth()->user()->provider_id)->where('provider_employee_id', '=', $driver_id))
             ->allowedFilters(['phone_number','full_name'])
             ->paginate(); 
-            return CustomerOrderResource::collection(CustomerOrder::where('provider_id', '=', auth()->user()->provider_id)->where('provider_employee_id', '=', $driver_id)->paginate());
+            return CustomerOrderResource::collection(CustomerOrder::where('provider_id', '=', auth()->user()->provider_id)->where('provider_employee_id', '=', $driver_id)->paginate($perPage));
 
         }
 
             $order = QueryBuilder::for(CustomerOrder::where('provider_id', '=', auth()->user()->provider_id))
             ->allowedFilters(['phone_number','full_name'])
-            ->paginate(); 
+            ->paginate($perPage); 
 
 
         return CustomerOrderResource::collection($order);

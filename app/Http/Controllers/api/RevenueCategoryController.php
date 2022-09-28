@@ -16,7 +16,8 @@ class RevenueCategoryController extends Controller
      */
     public function index()
     {
-        return RevenueCategoryResource::collection(RevenueCategory::paginate());
+        $perPage = request()->get('perPage');
+        return RevenueCategoryResource::collection(RevenueCategory::paginate($perPage));
     }
 
     /**

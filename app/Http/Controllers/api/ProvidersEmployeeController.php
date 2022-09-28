@@ -17,12 +17,13 @@ class ProvidersEmployeeController extends Controller
      */
     public function index()
     {
+        $perPage = request()->get('perPage');
         $employee = QueryBuilder::for(ProvidersEmployee::where('provider_id', '=', auth()->user()->provider_id)->where('status', '1'))
             ->defaultSort('-created_at')
             ->allowedFilters([
-                'full_name', 'phone_number', 'mobile_number',
+                'full_name', 'phone_number', 'mobile_number','type',
             ])
-            ->paginate();
+            ->paginate($perPage);
 
         return ProvidersEmployeeResource::collection($employee);
     }

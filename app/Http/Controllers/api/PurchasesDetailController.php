@@ -17,6 +17,7 @@ class PurchasesDetailController extends Controller
      */
     public function index()
     {
+        $perPage = request()->get('perPage');
         $purchaseDetail = QueryBuilder::for(PurchasesDetail::where('provider_id', '=', auth()->user()->provider_id))
         ->defaultSort('-created_at')
         ->allowedFilters([
@@ -28,7 +29,7 @@ class PurchasesDetailController extends Controller
             'total_price',
             'created_at'
         ])
-        ->paginate(); 
+        ->paginate($perPage); 
         return PurchasesDetailResource::collection($purchaseDetail);
     }
 

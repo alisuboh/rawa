@@ -16,7 +16,8 @@ class ProviderProductController extends Controller
      */
     public function index()
     {
-        return ProviderProductResource::collection(ProviderProduct::where('provider_id', '=', auth()->user()->provider_id)->paginate());
+        $perPage = request()->get('perPage');
+        return ProviderProductResource::collection(ProviderProduct::where('provider_id', '=', auth()->user()->provider_id)->paginate($perPage));
     }
 
     /**

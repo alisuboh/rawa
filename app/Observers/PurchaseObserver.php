@@ -60,12 +60,11 @@ class PurchaseObserver
 
 
     public function deleting(Purchase $purchase){
-
+        PurchasesDetail::where('purchas_id', $purchase->id)->delete();
     }
 
     public function deleted(Purchase $purchase){
 
-        PurchasesDetail::whereIn('purchas_id', $purchase->id)->delete();
 
     }
 

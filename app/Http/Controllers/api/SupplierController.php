@@ -21,13 +21,14 @@ class SupplierController extends Controller
      */
     public function index()
     {
+        $perPage = request()->get('perPage');
         $supplier = QueryBuilder::for(Supplier::where('provider_id', '=', auth()->user()->provider_id)->where('is_active','1'))
         ->defaultSort('-created_at')        
         ->allowedFilters([
             'phone',
             'name',
             ])
-        ->paginate(); 
+        ->paginate($perPage); 
 
         return SupplierResource::collection($supplier);
     }

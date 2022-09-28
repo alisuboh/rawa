@@ -20,11 +20,11 @@ class TripController extends Controller
     public function index()
     {
         $driver_id = auth()->user()->driver_id??request()->driver_id;
-        
+        $perPage = request()->get('perPage');
         if($driver_id){
-            $listOfTrip = Trip::where('provider_id', '=', auth()->user()->provider_id)->where('driver_id', '=', $driver_id)->paginate();
+            $listOfTrip = Trip::where('provider_id', '=', auth()->user()->provider_id)->where('driver_id', '=', $driver_id)->paginate($perPage);
         }else{
-            $listOfTrip = Trip::where('provider_id', '=', auth()->user()->provider_id)->paginate();
+            $listOfTrip = Trip::where('provider_id', '=', auth()->user()->provider_id)->paginate($perPage);
         }
         return response()->json([
             "success" => true,
