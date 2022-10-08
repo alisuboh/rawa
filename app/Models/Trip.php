@@ -84,6 +84,9 @@ class Trip extends Model
         return CustomerOrder::whereIn('id',array_column($this->orders_ids, 'id'))->get();
 
     }
-
+    public function setTripDeliveryDateAttribute($value)
+    {
+        $this->attributes['trip_delivery_date'] = date('Y-m-d', strtotime($value));
+    }
    
 }

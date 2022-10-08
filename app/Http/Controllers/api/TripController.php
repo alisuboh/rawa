@@ -23,9 +23,9 @@ class TripController extends Controller
         $driver_id = auth()->user()->driver_id??request()->driver_id;
         $perPage = request()->get('perPage');
         if($driver_id){
-            $listOfTrip = Trip::where('provider_id', '=', auth()->user()->provider_id)->where('driver_id', '=', $driver_id)->paginate($perPage);
+            $listOfTrip = Trip::where('provider_id', '=', auth()->user()->provider_id)->where('driver_id', '=', $driver_id)->paginate($perPage)->orderBy('created_at','desc');
         }else{
-            $listOfTrip = Trip::where('provider_id', '=', auth()->user()->provider_id)->paginate($perPage);
+            $listOfTrip = Trip::where('provider_id', '=', auth()->user()->provider_id)->paginate($perPage)->orderBy('created_at','desc');
         }
         return new TripCollection($listOfTrip);
         // return response()->json([
@@ -52,7 +52,8 @@ class TripController extends Controller
             'orders_ids.*.orders_id' => 'required|numeric|distinct|exists:customer_orders,id',
             'driver_id' => 'nullable|numeric|exists:providers_employees,id',
             'status' => 'nullable',
-            'note' => 'nullable'
+            'note' => 'nullable',
+            'trip_delivery_date'=> 'nullable'
 
 
         ]);
