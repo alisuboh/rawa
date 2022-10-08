@@ -105,7 +105,7 @@ class CustomerOrder extends Model
     public function getCustomerAddresses()
     {
                 
-     return $this->customer->customersAddresses()->find($this->customer_address_id);
+     return $this->customer_address_id ?$this->customer->customersAddresses()->find($this->customer_address_id):null;
     }
     public function address()
     {
