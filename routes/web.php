@@ -30,6 +30,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect('admin');
 });
+Route::get('.well-known/pki-validation/AF5501DA92567D7EE44AAFC356BB1D26.txt','App\Http\Controllers\MainController@index');
+
 Route::get('/unauthorized', function () {
     response()
     ->json(['message' => 'These credentials do not match our records'], 401);});
