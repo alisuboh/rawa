@@ -28,11 +28,21 @@ class CustomerOrderController extends Controller
             // return CustomerOrderResource::collection(CustomerOrder::where('provider_id', '=', auth()->user()->provider_id)->where('provider_employee_id', '=', $driver_id)->paginate($perPage));
 
         }else{
-            $order = QueryBuilder::for(CustomerOrder::where('provider_id', '=', auth()->user()->provider_id)->where('type',2))
-            ->allowedFilters(['phone_number','full_name'])
-            ->orderBy('created_at','desc')
-            ->paginate($perPage); 
-
+            $trip_id = request()->get('trip_id');
+            if($trip_id === '0'){
+                $order = QueryBuilder::for(CustomerOrder::where('provider_id', '=', auth()->user()->provider_id)->where('type',2)->whereNull('trip_id'))
+                ->allowedFilters(['phone_number','full_name'])
+                ->orderBy('created_at','desc')
+                ->paginate($perPage); 
+    
+            }else{
+                $order = QueryBuilder::for(CustomerOrder::where('provider_id', '=', auth()->user()->provider_id)->where('type',2))
+                ->allowedFilters(['phone_number','full_name'])
+                ->orderBy('created_at','desc')
+                ->paginate($perPage); 
+    
+            }
+            
         }
 
  

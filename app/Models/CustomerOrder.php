@@ -35,7 +35,7 @@ class CustomerOrder extends Model
     /**
      * @var array
      */
-    protected $fillable = ['customer_id', 'provider_id', 'order_products', 'full_name', 'phone_number', 'customer_address_id', 'total_price', 'order_delivery_date', 'status', 'app_source', 'note', 'reason_note', 'vat', 'price_discount', 'shipping_fees', 'provider_employee_id', 'price','type', 'payment_type','seq','created_at', 'updated_at'];
+    protected $fillable = ['customer_id', 'provider_id', 'order_products', 'full_name', 'phone_number', 'customer_address_id', 'total_price', 'order_delivery_date', 'status', 'app_source', 'note', 'reason_note', 'vat', 'price_discount', 'shipping_fees', 'provider_employee_id', 'price','type', 'payment_type','seq','trip_id','created_at', 'updated_at'];
     public $customer_adress ;
     const STATUS = [
         1 => 'Pending',
@@ -121,5 +121,13 @@ class CustomerOrder extends Model
         // $type = $type ;
         $last = SELF::where('provider_id',auth()->user()->provider_id)->where('type',$type)->max('seq')??0;
         return ($last + 1);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function trip()
+    {
+        return $this->belongsTo('App\Models\Trip','trip_id');
     }
 }

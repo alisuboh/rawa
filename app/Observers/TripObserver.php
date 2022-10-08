@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Models\CustomerOrder;
 use App\Models\Trip;
 
 class TripObserver
@@ -22,15 +23,28 @@ class TripObserver
     }
 
     public function created(Trip $trip){
-
+        foreach($trip->orders() as $order){
+            $order->trip_id = $trip->id;
+            $order->save();
+        }
     }
 
     public function updating(Trip $trip){
-        $total_price=0;
-        foreach($trip->orders() as $order){
-            $total_price += (float)$order->total_price; 
+        if ($trip->orders_ids != $trip->getOriginal('orders_ids')) {
+            $oldOrders = CustomerOrder::whereIn('id',array_column($trip->getOriginal('orders_ids'), 'id'))->get();
+            foreach($oldOrders as $oldOrder){
+                $oldOrder->trip_id = null; 
+                $oldOrder->save();
+            }
+
+            $total_price=0;
+            foreach($trip->orders() as $order){
+                $total_price += (float)$order->total_price; 
+            }
+            $trip->total_price = $total_price;
         }
-        $trip->total_price = $total_price;
+
+       
     }
 
     public function updated(Trip $trip){
