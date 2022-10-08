@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DriverResource;
+use App\Http\Resources\TripCollection;
 use App\Http\Resources\TripResource;
 use App\Models\ProvidersEmployee;
 use App\Models\Trip;
@@ -26,14 +27,15 @@ class TripController extends Controller
         }else{
             $listOfTrip = Trip::where('provider_id', '=', auth()->user()->provider_id)->paginate($perPage);
         }
-        return response()->json([
-            "success" => true,
-            "message" => "Trip List",
-            "data" => [
-                'trips' => TripResource::collection($listOfTrip),
-                'drivers' => DriverResource::collection(ProvidersEmployee::where('provider_id', '=', auth()->user()->provider_id)->where('type', '=', 1)->get())
-            ]
-        ]);
+        return new TripCollection($listOfTrip);
+        // return response()->json([
+        //     "success" => true,
+        //     "message" => "Trip List",
+        //     "data" => [
+        //         'trips' => new TripCollection($listOfTrip),
+        //         'drivers' => DriverResource::collection(ProvidersEmployee::where('provider_id', '=', auth()->user()->provider_id)->where('type', '=', 1)->get())
+        //     ]
+        // ]);
     }
     /**
      * Store a newly created resource in storage.

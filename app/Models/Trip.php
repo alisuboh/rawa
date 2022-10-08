@@ -80,7 +80,7 @@ class Trip extends Model
         $this->attributes['orders_ids'] = json_encode($value);
     }
     public function orders(){
-        // dd(array_column($this->orders_ids, 'id'));
+
         return CustomerOrder::whereIn('id',array_column($this->orders_ids, 'id'))->get();
 
     }

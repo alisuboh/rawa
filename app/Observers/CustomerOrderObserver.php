@@ -76,8 +76,6 @@ class CustomerOrderObserver
         $customerOrder->price = $price;
         $customerOrder->total_price = $price;
 
-        $customerOrder->total_price = $price;
-
         $customerOrder->seq = $customerOrder->getLastSeq($customerOrder->type);
 
         $revenueItem = [

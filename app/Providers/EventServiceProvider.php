@@ -13,6 +13,7 @@ use App\Models\PurchasesDetail;
 use App\Models\RevenueItem;
 use App\Models\Supplier;
 use App\Models\SysAdmin;
+use App\Models\Trip;
 use App\Observers\AdminObserver;
 use App\Observers\CustomerObserver;
 use App\Observers\CustomerOrderObserver;
@@ -24,6 +25,7 @@ use App\Observers\PurchaseObserver;
 use App\Observers\PurchasesDetailObserver;
 use App\Observers\RevenueItemObserver;
 use App\Observers\SupplierObserver;
+use App\Observers\TripObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -60,6 +62,7 @@ class EventServiceProvider extends ServiceProvider
         ExpenseItem::observe(ExpenseItemObserver::class);
         Supplier::observe(SupplierObserver::class);
         Customer::observe((CustomerObserver::class));
+        Trip::observe(TripObserver::class);
         // parent::boot();
     }
 
