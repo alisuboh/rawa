@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CustomerOrderRequest;
 use App\Http\Resources\CustomerOrderResource;
+use App\Http\Resources\OrderResource;
 use App\Models\CustomerOrder;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -22,17 +23,21 @@ class CustomerOrderController extends Controller
         if($driver_id){
             $order = QueryBuilder::for(CustomerOrder::where('provider_id', '=', auth()->user()->provider_id)->where('provider_employee_id', '=', $driver_id))
             ->allowedFilters(['phone_number','full_name'])
+            ->orderBy('created_at','desc')
             ->paginate(); 
-            return CustomerOrderResource::collection(CustomerOrder::where('provider_id', '=', auth()->user()->provider_id)->where('provider_employee_id', '=', $driver_id)->paginate($perPage));
+            // return CustomerOrderResource::collection(CustomerOrder::where('provider_id', '=', auth()->user()->provider_id)->where('provider_employee_id', '=', $driver_id)->paginate($perPage));
+
+        }else{
+            $order = QueryBuilder::for(CustomerOrder::where('provider_id', '=', auth()->user()->provider_id))
+            ->allowedFilters(['phone_number','full_name'])
+            ->orderBy('created_at','desc')
+            ->paginate($perPage); 
 
         }
 
-            $order = QueryBuilder::for(CustomerOrder::where('provider_id', '=', auth()->user()->provider_id))
-            ->allowedFilters(['phone_number','full_name'])
-            ->paginate($perPage); 
+ 
 
-
-        return CustomerOrderResource::collection($order);
+        return OrderResource::collection($order);
         // return CustomerOrderResource::collection(CustomerOrder::paginate());
     }
 
