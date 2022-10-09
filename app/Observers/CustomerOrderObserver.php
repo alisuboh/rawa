@@ -54,7 +54,8 @@ class CustomerOrderObserver
             $customerOrder->full_name = 'direct';
             $customerOrder->payment_type = 1;
             $rev_cat_id = RevenueCategory::where(['description' => 'مبيعات مباشرة'])->first()->id;
-            $code = TransCode::DIRECT_ORDER;
+            // $code = TransCode::DIRECT_ORDER;
+            $code= TransCode::CODES_ARRAY["direct_order"].str_repeat('0',7 - $this->countDigits($customerOrder->seq) ). $customerOrder->seq;
             $description = 'مبيعات مباشرة';
             $payment_type = 1;
         } else if ($customerOrder->type == 2) {
@@ -63,7 +64,7 @@ class CustomerOrderObserver
             $customerOrder->full_name = $customer->name;
             $customerOrder->phone_number = $customer->mobile_number;
             $rev_cat_id = RevenueCategory::where(['description' => 'مبيعات طلبات'])->first()->id;
-            $code = TransCode::TABULAR_ORDER;
+            $code = TransCode::CODES_ARRAY["tabular_order"]. str_repeat('0',7 - $this->countDigits($customerOrder->seq) ). $customerOrder->seq;
             $description = 'مبيعات طلبات';
             $payment_type = $customerOrder->payment_type;
         }
@@ -143,4 +144,9 @@ class CustomerOrderObserver
     public function replicating(CustomerOrder $customerOrder)
     {
     }
+    function countDigits($MyNum){
+        $MyNum = (int)abs($MyNum);
+        $MyStr = strval($MyNum);
+        return strlen($MyStr);
+      }
 }

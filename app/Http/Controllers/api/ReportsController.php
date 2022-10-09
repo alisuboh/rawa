@@ -13,6 +13,7 @@ use App\Models\RevenueItem;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class ReportsController extends Controller
 {
@@ -23,13 +24,24 @@ class ReportsController extends Controller
      */
     public function accountStatement(Request $request)
     {
-        $type = $request->get('type');
-        $filter_id = $request->get('filter_id');
-        $from = date('Y-m-d', strtotime($request->get('from')));
-        $to = date('Y-m-d', strtotime($request->get('to')));
+        $input = $request->all();
+        $validator = Validator::make($input, [
+            'type' => 'required',
+            'filter_id' => 'required',
+            'from' => 'required',
+            'to' => 'required',            
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+        $type = $input['type'];
+        $filter_id = $input['filter_id'];
+        $from = date('Y-m-d', strtotime($input['from']));
+        $to = date('Y-m-d', strtotime($input['to']));
         $old_balance = 0;
         $final_balance = 0;
         $type_name = TransCode::BENEFICIARY[$type];
+        $result = [];
         switch ($type_name) {
             case "supplier":
                 break;
@@ -40,7 +52,7 @@ class ReportsController extends Controller
                 // $total_order_old = $old_order_cash - $old_order_postponed;
                 // $old_balance = $old < 0 ? $old : 0.00;
 
-                $old_balance = $old_revenue - $old_order_postponed;
+                $old_balance = $cal = $old_revenue - $old_order_postponed;
                 // dd($old_revenue,$old_order_postponed);
 
                 $data = RevenueItem::select(DB::raw('YEAR(transaction_date) year'), 'revenue_categories.description', 'transaction_date', 'bond_no', 'total_price', 'code')
@@ -50,7 +62,7 @@ class ReportsController extends Controller
                     ->where('transaction_date', '<=', $to)
                     ->leftjoin('revenue_categories', 'revenue_items.rev_cat_id', '=', 'revenue_categories.id')
                     // ->groupby('year','transaction_date','revenue_categories.description','bond_no','total_price','code')
-                    ->paginate();
+                    ->paginate(100);
 
 
                 $final_balance = (RevenueItem::where('provider_id', auth()->user()->provider_id)
@@ -58,8 +70,8 @@ class ReportsController extends Controller
                     ->where('transaction_date', '>=', $from)
                     ->where('transaction_date', '<=', $to)
                     ->sum('total_price')) + $old_balance;
-                $result = [];
                 foreach ($data as $row) {
+                    $row['remaining'] = $cal = $row['total_price'] + $cal;
                     $result[$row['year']][] = $row;
                 }
 

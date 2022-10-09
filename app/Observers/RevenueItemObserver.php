@@ -2,6 +2,8 @@
 
 namespace App\Observers;
 
+use App\Constants\TransCode;
+use App\Models\CustomerOrder;
 use App\Models\RevenueItem;
 
 class RevenueItemObserver
@@ -44,6 +46,13 @@ class RevenueItemObserver
         if($provider_id = auth()->user()->provider_id){
             $revenueItem->provider_id = $provider_id;
             $revenueItem->seq = $revenueItem->getLastSeq();
+            if(!empty($revenueItem->customer_id)){
+                $tabular_order = CustomerOrder::getLastSeqNumber(2);
+                $revenueItem = TransCode::CODES_ARRAY["tabular_order"]. str_repeat('0',7 - $this->countDigits($tabular_order) ). $tabular_order;
+            }else if(!empty($revenueItem->rev_cat_id) && $revenueItem->rev_cat_id == 1){
+                $cash_order = CustomerOrder::getLastSeqNumber(1);
+                $revenueItem = TransCode::CODES_ARRAY["direct_order"]. str_repeat('0',7 - $this->countDigits($cash_order) ). $cash_order;
+            }
 
         }
     }
@@ -88,4 +97,9 @@ class RevenueItemObserver
     public function replicating(RevenueItem $revenueItem){
 
     }
+    function countDigits($MyNum){
+        $MyNum = (int)abs($MyNum);
+        $MyStr = strval($MyNum);
+        return strlen($MyStr);
+      }
 }
