@@ -5,6 +5,7 @@
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\CodeController;
 use App\Http\Controllers\api\OrderController;
+use App\Http\Controllers\api\ReportsController;
 use App\Http\Controllers\api\TripController;
 // use App\Http\Resources\DriverResource;
 // use App\Http\Resources\Order;
@@ -77,6 +78,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::apiResource("employee", App\Http\Controllers\api\ProvidersEmployeeController::class);
     Route::post('/change-password', [AuthController::class,'ChangePassword']);
     Route::get('/codes', [CodeController::class,'index']);
+    Route::post('/getStatement', [ReportsController::class,'accountStatement']);
+
 
 
 

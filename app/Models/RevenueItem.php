@@ -25,7 +25,7 @@ class RevenueItem extends Model
     /**
      * @var array
      */
-    protected $fillable = ['rev_cat_id', 'description','provider_id', 'is_active', 'transaction_date','code','total_price','bond_no','customer_id','seq', 'created_at', 'updated_at'];
+    protected $fillable = ['rev_cat_id', 'description','provider_id', 'is_active', 'transaction_date','code','total_price','bond_no','customer_id','seq','source', 'created_at', 'updated_at'];
 
     const SOURCE = [
         1 => 'Revenue',

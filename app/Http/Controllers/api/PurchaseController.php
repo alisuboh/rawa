@@ -73,6 +73,7 @@ class PurchaseController extends Controller
             $discount += $detail['discount'];
             $db_details[$key] = $detail;
         }
+            // Pre-Tax Price  =  TP – [(TP / (1 + r) x r]
         $purchase_data['total_price'] = $total_price;
         $purchase_data['tax'] = $tax;
         $purchase_data['discount'] = $discount;
