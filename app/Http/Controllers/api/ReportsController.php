@@ -25,8 +25,8 @@ class ReportsController extends Controller
     {
         $type = $request->get('type');
         $filter_id = $request->get('filter_id');
-        $from = $request->get('from');
-        $to = $request->get('to');
+        $from = date('Y-m-d', strtotime($request->get('from')));
+        $to = date('Y-m-d', strtotime($request->get('to')));
         $old_balance = 0;
         $final_balance = 0;
         $type_name = TransCode::BENEFICIARY[$type];
