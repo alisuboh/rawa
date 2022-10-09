@@ -72,20 +72,24 @@ class SysAdmin extends Model implements AuthenticatableContract,AuthorizableCont
      */
     public function getAvatarAttribute($avatar)
     {
-        
-        if (url()->isValidUrl(App::make('url')->to(Storage::url($avatar)))) {
-            return $avatar;
-        }
-
-        $disk = config('admin.upload.disk');
-
-        if ($avatar && array_key_exists($disk, config('filesystems.disks'))) {
-            return Storage::disk(config('admin.upload.disk'))->url($avatar);
-        }
-
         $default = config('admin.default_avatar') ?: '/vendor/laravel-admin/AdminLTE/dist/img/user2-160x160.jpg';
 
-        return admin_asset($default);
+        return $avatar ? App::make('url')->to(Storage::url($avatar)):admin_asset($default);
+        
+        
+        // if (url()->isValidUrl(App::make('url')->to(Storage::url($avatar)))) {
+        //     return $avatar;
+        // }
+
+        // $disk = config('admin.upload.disk');
+
+        // if ($avatar && array_key_exists($disk, config('filesystems.disks'))) {
+        //     return Storage::disk(config('admin.upload.disk'))->url($avatar);
+        // }
+
+        // $default = config('admin.default_avatar') ?: '/vendor/laravel-admin/AdminLTE/dist/img/user2-160x160.jpg';
+
+        // return admin_asset($default);
     }
 
     /**
