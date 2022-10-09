@@ -71,7 +71,8 @@ class SysAdmin extends Model implements AuthenticatableContract,AuthorizableCont
      */
     public function getAvatarAttribute($avatar)
     {
-        if (url()->isValidUrl($avatar)) {
+        
+        if (url()->isValidUrl(App::make('url')->to(Storage::url($avatar)))) {
             return $avatar;
         }
 

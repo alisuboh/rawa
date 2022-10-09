@@ -56,6 +56,7 @@ class PurchaseController extends Controller
      */
     public function store(Request $request)
     {
+        // Pre-Tax Price  =  TP – [(TP / (1 + r) x r]
         $purchase_data = $request->get("purchase");
         $purchase_detail_data = $request->get("purchase_details");
         $total_price = 0;
