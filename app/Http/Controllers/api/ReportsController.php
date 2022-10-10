@@ -72,7 +72,7 @@ class ReportsController extends Controller
                     ->sum('total_price')) + $old_balance;
                 foreach ($data as $row) {
                     $row['remaining'] = $cal = floor(($row['total_price'] + $cal) * 100) / 100;
-                    $row['total_price'] = floor(($row['total_price'] ) * 100);
+                    $row['total_price'] = floor(($row['total_price'] ) * 100) / 100;
                     $result[$row['year']][] = $row;
                 }
 
