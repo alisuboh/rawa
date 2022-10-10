@@ -71,7 +71,8 @@ class ReportsController extends Controller
                     ->where('transaction_date', '<=', $to)
                     ->sum('total_price')) + $old_balance;
                 foreach ($data as $row) {
-                    $row['remaining'] = $cal = $row['total_price'] + $cal;
+                    $row['remaining'] = $cal = floor(($row['total_price'] + $cal) * 100) / 100;
+                    $row['total_price'] = floor(($row['total_price'] ) * 100);
                     $result[$row['year']][] = $row;
                 }
 
@@ -86,8 +87,8 @@ class ReportsController extends Controller
             "message" => "Order updated successfully.",
             "data" => [
                 'data' =>  $result,
-                'old_balance' => $old_balance,
-                'final_balance' => $final_balance,
+                'old_balance' => floor($old_balance * 100) / 100,
+                'final_balance' => floor($final_balance * 100) / 100,
 
             ],
         ]);

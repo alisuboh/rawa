@@ -26,6 +26,7 @@ class AdminObserver
         $admin->name = $provider->commercial_name??$provider->name;
         $admin->phone_number = $provider->contact_mobile??$provider->contact_phone;
         $admin->provider_id = $provider->id;
+        $admin->avatar = $provider->logo_path;
         $admin->api_token = Str::random(60);
         $admin->save();
         $roles = new AdminRoleUsers(['user_id'=>$admin->id, 'role_id'=>2]);
