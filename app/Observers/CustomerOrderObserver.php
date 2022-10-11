@@ -73,7 +73,7 @@ class CustomerOrderObserver
             $item = ProviderProduct::find($product['provider_product_id']);
             $price += $item->price * $product['qty'];
         }
-        $price = floor(($price ) * 100);
+        $price = floor(($price ) * 100)/100;
         $customerOrder->price = $customerOrder->total_price = $price;
 
         $customerOrder->seq = $customerOrder->getLastSeq($customerOrder->type);
