@@ -53,7 +53,6 @@ class ReportsController extends Controller
                 // $old_balance = $old < 0 ? $old : 0.00;
 
                 $old_balance = $cal = $old_revenue - $old_order_postponed;
-                // dd($old_revenue,$old_order_postponed);
 
                 $data = RevenueItem::select(DB::raw('YEAR(transaction_date) year'), 'revenue_categories.description', 'transaction_date', 'bond_no', 'total_price', 'code')
                     ->where('provider_id', auth()->user()->provider_id)
@@ -63,7 +62,6 @@ class ReportsController extends Controller
                     ->leftjoin('revenue_categories', 'revenue_items.rev_cat_id', '=', 'revenue_categories.id')
                     // ->groupby('year','transaction_date','revenue_categories.description','bond_no','total_price','code')
                     ->paginate(100);
-
 
                 $final_balance = (RevenueItem::where('provider_id', auth()->user()->provider_id)
                     ->where('customer_id', $filter_id)
@@ -78,13 +76,35 @@ class ReportsController extends Controller
 
                 break;
             case "employee":
+                $data = ExpenseItem::select(DB::raw('YEAR(transaction_date) year'), 'expense_categories.description', 'transaction_date', 'bond_no', 'total_price', 'code')
+                    ->where('provider_id', auth()->user()->provider_id)
+                    ->where('beneficiary_id', $filter_id)
+                    ->where('transaction_date', '>=', $from)
+                    ->where('transaction_date', '<=', $to)
+                    ->leftjoin('expense_categories', 'expense_items.exp_cat_id', '=', 'expense_categories.id')
+                    ->paginate(100);
+
+                $start_month = date('Y-m', strtotime($input['from'])).'-01';
+                $old_balance = $cal = ExpenseItem::where('provider_id', auth()->user()->provider_id)->where('beneficiary_id', $filter_id)->where('transaction_date', '>=', $start_month)->where('transaction_date', '<', $from)->sum('total_price');
+
+                $final_balance = (ExpenseItem::where('provider_id', auth()->user()->provider_id)
+                    ->where('beneficiary_id', $filter_id)
+                    ->where('transaction_date', '>=', $from)
+                    ->where('transaction_date', '<=', $to)
+                    ->sum('total_price')) + $old_balance;
+
+                    foreach ($data as $row) {
+                        $row['remaining'] = $cal = floor(($row['total_price'] + $cal) * 100) / 100;
+                        $row['total_price'] = floor(($row['total_price'] ) * 100) / 100;
+                        $result[$row['year']][] = $row;
+                    }
                 break;
         }
 
 
         return response()->json([
             "success" => true,
-            "message" => "Order updated successfully.",
+            "message" => "Statement $type_name fetch successfully.",
             "data" => [
                 'data' =>  $result,
                 'old_balance' => floor($old_balance * 100) / 100,
