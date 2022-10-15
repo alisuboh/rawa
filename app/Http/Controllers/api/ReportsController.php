@@ -82,12 +82,15 @@ class ReportsController extends Controller
                         $this->array_sort_by_column($result[$year], 'created_at');
 
                         foreach ($data_row as $key => $row) {
-                            $result[$year][$key]['transaction_date'] = date('m-d', strtotime($result[$year][$key]['transaction_date']));
+                            // $date= date('M-d', strtotime($result[$year][$key]['transaction_date']));
+                            $result[$year][$key]['transaction_date'] = date('M-d', strtotime($result[$year][$key]['transaction_date']));
                             $result[$year][$key]['remaining'] = $cal = floor(($row['total_price'] + $cal) * 100) / 100;
                             $final_balance = $result[$year][$key]['remaining'];
 
                         }
                     }
+                    // $result[$year][$key]['btata'] = $date;
+                    // dd($result[$year][$key]['transaction_date']);
 
                 break;
             case "customer":
@@ -116,7 +119,7 @@ class ReportsController extends Controller
                 foreach ($data as $row) {
                     $row['remaining'] = $cal = floor(($row['total_price'] + $cal) * 100) / 100;
                     $row['total_price'] = floor(($row['total_price']) * 100) / 100;
-                    $row['transaction_date'] = date('m-d', strtotime($row['transaction_date']));
+                    $row['transaction_date'] = date('M-d', strtotime($row['transaction_date']));
                     $result[$row['year']][] = $row;
                 }
 
@@ -142,8 +145,7 @@ class ReportsController extends Controller
                 foreach ($data as $row) {
                     $row['remaining'] = $cal = floor(($row['total_price'] + $cal) * 100) / 100;
                     $row['total_price'] = floor(($row['total_price']) * 100) / 100;
-                    $row['transaction_date'] = date('m-d', strtotime($row['transaction_date']));
-
+                    $row['transaction_date'] = date('M-d', strtotime($row['transaction_date']));
                     $result[$row['year']][] = $row;
                 }
                 break;
