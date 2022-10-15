@@ -73,7 +73,7 @@ class ReportsController extends Controller
                     $row['description'] = 'مشتريات';
                     $result[$row['year']][] = $row;
                 }
-                if(!empty($result))
+                if (!empty($result))
                     foreach ($result as $year => $data_row) {
                         $this->array_sort_by_column($result[$year], 'created_at');
 
@@ -82,11 +82,10 @@ class ReportsController extends Controller
                             $result[$year][$key]['transaction_date'] = date('M-d', strtotime($result[$year][$key]['transaction_date']));
                             $result[$year][$key]['remaining'] = $cal = floor(($row['total_price'] + $cal) * 100) / 100;
                             $final_balance = $result[$year][$key]['remaining'];
-
                         }
                     }
-                    // $result[$year][$key]['btata'] = $date;
-                    // dd($result[$year][$key]['transaction_date']);
+                // $result[$year][$key]['btata'] = $date;
+                // dd($result[$year][$key]['transaction_date']);
 
                 break;
             case "customer":
@@ -170,4 +169,113 @@ class ReportsController extends Controller
 
         array_multisort($reference_array, $direction, $array);
     }
+
+     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Resources\Json\JsonResource
+     */
+    public function revenueReport(Request $request)
+    {
+        $input = $request->all();
+        $validator = Validator::make($input, [
+            'revenue_cat' => 'required',
+            // 'revenue_type' => 'required',
+            'from' => 'required',
+            'to' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+        // $type = $input['revenue_type'];
+        $rev_cat_id = $input['revenue_cat'];
+        $from = date('Y-m-d', strtotime($input['from']));
+        $to = date('Y-m-d', strtotime($input['to']));
+        $final_balance = 0;
+        // $type_name = RevenueItem::SOURCE[$type];
+        $result = [];
+
+        $data = RevenueItem::select(DB::raw('YEAR(transaction_date) year'), 'revenue_categories.description', 'transaction_date', 'bond_no', 'total_price', 'code')
+                    ->where('provider_id', auth()->user()->provider_id)
+                    ->where('transaction_date', '>=', $from)
+                    ->where('transaction_date', '<=', $to)
+                    ->where('rev_cat_id', '<=', $rev_cat_id)
+                    // ->where('source', '<=', $type)
+                    ->leftjoin('revenue_categories', 'revenue_items.rev_cat_id', '=', 'revenue_categories.id')
+                    // ->groupby('year','transaction_date','revenue_categories.description','bond_no','total_price','code')
+                    ->paginate(100);
+        foreach ($data as $row) {
+            // $row['remaining'] = $cal = floor(($row['total_price'] + $cal) * 100) / 100;
+            $row['total_price'] = floor(($row['total_price']) * 100) / 100;
+            $final_balance += $row['total_price'];
+            $row['transaction_date'] = date('M-d', strtotime($row['transaction_date']));
+            $result[$row['year']][] = $row;
+        }
+
+            
+        return response()->json([
+            "success" => true,
+            "message" => "Reports for Revenue fetch successfully.",
+            "data" => [
+                'data' =>  $result,
+                'final_balance' => floor($final_balance * 100) / 100,
+
+            ],
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Resources\Json\JsonResource
+     */
+    public function expenseReport(Request $request)
+    {
+        $input = $request->all();
+        $validator = Validator::make($input, [
+            'expense_cat' => 'required',
+            // 'revenue_type' => 'required',
+            'from' => 'required',
+            'to' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+        // $type = $input['revenue_type'];
+        $rev_cat_id = $input['expense_cat'];
+        $from = date('Y-m-d', strtotime($input['from']));
+        $to = date('Y-m-d', strtotime($input['to']));
+        $final_balance = 0;
+        // $type_name = ExpenseItem::SOURCE[$type];
+        $result = [];
+
+        $data = ExpenseItem::select(DB::raw('YEAR(transaction_date) year'), 'expense_categories.description', 'transaction_date', 'bond_no', 'total_price', 'code')
+                    ->where('provider_id', auth()->user()->provider_id)
+                    ->where('transaction_date', '>=', $from)
+                    ->where('transaction_date', '<=', $to)
+                    ->where('exp_cat_id', '<=', $rev_cat_id)
+                    // ->where('source', '<=', $type)
+                    ->leftjoin('expense_categories', 'expense_items.exp_cat_id', '=', 'expense_categories.id')
+                    // ->groupby('year','transaction_date','revenue_categories.description','bond_no','total_price','code')
+                    ->paginate(100);
+        foreach ($data as $row) {
+            // $row['remaining'] = $cal = floor(($row['total_price'] + $cal) * 100) / 100;
+            $row['total_price'] = floor(($row['total_price']) * 100) / 100;
+            $final_balance += $row['total_price'];
+            $row['transaction_date'] = date('M-d', strtotime($row['transaction_date']));
+            $result[$row['year']][] = $row;
+        }
+
+            
+        return response()->json([
+            "success" => true,
+            "message" => "Reports for Expense fetch successfully.",
+            "data" => [
+                'data' =>  $result,
+                'final_balance' => floor($final_balance * 100) / 100,
+
+            ],
+        ]);
+    }
+    
 }

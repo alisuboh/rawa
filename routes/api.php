@@ -79,6 +79,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/change-password', [AuthController::class,'ChangePassword']);
     Route::get('/codes', [CodeController::class,'index']);
     Route::post('/getStatement', [ReportsController::class,'accountStatement']);
+    Route::post('/revenueReport', [ReportsController::class,'revenueReport']);
+    Route::post('/expenseReport', [ReportsController::class,'expenseReport']);
 
 
 
