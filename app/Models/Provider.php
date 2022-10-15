@@ -39,7 +39,7 @@ class Provider extends Model
     /**
      * @var array
      */
-    protected $fillable = ['email', 'name', 'code', 'commercial_name', 'password', 'address_line_1', 'address_line_2', 'city_id', 'status', 'image_name', 'location_lat', 'location_lng', 'logo_path', 'contact_name', 'contact_phone', 'contact_mobile', 'has_branches', 'is_on_top_search', 'rate', 'created_at', 'updated_at'];
+    protected $fillable = ['email', 'name', 'code', 'commercial_name', 'password', 'address_line_1', 'address_line_2', 'city_id', 'status', 'image_name', 'location_lat', 'location_lng', 'logo_path', 'contact_name', 'contact_phone', 'contact_mobile', 'has_branches', 'is_on_top_search', 'rate','tax_included', 'created_at', 'updated_at'];
 
     // public $with = ['trip'];
     /**

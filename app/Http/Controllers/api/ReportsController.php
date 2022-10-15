@@ -11,6 +11,7 @@ use App\Models\ProvidersEmployee;
 use App\Models\Purchase;
 use App\Models\RevenueItem;
 use App\Models\Supplier;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -29,7 +30,7 @@ class ReportsController extends Controller
             'type' => 'required',
             'filter_id' => 'required',
             'from' => 'required',
-            'to' => 'required',            
+            'to' => 'required',
         ]);
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
@@ -44,6 +45,47 @@ class ReportsController extends Controller
         $result = [];
         switch ($type_name) {
             case "supplier":
+
+                $old_expense = ExpenseItem::where('provider_id', auth()->user()->provider_id)->where('beneficiary_id', $filter_id)->where('transaction_date', '<', $from)->sum('total_price');
+                $old_purchas = Purchase::where('provider_id', auth()->user()->provider_id)->where('supplier_id', $filter_id)->where('invoice_date', '<', $from)->sum('total_price');
+
+                $old_balance = $cal = ($old_purchas - $old_expense) * -1;
+
+                $data_expense = ExpenseItem::select(DB::raw('YEAR(transaction_date) year'), 'expense_categories.description', 'transaction_date', 'bond_no', 'total_price', 'code', 'expense_items.created_at')
+                    ->where('provider_id', auth()->user()->provider_id)
+                    ->where('beneficiary_id', $filter_id)
+                    ->where('transaction_date', '>=', $from)
+                    ->where('transaction_date', '<=', $to)
+                    ->leftjoin('expense_categories', 'expense_items.exp_cat_id', '=', 'expense_categories.id')
+                    // ->groupby('year','transaction_date','revenue_categories.description','bond_no','total_price','code')
+                    ->paginate(100);
+                $data_purchase = Purchase::select(DB::raw('YEAR(invoice_date) year'), 'invoice_date as transaction_date', 'invoice_number as bond_no', 'total_price', 'seq as code', 'created_at')
+                    ->where('provider_id', auth()->user()->provider_id)
+                    ->where('supplier_id', $filter_id)
+                    ->where('invoice_date', '>=', $from)
+                    ->where('invoice_date', '<=', $to)
+                    ->paginate(100);
+
+                foreach ($data_expense as $row) {
+                    // $row['remaining'] = $cal = floor(($row['total_price'] + $cal) * 100) / 100;
+                    $row['total_price'] = floor(($row['total_price']) * 100) / 100;
+                    $result[$row['year']][] = $row;
+                }
+                foreach ($data_purchase as $row) {
+                    // $row['remaining'] = $cal = floor(($row['total_price'] + $cal) * 100) / 100;
+                    $row['total_price'] = -floor(($row['total_price']) * 100) / 100;
+                    $row['description'] = 'مشتريات';
+                    $result[$row['year']][] = $row;
+                }
+                foreach ($result as $year => $data_row) {
+                    $this->array_sort_by_column($result[$year], 'created_at');
+
+                    foreach ($data_row as $key => $row) {
+                        $result[$year][$key]['remaining'] = $cal = floor(($row['total_price'] + $cal) * 100) / 100;
+                    }
+                }
+                $final_balance = $result[$year][$key]['remaining'];
+
                 break;
             case "customer":
                 $old_revenue = RevenueItem::where('provider_id', auth()->user()->provider_id)->where('customer_id', $filter_id)->where('transaction_date', '<', $from)->where('source', 1)->sum('total_price');
@@ -70,7 +112,7 @@ class ReportsController extends Controller
                     ->sum('total_price')) + $old_balance;
                 foreach ($data as $row) {
                     $row['remaining'] = $cal = floor(($row['total_price'] + $cal) * 100) / 100;
-                    $row['total_price'] = floor(($row['total_price'] ) * 100) / 100;
+                    $row['total_price'] = floor(($row['total_price']) * 100) / 100;
                     $result[$row['year']][] = $row;
                 }
 
@@ -84,7 +126,7 @@ class ReportsController extends Controller
                     ->leftjoin('expense_categories', 'expense_items.exp_cat_id', '=', 'expense_categories.id')
                     ->paginate(100);
 
-                $start_month = date('Y-m', strtotime($input['from'])).'-01';
+                $start_month = date('Y-m', strtotime($input['from'])) . '-01';
                 $old_balance = $cal = ExpenseItem::where('provider_id', auth()->user()->provider_id)->where('beneficiary_id', $filter_id)->where('transaction_date', '>=', $start_month)->where('transaction_date', '<', $from)->sum('total_price');
 
                 $final_balance = (ExpenseItem::where('provider_id', auth()->user()->provider_id)
@@ -93,11 +135,11 @@ class ReportsController extends Controller
                     ->where('transaction_date', '<=', $to)
                     ->sum('total_price')) + $old_balance;
 
-                    foreach ($data as $row) {
-                        $row['remaining'] = $cal = floor(($row['total_price'] + $cal) * 100) / 100;
-                        $row['total_price'] = floor(($row['total_price'] ) * 100) / 100;
-                        $result[$row['year']][] = $row;
-                    }
+                foreach ($data as $row) {
+                    $row['remaining'] = $cal = floor(($row['total_price'] + $cal) * 100) / 100;
+                    $row['total_price'] = floor(($row['total_price']) * 100) / 100;
+                    $result[$row['year']][] = $row;
+                }
                 break;
         }
 
@@ -112,5 +154,16 @@ class ReportsController extends Controller
 
             ],
         ]);
+    }
+
+    function array_sort_by_column(&$array, $column, $direction = SORT_ASC)
+    {
+        $reference_array = array();
+
+        foreach ($array as $key => $row) {
+            $reference_array[$key] = $row[$column];
+        }
+
+        array_multisort($reference_array, $direction, $array);
     }
 }

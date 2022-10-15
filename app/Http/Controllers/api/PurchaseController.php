@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PurchaseRequest;
 use App\Http\Resources\PurchaseCollection;
 use App\Http\Resources\PurchaseResource;
+use App\Models\Provider;
 use App\Models\Purchase;
 use App\Models\PurchasesDetail;
 use Illuminate\Http\Request;
@@ -37,13 +38,13 @@ class PurchaseController extends Controller
             //     'total_price',
             //     'created_at'
             // ])
-            ->defaultSort('-created_at')        
+            ->defaultSort('-created_at')
             ->allowedFilters([
                 'invoice_number',
                 'supplier_id',
                 AllowedFilter::scope('created'),
-                ])
-            ->allowedSorts('transaction_date','created_at','total_price')
+            ])
+            ->allowedSorts('transaction_date', 'created_at', 'total_price')
             ->paginate($perPage);
         return new PurchaseCollection($purchase);
     }
@@ -63,18 +64,34 @@ class PurchaseController extends Controller
         $tax = 0;
         $discount = 0;
         $db_details = [];
+        $provider = Provider::find(auth()->user()->provider_id);
+        $tax_included = $provider->tax_included;
         foreach ($purchase_detail_data as $key => $detail) {
             unset($detail['id']);
-            $detail['total_price'] = number_format((float)$detail['total_price'], 2, '.', '');
-            $detail['tax'] = number_format((float)$detail['tax'], 2, '.', '');
-            $detail['discount'] = number_format((float)$detail['discount'], 2, '.', '');
+            $price = number_format((float)$detail['unit_price'], 2, '.', '');
+            if ($tax_included) {
+                $detail['discount'] = number_format((float)$detail['discount'], 2, '.', '');
+                $price_without_tax  =  $price - ($price / (1 + 0.16) * 0.16);
+                $detail['total_price'] = ($detail['unit_price'] * $detail['quantity']) - $detail['discount'];
+                $detail['unit_price'] = number_format((float)$price_without_tax, 2, '.', '');
+                $taaax = $price - $price_without_tax;
+                $detail['tax'] = number_format((float)$taaax, 2, '.', '') * $detail['quantity'];
+            } else {
+                $detail['discount'] = number_format((float)$detail['discount'], 2, '.', '');
+                $detail['unit_price'] = number_format((float)$detail['unit_price'], 2, '.', '');
+                $taxes = ($detail['unit_price'] * 0.16) * $detail['quantity'];
+                $detail['tax'] = number_format((float)$taxes, 2, '.', '');
+                $detail['total_price'] = (($detail['unit_price']  * $detail['quantity'] )+ $detail['tax']) - $detail['discount'];
+
+            }
 
             $total_price += $detail['total_price'];
             $tax += $detail['tax'];
             $discount += $detail['discount'];
             $db_details[$key] = $detail;
         }
-            // Pre-Tax Price  =  TP – [(TP / (1 + r) x r]
+
+        // Pre-Tax Price  =  TP – [(TP / (1 + r) x r]
         $purchase_data['total_price'] = $total_price;
         $purchase_data['tax'] = $tax;
         $purchase_data['discount'] = $discount;
@@ -87,7 +104,7 @@ class PurchaseController extends Controller
 
             return [
                 "success" => true,
-                "message" => "Revenue added successfully!",
+                "message" => "Purchase added successfully!",
                 "data" => new PurchaseResource($purchase)
             ];
         } else {
@@ -129,8 +146,22 @@ class PurchaseController extends Controller
      * @param \App\Models\Purchase $purchase
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Purchase $purchase)
+    public function destroy( $purchase_id)
     {
-        $purchase->delete();
+        $purchase = Purchase::find($purchase_id);
+        if($purchase)
+            return [
+                "success" => true,
+                "message" => "Purchase deleted successfully!",
+                "data" => ['deleted' => $purchase->delete()]
+            ];
+            
+        else{
+            return [
+                "success" => false,
+                "message" => "Purchase not found!",
+                "data" => []
+            ];
+        }
     }
 }
