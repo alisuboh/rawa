@@ -77,14 +77,16 @@ class ReportsController extends Controller
                     $row['description'] = 'مشتريات';
                     $result[$row['year']][] = $row;
                 }
-                foreach ($result as $year => $data_row) {
-                    $this->array_sort_by_column($result[$year], 'created_at');
+                if(!empty($result))
+                    foreach ($result as $year => $data_row) {
+                        $this->array_sort_by_column($result[$year], 'created_at');
 
-                    foreach ($data_row as $key => $row) {
-                        $result[$year][$key]['remaining'] = $cal = floor(($row['total_price'] + $cal) * 100) / 100;
+                        foreach ($data_row as $key => $row) {
+                            $result[$year][$key]['remaining'] = $cal = floor(($row['total_price'] + $cal) * 100) / 100;
+                            $final_balance = $result[$year][$key]['remaining'];
+
+                        }
                     }
-                }
-                $final_balance = $result[$year][$key]['remaining'];
 
                 break;
             case "customer":
