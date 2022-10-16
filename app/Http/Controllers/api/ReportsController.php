@@ -79,8 +79,9 @@ class ReportsController extends Controller
 
                         foreach ($data_row as $key => $row) {
                             // $date= date('M-d', strtotime($result[$year][$key]['transaction_date']));
-                            $result[$year][$key]['transaction_date'] = date('M-d', strtotime($result[$year][$key]['transaction_date']));
-                            $result[$year][$key]['remaining'] = $cal = floor(($row['total_price'] + $cal) * 100) / 100;
+                            $row[$year][$key]['date_view'] = date('M-d', strtotime($row[$year][$key]['transaction_date']));
+                            $result[$year][$key]['transaction_date'] = $row[$year][$key]['date_view'];
+                            $result[$year][$key]['remaining'] = $cal = floor(($row[$year][$key]['total_price'] + $cal) * 100) / 100;
                             $final_balance = $result[$year][$key]['remaining'];
                         }
                     }
@@ -114,7 +115,8 @@ class ReportsController extends Controller
                 foreach ($data as $row) {
                     $row['remaining'] = $cal = floor(($row['total_price'] + $cal) * 100) / 100;
                     $row['total_price'] = floor(($row['total_price']) * 100) / 100;
-                    $row['transaction_date'] = date('M-d', strtotime($row['transaction_date']));
+                    $row['date_view'] = date('M-d', strtotime($row['transaction_date']));
+                    $row['transaction_date'] = $row['date_view'];
                     $result[$row['year']][] = $row;
                 }
 
@@ -140,7 +142,8 @@ class ReportsController extends Controller
                 foreach ($data as $row) {
                     $row['remaining'] = $cal = floor(($row['total_price'] + $cal) * 100) / 100;
                     $row['total_price'] = floor(($row['total_price']) * 100) / 100;
-                    $row['transaction_date'] = date('M-d', strtotime($row['transaction_date']));
+                    $row['date_view'] = date('M-d', strtotime($row['transaction_date']));
+                    $row['transaction_date'] = $row['date_view'];
                     $result[$row['year']][] = $row;
                 }
                 break;
@@ -208,7 +211,9 @@ class ReportsController extends Controller
             // $row['remaining'] = $cal = floor(($row['total_price'] + $cal) * 100) / 100;
             $row['total_price'] = floor(($row['total_price']) * 100) / 100;
             $final_balance += $row['total_price'];
-            $row['transaction_date'] = date('M-d', strtotime($row['transaction_date']));
+            $row['date_view'] = date('M-d', strtotime($row['transaction_date']));
+
+            $row['transaction_date'] = $row['date_view'];
             $result[$row['year']][] = $row;
         }
 
@@ -262,7 +267,9 @@ class ReportsController extends Controller
             // $row['remaining'] = $cal = floor(($row['total_price'] + $cal) * 100) / 100;
             $row['total_price'] = floor(($row['total_price']) * 100) / 100;
             $final_balance += $row['total_price'];
-            $row['transaction_date'] = date('M-d', strtotime($row['transaction_date']));
+            $row['date_view'] = date('M-d', strtotime($row['transaction_date']));
+
+            $row['transaction_date'] = $row['date_view'];
             $result[$row['year']][] = $row;
         }
 
@@ -294,14 +301,15 @@ class ReportsController extends Controller
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
-
+        $from = date('Y-m-d', strtotime($input['from']));
+        $to = date('Y-m-d', strtotime($input['to']));
         $result = [];
         $final_balance = 0;
 
         $data = Purchase::select(DB::raw('YEAR(invoice_date) year'), 'invoice_date as transaction_date', 'invoice_number as bond_no', 'total_price', 'seq as code', 'created_at')
         ->where('provider_id', auth()->user()->provider_id)
-        ->where('invoice_date', '>=', $input['from'])
-        ->where('invoice_date', '<=', $input['to'])
+        ->where('invoice_date', '>=', $from)
+        ->where('invoice_date', '<=', $to)
         ->paginate(100);
 
 
@@ -309,7 +317,9 @@ class ReportsController extends Controller
             // $row['remaining'] = $cal = floor(($row['total_price'] + $cal) * 100) / 100;
             $row['total_price'] = floor(($row['total_price']) * 100) / 100;
             $final_balance += $row['total_price'];
-            $row['transaction_date'] = date('M-d', strtotime($row['transaction_date']));
+            $row['date_view'] = date('M-d', strtotime($row['transaction_date']));
+
+            $row['transaction_date'] = $row['date_view'];
             $result[$row['year']][] = $row;
         }
 
