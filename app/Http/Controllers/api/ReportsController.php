@@ -44,7 +44,6 @@ class ReportsController extends Controller
 
                 $old_expense = ExpenseItem::where('provider_id', auth()->user()->provider_id)->where('beneficiary_id', $filter_id)->where('transaction_date', '<', $from)->sum('total_price');
                 $old_purchas = Purchase::where('provider_id', auth()->user()->provider_id)->where('supplier_id', $filter_id)->where('invoice_date', '<', $from)->sum('total_price');
-
                 $old_balance = $cal = ($old_purchas - $old_expense) * -1;
 
                 $data_expense = ExpenseItem::select(DB::raw('YEAR(transaction_date) year'), 'expense_categories.description', 'transaction_date', 'bond_no', 'total_price', 'code', 'expense_items.created_at')
@@ -79,9 +78,9 @@ class ReportsController extends Controller
 
                         foreach ($data_row as $key => $row) {
                             // $date= date('M-d', strtotime($result[$year][$key]['transaction_date']));
-                            $row[$year][$key]['date_view'] = date('M-d', strtotime($row[$year][$key]['transaction_date']));
-                            $result[$year][$key]['transaction_date'] = $row[$year][$key]['date_view'];
-                            $result[$year][$key]['remaining'] = $cal = floor(($row[$year][$key]['total_price'] + $cal) * 100) / 100;
+                            $result[$year][$key]['date_view'] = date('M-d', strtotime($result[$year][$key]['transaction_date']));
+                            $result[$year][$key]['transaction_date'] = $result[$year][$key]['date_view'];
+                            $result[$year][$key]['remaining'] = $cal = floor(($result[$year][$key]['total_price'] + $cal) * 100) / 100;
                             $final_balance = $result[$year][$key]['remaining'];
                         }
                     }
