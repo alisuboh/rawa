@@ -199,7 +199,7 @@ class ReportsController extends Controller
                     ->where('provider_id', auth()->user()->provider_id)
                     ->where('transaction_date', '>=', $from)
                     ->where('transaction_date', '<=', $to)
-                    ->where('rev_cat_id', '<=', $rev_cat_id)
+                    ->where('rev_cat_id', '=', $rev_cat_id)
                     // ->where('source', '<=', $type)
                     ->leftjoin('revenue_categories', 'revenue_items.rev_cat_id', '=', 'revenue_categories.id')
                     // ->groupby('year','transaction_date','revenue_categories.description','bond_no','total_price','code')
@@ -242,7 +242,7 @@ class ReportsController extends Controller
             return $this->sendError('Validation Error.', $validator->errors());
         }
         // $type = $input['revenue_type'];
-        $rev_cat_id = $input['expense_cat'];
+        $exp_cat_id = $input['expense_cat'];
         $from = date('Y-m-d', strtotime($input['from']));
         $to = date('Y-m-d', strtotime($input['to']));
         $final_balance = 0;
@@ -253,7 +253,7 @@ class ReportsController extends Controller
                     ->where('provider_id', auth()->user()->provider_id)
                     ->where('transaction_date', '>=', $from)
                     ->where('transaction_date', '<=', $to)
-                    ->where('exp_cat_id', '<=', $rev_cat_id)
+                    ->where('exp_cat_id', '=', $exp_cat_id)
                     // ->where('source', '<=', $type)
                     ->leftjoin('expense_categories', 'expense_items.exp_cat_id', '=', 'expense_categories.id')
                     // ->groupby('year','transaction_date','revenue_categories.description','bond_no','total_price','code')
@@ -278,4 +278,50 @@ class ReportsController extends Controller
         ]);
     }
     
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Resources\Json\JsonResource
+     */
+    public function purchaseReport(Request $request)
+    {
+        $input = $request->all();
+        $validator = Validator::make($input, [
+            'from' => 'required',
+            'to' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+
+        $result = [];
+        $final_balance = 0;
+
+        $data = Purchase::select(DB::raw('YEAR(invoice_date) year'), 'invoice_date as transaction_date', 'invoice_number as bond_no', 'total_price', 'seq as code', 'created_at')
+        ->where('provider_id', auth()->user()->provider_id)
+        ->where('invoice_date', '>=', $input['from'])
+        ->where('invoice_date', '<=', $input['to'])
+        ->paginate(100);
+
+
+        foreach ($data as $row) {
+            // $row['remaining'] = $cal = floor(($row['total_price'] + $cal) * 100) / 100;
+            $row['total_price'] = floor(($row['total_price']) * 100) / 100;
+            $final_balance += $row['total_price'];
+            $row['transaction_date'] = date('M-d', strtotime($row['transaction_date']));
+            $result[$row['year']][] = $row;
+        }
+
+        return response()->json([
+            "success" => true,
+            "message" => "Reports for Purchase fetch successfully.",
+            "data" => [
+                'data' =>  $result,
+                'final_balance' => floor($final_balance * 100) / 100,
+
+            ],
+        ]);
+            
+    }
 }
