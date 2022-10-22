@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $contact_mobile
  * @property boolean $has_branches
  * @property boolean $is_on_top_search
+ * @property boolean $tax_included
  * @property float $rate
  * @property string $created_at
  * @property string $updated_at
@@ -41,6 +42,7 @@ class Provider extends Model
      */
     protected $fillable = ['email', 'name', 'code', 'commercial_name', 'password', 'address_line_1', 'address_line_2', 'city_id', 'status', 'image_name', 'location_lat', 'location_lng', 'logo_path', 'contact_name', 'contact_phone', 'contact_mobile', 'has_branches', 'is_on_top_search', 'rate','tax_included', 'created_at', 'updated_at'];
 
+    protected $hidden = ['password','password_confirmation'];
     // public $with = ['trip'];
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

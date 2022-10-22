@@ -2,12 +2,20 @@
 
 namespace App\Http\Resources;
 
+use App\Constants\TransCode;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CustomerOrderResource extends MainResource
 {
     public function combinedAttrs()
     {
+        $seq = "لا يوجد";
+        if(!empty($this->seq)){
+            if($this->payment_type == 1)
+                TransCode::CODES_ARRAY["direct_order"].str_repeat('0',7 - $this->countDigits($this->seq) ). $this->seq; 
+            else
+                TransCode::CODES_ARRAY["tabular_order"]. str_repeat('0',7 - $this->countDigits($this->seq) ). $this->seq;
+        }
         return [
             "id" => $this->id,
             "customer_id" => $this->customer_id,
@@ -30,6 +38,9 @@ class CustomerOrderResource extends MainResource
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
             "type" => $this->type,
+            'payment_type' => $this->payment_type,
+            'seq' => $seq,
+            'trip_id' => $this->trip_id
 
         ];
     }

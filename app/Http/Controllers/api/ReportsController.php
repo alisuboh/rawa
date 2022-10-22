@@ -72,18 +72,20 @@ class ReportsController extends Controller
                     $row['description'] = 'مشتريات';
                     $result[$row['year']][] = $row;
                 }
-                if (!empty($result))
+                if (!empty($result)) {
                     foreach ($result as $year => $data_row) {
-                        $this->array_sort_by_column($result[$year], 'created_at');
 
                         foreach ($data_row as $key => $row) {
                             // $date= date('M-d', strtotime($result[$year][$key]['transaction_date']));
                             $result[$year][$key]['date_view'] = date('M-d', strtotime($result[$year][$key]['transaction_date']));
-                            $result[$year][$key]['transaction_date'] = $result[$year][$key]['date_view'];
+                            // $result[$year][$key]['transaction_date'] = $result[$year][$key]['date_view'];
                             $result[$year][$key]['remaining'] = $cal = floor(($result[$year][$key]['total_price'] + $cal) * 100) / 100;
                             $final_balance = $result[$year][$key]['remaining'];
                         }
                     }
+                    $this->array_sort_by_column($result[$year], 'transaction_date');
+                }
+
                 // $result[$year][$key]['btata'] = $date;
                 // dd($result[$year][$key]['transaction_date']);
 
@@ -115,7 +117,7 @@ class ReportsController extends Controller
                     $row['remaining'] = $cal = floor(($row['total_price'] + $cal) * 100) / 100;
                     $row['total_price'] = floor(($row['total_price']) * 100) / 100;
                     $row['date_view'] = date('M-d', strtotime($row['transaction_date']));
-                    $row['transaction_date'] = $row['date_view'];
+                    // $row['transaction_date'] = $row['date_view'];
                     $result[$row['year']][] = $row;
                 }
 
@@ -142,7 +144,7 @@ class ReportsController extends Controller
                     $row['remaining'] = $cal = floor(($row['total_price'] + $cal) * 100) / 100;
                     $row['total_price'] = floor(($row['total_price']) * 100) / 100;
                     $row['date_view'] = date('M-d', strtotime($row['transaction_date']));
-                    $row['transaction_date'] = $row['date_view'];
+                    // $row['transaction_date'] = $row['date_view'];
                     $result[$row['year']][] = $row;
                 }
                 break;
@@ -172,7 +174,7 @@ class ReportsController extends Controller
         array_multisort($reference_array, $direction, $array);
     }
 
-     /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Resources\Json\JsonResource
@@ -182,41 +184,42 @@ class ReportsController extends Controller
         $input = $request->all();
         $validator = Validator::make($input, [
             'revenue_cat' => 'required',
-            // 'revenue_type' => 'required',
             'from' => 'required',
             'to' => 'required',
         ]);
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
-        // $type = $input['revenue_type'];
         $rev_cat_id = $input['revenue_cat'];
         $from = date('Y-m-d', strtotime($input['from']));
         $to = date('Y-m-d', strtotime($input['to']));
         $final_balance = 0;
-        // $type_name = RevenueItem::SOURCE[$type];
         $result = [];
 
         $data = RevenueItem::select(DB::raw('YEAR(transaction_date) year'), 'revenue_categories.description', 'transaction_date', 'bond_no', 'total_price', 'code')
-                    ->where('provider_id', auth()->user()->provider_id)
-                    ->where('transaction_date', '>=', $from)
-                    ->where('transaction_date', '<=', $to)
-                    ->where('rev_cat_id', '=', $rev_cat_id)
-                    // ->where('source', '<=', $type)
-                    ->leftjoin('revenue_categories', 'revenue_items.rev_cat_id', '=', 'revenue_categories.id')
-                    // ->groupby('year','transaction_date','revenue_categories.description','bond_no','total_price','code')
-                    ->paginate(100);
+            ->where('provider_id', auth()->user()->provider_id)
+            ->where('transaction_date', '>=', $from)
+            ->where('transaction_date', '<=', $to)
+            ->where('rev_cat_id', '=', $rev_cat_id)
+            ->leftjoin('revenue_categories', 'revenue_items.rev_cat_id', '=', 'revenue_categories.id')
+            // ->groupby('year','transaction_date','revenue_categories.description','bond_no','total_price','code')
+            ->orderBy('transaction_date','asc')
+            ->paginate(100);
         foreach ($data as $row) {
             // $row['remaining'] = $cal = floor(($row['total_price'] + $cal) * 100) / 100;
             $row['total_price'] = floor(($row['total_price']) * 100) / 100;
-            $final_balance += $row['total_price'];
+            if($row['total_price'] > 0)
+                $final_balance += $row['total_price'];
+            else if($row['total_price'] == 0)
+                $row['description'] .= "(كوبون)";
+            else
+                $row['description'] .= "(ذمم)";
             $row['date_view'] = date('M-d', strtotime($row['transaction_date']));
 
-            $row['transaction_date'] = $row['date_view'];
+            // $row['transaction_date'] = $row['date_view'];
             $result[$row['year']][] = $row;
         }
 
-            
         return response()->json([
             "success" => true,
             "message" => "Reports for Revenue fetch successfully.",
@@ -254,25 +257,25 @@ class ReportsController extends Controller
         $result = [];
 
         $data = ExpenseItem::select(DB::raw('YEAR(transaction_date) year'), 'expense_categories.description', 'transaction_date', 'bond_no', 'total_price', 'code')
-                    ->where('provider_id', auth()->user()->provider_id)
-                    ->where('transaction_date', '>=', $from)
-                    ->where('transaction_date', '<=', $to)
-                    ->where('exp_cat_id', '=', $exp_cat_id)
-                    // ->where('source', '<=', $type)
-                    ->leftjoin('expense_categories', 'expense_items.exp_cat_id', '=', 'expense_categories.id')
-                    // ->groupby('year','transaction_date','revenue_categories.description','bond_no','total_price','code')
-                    ->paginate(100);
+            ->where('provider_id', auth()->user()->provider_id)
+            ->where('transaction_date', '>=', $from)
+            ->where('transaction_date', '<=', $to)
+            ->where('exp_cat_id', '=', $exp_cat_id)
+            // ->where('source', '<=', $type)
+            ->leftjoin('expense_categories', 'expense_items.exp_cat_id', '=', 'expense_categories.id')
+            // ->groupby('year','transaction_date','revenue_categories.description','bond_no','total_price','code')
+            ->paginate(100);
         foreach ($data as $row) {
             // $row['remaining'] = $cal = floor(($row['total_price'] + $cal) * 100) / 100;
             $row['total_price'] = floor(($row['total_price']) * 100) / 100;
             $final_balance += $row['total_price'];
             $row['date_view'] = date('M-d', strtotime($row['transaction_date']));
 
-            $row['transaction_date'] = $row['date_view'];
+            // $row['transaction_date'] = $row['date_view'];
             $result[$row['year']][] = $row;
         }
 
-            
+
         return response()->json([
             "success" => true,
             "message" => "Reports for Expense fetch successfully.",
@@ -283,7 +286,7 @@ class ReportsController extends Controller
             ],
         ]);
     }
-    
+
 
     /**
      * Display a listing of the resource.
@@ -305,11 +308,12 @@ class ReportsController extends Controller
         $result = [];
         $final_balance = 0;
 
-        $data = Purchase::select(DB::raw('YEAR(invoice_date) year'), 'invoice_date as transaction_date', 'invoice_number as bond_no', 'total_price', 'seq as code', 'created_at')
-        ->where('provider_id', auth()->user()->provider_id)
-        ->where('invoice_date', '>=', $from)
-        ->where('invoice_date', '<=', $to)
-        ->paginate(100);
+        $data = Purchase::select(DB::raw('YEAR(purchases.invoice_date) year'), 'purchases.invoice_date as transaction_date', 'purchases.invoice_number as bond_no', 'purchases.total_price', 'purchases.seq as code', 'suppliers.name as description', 'purchases.created_at')
+            ->join('suppliers', 'purchases.supplier_id', '=', 'suppliers.id')
+            ->where('purchases.provider_id', auth()->user()->provider_id)
+            ->where('purchases.invoice_date', '>=', $from)
+            ->where('purchases.invoice_date', '<=', $to)
+            ->paginate(100);
 
 
         foreach ($data as $row) {
@@ -318,7 +322,7 @@ class ReportsController extends Controller
             $final_balance += $row['total_price'];
             $row['date_view'] = date('M-d', strtotime($row['transaction_date']));
 
-            $row['transaction_date'] = $row['date_view'];
+            // $row['transaction_date'] = $row['date_view'];
             $result[$row['year']][] = $row;
         }
 
@@ -331,6 +335,5 @@ class ReportsController extends Controller
 
             ],
         ]);
-            
     }
 }

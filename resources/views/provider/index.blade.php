@@ -228,7 +228,18 @@ use App\Models\ProviderProduct;
                                                             </div>
                                                         </div>
                                                         
-                                                      
+                                                        <div class="form-group ">
+                                                            <label class="col-sm-2 control-label">Tax Included</label>
+                                                            <div class="col-sm-8">
+                                                                <div
+                                                                    class="box box-solid box-default no-margin box-show">
+                                                                    <!-- /.box-header -->
+                                                                    <div class="box-body">
+                                                                        {!! $provider->tax_included?'<i class="fa fa-check text-green"></i>':'<i class="fa fa-close text-red"></i>' !!}
+                                                                    </div><!-- /.box-body -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         
                                                     </div>
 

@@ -50,6 +50,7 @@ class CustomerOrderObserver
 
         $customer_id = null;
         $customerOrder->status = 1;
+        $customerOrder->seq = $customerOrder->seq ?? $customerOrder->getLastSeq($customerOrder->type);
         if ($customerOrder->type == 1) {
             $customerOrder->full_name = 'direct';
             $customerOrder->payment_type = 1;
@@ -76,7 +77,6 @@ class CustomerOrderObserver
         $price = floor(($price ) * 100)/100;
         $customerOrder->price = $customerOrder->total_price = $price;
 
-        $customerOrder->seq = $customerOrder->getLastSeq($customerOrder->type);
 
         $revenueItem = [
             'is_active' => 1,
@@ -113,6 +113,39 @@ class CustomerOrderObserver
 
     public function updated(CustomerOrder $customerOrder)
     {
+        try{
+            if ($customerOrder->type == 2) {
+                $code = TransCode::CODES_ARRAY["tabular_order"]. str_repeat('0',7 - $this->countDigits($customerOrder->seq) ). $customerOrder->seq;
+                $rev = RevenueItem::where("provider_id",auth()->user()->provider_id)->where('code',$code)->first();
+                if($rev){
+                    $price = 0;
+                    foreach ($customerOrder->order_products as $product) {
+                        $item = ProviderProduct::find($product['provider_product_id']);
+                        $price += $item->price * $product['qty'];
+                    }
+                    $price = floor(($price ) * 100)/100;
+                    $customerOrder->price = $customerOrder->total_price = $price;
+
+                    switch ($customerOrder->payment_type) {
+                        case 1: //cash
+                            $rev->total_price = $price;
+                            break;
+                        case 2: //coupon
+                            $rev->total_price = 0;
+                            break;
+                        case 3: //postponed
+                            $rev->total_price = -$price;
+                            break;
+                        default:
+                            $rev->total_price = $price;
+                    }
+                    $rev->save();
+            
+                }
+            } 
+        }catch(\Exception $e){
+            
+        }
     }
 
 

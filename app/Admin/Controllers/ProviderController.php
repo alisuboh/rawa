@@ -59,6 +59,7 @@ class ProviderController extends AdminController
         $grid->column('contact_phone', __('Contact phone'));
 
         $grid->column('is_on_top_search', __('Is on top search'))->bool();
+        $grid->column('tax_included', __('Tax Included'))->bool();
         $grid->column('created_at', __('Created at'))->display(function () {
             return date('d-m-Y H:i:s', strtotime($this->created_at));
         });
@@ -124,17 +125,22 @@ class ProviderController extends AdminController
         $form->switch('has_branches', __('Has branches'));
         $form->switch('is_on_top_search', __('Is on top search'));
         $form->decimal('rate', __('Rate'));
-        $form->password('password', trans('admin.password'))->rules('required|confirmed');
-        $form->password('password_confirmation', trans('admin.password_confirmation'))->rules('required')
-            ->default(function ($form) {
-                return $form->model()->password;
-            });
-        $form->ignore(['password_confirmation']);
+        $form->switch('tax_included', __('Tax Included'));
+        
+        $form->password('password', trans('admin.password'))->creationRules('required|min:6|confirmed')->updateRules('nullable|min:6|confirmed');
+        $form->password('password_confirmation', trans('admin.password_confirmation'));
 
         $form->saving(function (Form $form) {
-            if ($form->password && $form->model()->password != $form->password) {
-                $form->password = Hash::make($form->password);
+            $form->ignore(['password_confirmation']);
+            if($form->password){
+                if ($form->password && $form->model()->password != $form->password) {
+                    $form->password = Hash::make($form->password);
+                }
+            }else{
+                $form->ignore(['password']);
+
             }
+            // dd($form->tax_included);
         });
         $form->footer(function ($footer) {
 
