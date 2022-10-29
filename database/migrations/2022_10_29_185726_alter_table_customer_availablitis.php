@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::table('customer_avalabilities', function(Blueprint $table)
         {
-            $table->date('from_time')->nullable(true)->change();
-            $table->date('to_time')->nullable(true)->change();
+            $table->string('from_time')->nullable(true)->change();
+            $table->string('to_time')->nullable(true)->change();
 
         });
     }

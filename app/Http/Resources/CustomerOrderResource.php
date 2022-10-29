@@ -11,6 +11,9 @@ class CustomerOrderResource extends MainResource
     {
         $code = "لا يوجد";
         $days = [];
+        $from = '';
+        $to = '';
+
         if(!empty($this->seq)){
             if($this->payment_type == 1)
               $code =  TransCode::CODES_ARRAY["direct_order"].str_repeat('0',7 - $this->countDigits($this->seq) ). $this->seq; 
@@ -18,7 +21,14 @@ class CustomerOrderResource extends MainResource
                 $code = TransCode::CODES_ARRAY["tabular_order"]. str_repeat('0',7 - $this->countDigits($this->seq) ). $this->seq;
         }
         if(!empty($this->customer_id)){
-            $days = $this->customer->customerAvalabilities;
+            $avalabilities = $this->customer->customerAvalabilities;
+            if($avalabilities)
+                foreach($avalabilities as $avalabil){
+                    $days[]= $avalabil->day;
+                    $from= $avalabil->from_time;
+                    $to= $avalabil->to_time;
+
+                }
         }
         return [
             "id" => $this->id,
@@ -46,7 +56,9 @@ class CustomerOrderResource extends MainResource
             'seq' => $this->seq,
             'trip_id' => $this->trip_id,
             'code' => $code,
-            'days' => $days
+            'days' => $days,
+            'from' => $from,
+            'to' => $to
 
         ];
     }
