@@ -28,6 +28,27 @@ class CustomerAvalability extends Model
         7 => 'Saturday',
 
     ]; 
+          
+    const DAY_ARABIC = [
+        'يوميا' => 0,
+        'الاحد' => 1,
+        'الاثنين' => 2,
+        'الثلاثاء' => 3,
+        'الاربعاء' => 4,
+        'الخميس' => 5,
+        'الجمعة' => 6,
+        'السبت' => 7
+    ];
+    const DAY_ARABIC_NAME = [
+         0 => 'يوميا' ,
+         1 => 'الاحد' ,
+         2 => 'الاثنين' ,
+         3 => 'الثلاثاء' ,
+         4 => 'الاربعاء' ,
+         5 => 'الخميس' ,
+         6 => 'الجمعة' ,
+         7 => 'السبت' 
+    ];
     /**
      * @var array
      */
@@ -39,5 +60,8 @@ class CustomerAvalability extends Model
     public function customer()
     {
         return $this->belongsTo('App\Models\Customer');
+    }
+    public function getDayAttribute($value){
+        return SELF::DAY_ARABIC_NAME[$value];
     }
 }

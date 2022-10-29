@@ -48,6 +48,9 @@ class CustomerOrderRequest extends MainRequest
             'shipping_fees' => "sometimes",
             'provider_employee_id' => "sometimes", "integer",
             'price' => "sometimes",
+            'days' => "sometimes",
+            'from' => "sometimes",
+            'to' => "sometimes"
 
         ];
     }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CustomerOrderRequest;
 use App\Http\Resources\CustomerOrderResource;
 use App\Http\Resources\OrderResource;
+use App\Models\CustomerAvalability;
 use App\Models\CustomerOrder;
 use Illuminate\Support\Facades\Log;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -68,12 +69,34 @@ class CustomerOrderController extends Controller
         // ]);
         // dd(array_merge($request->all(), ['provider_id' => auth()->user()->provider_id]));
         if($request->validated()){
-            if($order = CustomerOrder::create(array_merge($request->all(), ['provider_id' => auth()->user()->provider_id])))
+            $input = $request->all();
+            if($order = CustomerOrder::create(array_merge($input, ['provider_id' => auth()->user()->provider_id]))){
+                Log::alert("request for update order: ".json_encode($input));
+
+                if(!empty($input['days']) && !empty($input['customer_id'])){
+                    $days = $input['days'];
+                    $customer_id = $input['customer_id'];
+                    $from = date('Y-m-d', strtotime($input['from']));
+                    $to = date('Y-m-d', strtotime($input['to']));
+        
+                    foreach($days as $day){
+        
+                        $data = [
+                            'day' => CustomerAvalability::DAY_ARABIC[$day],
+                            'from_time' => $from,
+                            'to_time'   => $to,
+                            'customer_id' => $customer_id
+                        ];
+                        CustomerAvalability::create($data);
+                    }
+                }
                 return [
                     "success" => true,
                     "message" => "Order added successfully!",
                     "data" => new CustomerOrderResource($order)
                 ];
+            }
+                
             else
                 return [
                     "success" => false,
@@ -108,6 +131,25 @@ class CustomerOrderController extends Controller
         $customerOrder->update($request->validated());
         $input = $request->all();
         Log::alert("request for update order: ".json_encode($input));
+
+        if(!empty($input['days']) && !empty($input['customer_id'])){
+            $days = $input['days'];
+            $customer_id = $input['customer_id'];
+            $from = date('Y-m-d', strtotime($input['from']));
+            $to = date('Y-m-d', strtotime($input['to']));
+
+            foreach($days as $day){
+
+                $data = [
+                    'day' => CustomerAvalability::DAY_ARABIC[$day],
+                    'from_time' => $from,
+                    'to_time'   => $to,
+                    'customer_id' => $customer_id
+                ];
+                CustomerAvalability::create($data);
+            }
+        }
+
 
         // if(!empty[$input['update']])
         return new CustomerOrderResource($customerOrder);
