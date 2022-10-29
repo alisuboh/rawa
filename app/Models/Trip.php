@@ -64,7 +64,7 @@ class Trip extends Model
             // dd(CustomerOrder::find([ 'id' => $order['orders_id']])->first()->toArray());
             try{
                 if(!empty(auth()->user()->driver_id)){
-                    if($model = CustomerOrder::where('status', '=', "1")->where( 'id' ,"=", $order['orders_id'])->with('customer','address')->first())
+                    if($model = CustomerOrder::where('status', '=', "1")->where( 'id' ,"=", $order['orders_id'])->with('customer','address')->get()->first())
                         $orders[$key] = $model->toArray();
                 }else
                     if($model = CustomerOrder::with('customer','address')->find([ 'id' => $order['orders_id']])->first())
