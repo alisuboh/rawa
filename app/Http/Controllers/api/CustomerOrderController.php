@@ -78,7 +78,7 @@ class CustomerOrderController extends Controller
                     $customer_id = $input['customer_id'];
                     $from = date('Y-m-d', strtotime($input['from']));
                     $to = date('Y-m-d', strtotime($input['to']));
-                    CustomerAvalability::where('id','=',$customer_id)->delete();
+                    CustomerAvalability::where('customer_id','=',$customer_id)->delete();
 
                     foreach($days as $day){
         
@@ -138,7 +138,7 @@ class CustomerOrderController extends Controller
             $customer_id = $input['customer_id'];
             $from = date('Y-m-d', strtotime($input['from']));
             $to = date('Y-m-d', strtotime($input['to']));
-            CustomerAvalability::where('id','=',$customer_id)->delete();
+            CustomerAvalability::where('customer_id','=',$customer_id)->delete();
 
             foreach($days as $day){
 
