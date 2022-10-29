@@ -130,4 +130,11 @@ class CustomerOrder extends Model
     {
         return $this->belongsTo('App\Models\Trip','trip_id');
     }
+
+    public function countDigits($MyNum){
+        $MyNum = (int)abs($MyNum);
+        $MyStr = strval($MyNum);
+        return strlen($MyStr);
+    }
+        
 }

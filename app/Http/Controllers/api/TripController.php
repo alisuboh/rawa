@@ -23,7 +23,7 @@ class TripController extends Controller
         $driver_id = auth()->user()->driver_id??request()->driver_id;
         $perPage = request()->get('perPage');
         if($driver_id){
-            $listOfTrip = Trip::where('provider_id', '=', auth()->user()->provider_id)->where('driver_id', '=', $driver_id)->orderBy('created_at','desc')->paginate($perPage);
+            $listOfTrip = Trip::where('provider_id', '=', auth()->user()->provider_id)->where('driver_id', '=', $driver_id)->where('status', '=', 1)->orderBy('created_at','desc')->paginate($perPage);
         }else{
             $listOfTrip = Trip::where('provider_id', '=', auth()->user()->provider_id)->orderBy('created_at','desc')->paginate($perPage);
         }

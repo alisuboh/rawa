@@ -39,7 +39,7 @@ class CustomerOrderRequest extends MainRequest
             'customer_address_id' => "sometimes", "integer",
             'total_price' => "sometimes",
             'order_delivery_date' => "sometimes", "date_format:Y-m-d H:i:s",
-            'status' => "sometimes", "string",
+            'status' => "sometimes", "integer",
             'app_source' => "sometimes", "integer",
             'note' => "sometimes", "string", "max:1000",
             'reason_note' => "sometimes", "string", "max:1000",
