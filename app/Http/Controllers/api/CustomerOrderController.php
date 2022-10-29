@@ -76,8 +76,8 @@ class CustomerOrderController extends Controller
                 if(!empty($input['days']) && !empty($input['customer_id'])){
                     $days = $input['days'];
                     $customer_id = $input['customer_id'];
-                    $from = date('Y-m-d', strtotime($input['from']));
-                    $to = date('Y-m-d', strtotime($input['to']));
+                    $from = $input['from'];
+                    $to = $input['to'];
                     CustomerAvalability::where('customer_id','=',$customer_id)->delete();
 
                     foreach($days as $day){
@@ -136,8 +136,8 @@ class CustomerOrderController extends Controller
         if(!empty($input['days']) && !empty($input['customer_id'])){
             $days = $input['days'];
             $customer_id = $input['customer_id'];
-            $from = date('Y-m-d', strtotime($input['from']));
-            $to = date('Y-m-d', strtotime($input['to']));
+            $from = $input['from'];
+            $to = $input['to'];
             CustomerAvalability::where('customer_id','=',$customer_id)->delete();
 
             foreach($days as $day){
