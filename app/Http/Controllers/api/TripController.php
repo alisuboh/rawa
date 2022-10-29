@@ -9,6 +9,7 @@ use App\Http\Resources\TripResource;
 use App\Models\ProvidersEmployee;
 use App\Models\Trip;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class TripController extends Controller
@@ -23,7 +24,7 @@ class TripController extends Controller
         $driver_id = auth()->user()->driver_id??request()->driver_id;
         $perPage = request()->get('perPage');
         if($driver_id){
-            $listOfTrip = Trip::where('provider_id', '=', auth()->user()->provider_id)->where('driver_id', '=', $driver_id)->where('status', '=', 1)->orderBy('created_at','desc')->paginate($perPage);
+            $listOfTrip = Trip::where('provider_id', '=', auth()->user()->provider_id)->where('driver_id', '=', $driver_id)->whereIn('status',  [1,2])->orderBy('created_at','desc')->paginate($perPage);
         }else{
             $listOfTrip = Trip::where('provider_id', '=', auth()->user()->provider_id)->orderBy('created_at','desc')->paginate($perPage);
         }
@@ -104,6 +105,7 @@ class TripController extends Controller
     public function update(Request $request, Trip $trip)
     {
         $input = $request->all();
+        Log::alert("request for update: ".json_encode($input));
         $validator = Validator::make($input, [
             'trip_name' => 'nullable',
             "orders_ids"    => "nullable|array",

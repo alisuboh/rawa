@@ -63,6 +63,10 @@ class Trip extends Model
         foreach(array_values(json_decode($value, true)) as $key => $order){
             // dd(CustomerOrder::find([ 'id' => $order['orders_id']])->first()->toArray());
             try{
+                if(!empty(auth()->user()->driver_id)){
+                    if($model = CustomerOrder::where('status', '=', 1)->with('customer','address')->find([ 'id' => $order['orders_id']])->first())
+                    $orders[$key] = $model->toArray();
+                }else
                 if($model = CustomerOrder::with('customer','address')->find([ 'id' => $order['orders_id']])->first())
                     $orders[$key] = $model->toArray();
 
