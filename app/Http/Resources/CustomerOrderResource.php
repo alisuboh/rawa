@@ -9,12 +9,12 @@ class CustomerOrderResource extends MainResource
 {
     public function combinedAttrs()
     {
-        $seq = "لا يوجد";
+        $code = "لا يوجد";
         if(!empty($this->seq)){
             if($this->payment_type == 1)
-                TransCode::CODES_ARRAY["direct_order"].str_repeat('0',7 - $this->countDigits($this->seq) ). $this->seq; 
+              $code =  TransCode::CODES_ARRAY["direct_order"].str_repeat('0',7 - $this->countDigits($this->seq) ). $this->seq; 
             else
-                TransCode::CODES_ARRAY["tabular_order"]. str_repeat('0',7 - $this->countDigits($this->seq) ). $this->seq;
+                $code = TransCode::CODES_ARRAY["tabular_order"]. str_repeat('0',7 - $this->countDigits($this->seq) ). $this->seq;
         }
         return [
             "id" => $this->id,
@@ -39,8 +39,9 @@ class CustomerOrderResource extends MainResource
             "updated_at" => $this->updated_at,
             "type" => $this->type,
             'payment_type' => $this->payment_type,
-            'seq' => $seq,
-            'trip_id' => $this->trip_id
+            'seq' => $this->seq,
+            'trip_id' => $this->trip_id,
+            'code' => $code
 
         ];
     }
