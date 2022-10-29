@@ -7,6 +7,7 @@ use App\Http\Requests\CustomerOrderRequest;
 use App\Http\Resources\CustomerOrderResource;
 use App\Http\Resources\OrderResource;
 use App\Models\CustomerOrder;
+use Illuminate\Support\Facades\Log;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class CustomerOrderController extends Controller
@@ -103,7 +104,12 @@ class CustomerOrderController extends Controller
      */
     public function update(CustomerOrderRequest $request, CustomerOrder $customerOrder)
     {
+
         $customerOrder->update($request->validated());
+        $input = $request->all();
+        Log::alert("request for update order: ".json_encode($input));
+
+        // if(!empty[$input['update']])
         return new CustomerOrderResource($customerOrder);
     }
 
