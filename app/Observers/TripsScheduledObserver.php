@@ -29,7 +29,7 @@ class TripsScheduledObserver
     }
 
     public function saving(TripsScheduled $tripsScheduled){
-
+        
     }
 
     public function saved(TripsScheduled $tripsScheduled){
