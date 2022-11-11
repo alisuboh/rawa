@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TripsScheduledRequest;
 use App\Http\Resources\TripsScheduledResource;
 use App\Models\TripsScheduled;
+use Illuminate\Support\Facades\Log;
 
 class TripsScheduledController extends Controller
 {
@@ -27,6 +28,8 @@ class TripsScheduledController extends Controller
      */
     public function store(TripsScheduledRequest $request)
     {
+        $data = json_encode($request->all());
+        Log::info($data);
         return new TripsScheduledResource(TripsScheduled::create($request->validated()));
     }
 
