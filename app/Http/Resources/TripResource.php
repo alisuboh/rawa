@@ -18,6 +18,7 @@ class TripResource extends JsonResource
             "id" => $this->id,
             "trip_name" => $this->trip_name,
             "orders_ids" => $this->orders_ids,
+            "customer_ids" => $this->customer_ids,
             "provider_id" => $this->provider_id,
             "driver_id" => $this->driver_id,
             "driver_name" => $this->driver_name,

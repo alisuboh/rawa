@@ -8,6 +8,7 @@ use App\Http\Resources\TripCollection;
 use App\Http\Resources\TripResource;
 use App\Models\ProvidersEmployee;
 use App\Models\Trip;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -23,10 +24,17 @@ class TripController extends Controller
     {
         $driver_id = auth()->user()->driver_id??request()->driver_id;
         $perPage = request()->get('perPage');
+        $all = request()->get('all');
         if($driver_id){
-            $listOfTrip = Trip::where('provider_id', '=', auth()->user()->provider_id)->where('driver_id', '=', $driver_id)->whereIn('status',  [1,2])->orderBy('created_at','desc')->paginate($perPage);
+            if($all == 1)
+                $listOfTrip = Trip::where('provider_id', '=', auth()->user()->provider_id)->where('driver_id', '=', $driver_id)->whereIn('status',  [1,2])->orderBy('created_at','desc')->paginate($perPage);
+            else
+                $listOfTrip = Trip::where('provider_id', '=', auth()->user()->provider_id)->where('driver_id', '=', $driver_id)->whereIn('status',  [1,2])->where('created_at','>',Carbon::today()->toDateTimeString())->orderBy('created_at','desc')->paginate($perPage);
         }else{
-            $listOfTrip = Trip::where('provider_id', '=', auth()->user()->provider_id)->orderBy('created_at','desc')->paginate($perPage);
+            if($all == 1)
+                $listOfTrip = Trip::where('provider_id', '=', auth()->user()->provider_id)->orderBy('created_at','desc')->paginate($perPage);
+            else
+                $listOfTrip = Trip::where('provider_id', '=', auth()->user()->provider_id)->where('created_at','>',Carbon::today()->toDateTimeString())->orderBy('created_at','desc')->paginate($perPage);
         }
         return new TripCollection($listOfTrip);
         // return response()->json([

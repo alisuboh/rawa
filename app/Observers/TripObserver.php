@@ -8,9 +8,11 @@ use App\Models\Trip;
 class TripObserver
 {
     public function creating(Trip $trip){
-        if($provider_id = auth()->user()->provider_id){
-            $trip->provider_id = $provider_id;
-        }
+
+        if(empty($trip->provider_id))
+            if($provider_id = auth()->user()->provider_id){
+                $trip->provider_id = $provider_id;
+            }
 
         $total_price=0;
         foreach($trip->orders() as $order){
