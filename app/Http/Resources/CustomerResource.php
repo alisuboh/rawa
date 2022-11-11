@@ -20,11 +20,13 @@ class CustomerResource extends MainResource
             "default_provider_id" => $this->default_provider_id,
             "can_recive_any_time" => $this->can_recive_any_time,
             "on_days" => $this->on_days,
-            "created_at" => $this->created_at,
-            "updated_at" => $this->updated_at,
             "location_lat" => $this->location_lat,
             "location_lng" => $this->location_lng,
             "address_description" => $this->address_description,
+            'city' => $this->city->name??'',
+            'area' => $this->area->name??'',
+            "created_at" => $this->created_at,
+            "updated_at" => $this->updated_at,
 
         ];
     }

@@ -6,6 +6,7 @@ class TransCode
 {
    const DIRECT_ORDER = "S-";
    const TABULAR_ORDER = "O-";
+   const CAR_ORDER = "C-";
    const PURCHASE = "P-";
    const REVENUE = "I-";
    const EXPENSE = "E-";
@@ -16,6 +17,7 @@ class TransCode
    const CODES_ARRAY = [
       'direct_order' => self::DIRECT_ORDER,
       'tabular_order' => self::TABULAR_ORDER,
+      'car_order' => self::CAR_ORDER,
       'purchase' => self::PURCHASE,
       'revenue' => self::REVENUE,
       'expense' => self::EXPENSE,

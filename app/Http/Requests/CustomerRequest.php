@@ -41,6 +41,9 @@ class CustomerRequest extends MainRequest
             'location_lat' => "sometimes", "string", "max:50",
             'location_lng' => "sometimes", "string", "max:50",
             'address_description' => "sometimes", "string", "max:200",
+            'city_id' => "sometimes", "integer",
+            'area_id' => "sometimes", "integer",
+
 
         ];
     }

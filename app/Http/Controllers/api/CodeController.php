@@ -23,6 +23,7 @@ class CodeController extends Controller
     {
         $direct_order = CustomerOrder::getLastSeqNumber(1);
         $tabular_order = CustomerOrder::getLastSeqNumber(2);
+        $car_order = CustomerOrder::getLastSeqNumber(2);
         $purchase = Purchase::getLastSeqNumber();
         $revenue = RevenueItem::getLastSeqNumber();
         $expense = ExpenseItem::getLastSeqNumber();
@@ -32,6 +33,7 @@ class CodeController extends Controller
         return [
             "direct_order" =>  TransCode::CODES_ARRAY["direct_order"].str_repeat('0',7 - $this->countDigits($direct_order) ). $direct_order,
             "tabular_order" =>  TransCode::CODES_ARRAY["tabular_order"]. str_repeat('0',7 - $this->countDigits($tabular_order) ). $tabular_order,
+            "car_order" =>  TransCode::CODES_ARRAY["car_order"]. str_repeat('0',7 - $this->countDigits($car_order) ). $car_order,
             "purchase" =>  TransCode::CODES_ARRAY["purchase"]. str_repeat('0',7 - $this->countDigits($purchase) ). $purchase,
             "revenue" =>  TransCode::CODES_ARRAY["revenue"]. str_repeat('0',7 - $this->countDigits($revenue) ). $revenue,
             "expense" =>  TransCode::CODES_ARRAY["expense"]. str_repeat('0',7 - $this->countDigits($expense) ). $expense,

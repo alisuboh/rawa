@@ -52,6 +52,9 @@ class RevenueItemObserver
             }else if(!empty($revenueItem->rev_cat_id) && $revenueItem->rev_cat_id == 1){
                 $cash_order = CustomerOrder::getLastSeqNumber(1);
                 $revenueItem = TransCode::CODES_ARRAY["direct_order"]. str_repeat('0',7 - $this->countDigits($cash_order) ). $cash_order;
+            }else if(!empty($revenueItem->rev_cat_id) && $revenueItem->rev_cat_id == 5){
+                $cash_order = CustomerOrder::getLastSeqNumber(3);
+                $revenueItem = TransCode::CODES_ARRAY["car_order"]. str_repeat('0',7 - $this->countDigits($cash_order) ). $cash_order;
             }
 
         }

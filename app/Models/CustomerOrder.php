@@ -51,6 +51,7 @@ class CustomerOrder extends Model
     const TYPE = [
         1 => 'Direct',
         2 => 'Tabular',
+        4 => 'car',
     ];
     const PAYMENT_TYPE = [
         1 => 'cash',

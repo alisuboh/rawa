@@ -33,7 +33,7 @@ class Customer extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name', 'user_name', 'mobile_number', 'email', 'password', 'has_branches', 'default_provider_id', 'can_recive_any_time', 'on_days','location_lat', 'location_lng', 'address_description','seq', 'created_at', 'updated_at'];
+    protected $fillable = ['name', 'user_name', 'mobile_number', 'email', 'password', 'has_branches', 'default_provider_id', 'can_recive_any_time', 'on_days','location_lat', 'location_lng', 'address_description','seq','city_id','area_id', 'created_at', 'updated_at'];
 
     public $hidden = ['password'];
     // public function __construct($provider_id = null)
@@ -81,6 +81,24 @@ class Customer extends Model
     public function provider()
     {
         return $this->hasOne('App\Models\Provider','id','default_provider_id');
+    }
+
+
+     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function city()
+    {
+        return $this->hasOne(City::class, 'id', 'city_id');
+        // return $this->belongsTo('App\Models\City');
+    }
+     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function area()
+    {
+        return $this->hasOne(Area::class, 'id', 'area_id');
+        // return $this->belongsTo('App\Models\Area');
     }
 
     public function getLastSeq(){

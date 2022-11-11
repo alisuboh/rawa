@@ -17,7 +17,7 @@ class CustomerOrderResource extends MainResource
         if(!empty($this->seq)){
             if($this->payment_type == 1)
               $code =  TransCode::CODES_ARRAY["direct_order"].str_repeat('0',7 - $this->countDigits($this->seq) ). $this->seq; 
-            else
+            else 
                 $code = TransCode::CODES_ARRAY["tabular_order"]. str_repeat('0',7 - $this->countDigits($this->seq) ). $this->seq;
         }
         if(!empty($this->customer_id)){
