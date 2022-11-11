@@ -25,6 +25,8 @@ class CustomerResource extends MainResource
             "address_description" => $this->address_description,
             'city' => $this->city->name??'',
             'area' => $this->area->name??'',
+            'city_id' => $this->city_id,
+            'area_id' => $this->area_id,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
 
