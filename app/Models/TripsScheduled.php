@@ -60,6 +60,14 @@ class TripsScheduled extends Model
         return $areas;
     }
 
+        /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function driver()
+    {
+        return $this->belongsTo('App\Models\ProvidersEmployee', 'driver_id', 'id');
+    }
+
     /*
     |--------------------------------------------------------------------------
     | SCOPES
