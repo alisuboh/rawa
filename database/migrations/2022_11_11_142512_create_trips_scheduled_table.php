@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string("name");
             $table->integer("provider_id");
             $table->json("orders_ids")->nullable(true);
-            $table->integer("customer_id")->nullable(true);
+            $table->json("customer_ids")->nullable(true);
             $table->integer("driver_id")->nullable(true);
             $table->date("delivery_date")->nullable(true);
             $table->json("days")->nullable(true);
