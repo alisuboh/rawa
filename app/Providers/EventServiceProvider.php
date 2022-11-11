@@ -27,6 +27,7 @@ use App\Observers\PurchasesDetailObserver;
 use App\Observers\RevenueItemObserver;
 use App\Observers\SupplierObserver;
 use App\Observers\TripObserver;
+use App\Observers\TripsScheduledObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
