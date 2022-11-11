@@ -30,8 +30,12 @@ class TripsScheduled extends Model
         'area_ids'
     ];
 
-    protected $casts = ['days','area_ids','orders_ids',
-    'customer_ids'];
+    protected $casts = [
+        'days' => 'array',
+        'area_ids' => 'array',
+        'orders_ids' => 'array',
+        'customer_ids' => 'array'
+    ];
 
     /**
      * @return Relation
@@ -104,7 +108,7 @@ class TripsScheduled extends Model
             set: fn ($value) => json_encode($value),
 
         );
-        print_r($days);die;
+        // print_r($days);die;
         // Log::info()
         return $days;
     }
