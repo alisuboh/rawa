@@ -23,7 +23,9 @@ class TripsScheduled extends Model
  'days',
  'status',
  'note',
- 'app_source'
+ 'app_source',
+ 'city_id',
+ 'area_ids'
     ];
 
     protected $casts = [
@@ -33,4 +35,35 @@ class TripsScheduled extends Model
     /**
      * @return Relation
      */
+    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function city()
+    {
+        return $this->belongsTo('App\Models\City', 'city_id','id');
+    }
+    //  /**
+    //  * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    //  */
+    public function getArea()
+    {
+        $areas = [];
+        foreach(json_decode($this->area_ids) as $area_id){
+            $areas []= $this->area($area_id)
+            ->get();
+        }
+        return $areas;    
+    }
+
+        /*
+    |--------------------------------------------------------------------------
+    | SCOPES
+    |--------------------------------------------------------------------------
+    */
+    public function scopeArea($query,$area_id){
+        $query->where('area.id',$area_id)
+        ->join('aeras','areas.id','=','trips_scheduled.area_id')
+        ->select('aeras.*');
+    }
 }

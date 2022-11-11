@@ -39,6 +39,8 @@ class TripsScheduledRequest extends MainRequest
             'status' => "sometimes", "integer",
             'note' => "sometimes", "string", "max:255",
             'app_source' => "sometimes", "integer",
+            'area_ids' => "sometimes",
+            'city_id' => "sometimes", "integer",
 
         ];
     }
