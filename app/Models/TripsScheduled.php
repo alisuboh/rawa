@@ -54,9 +54,8 @@ class TripsScheduled extends Model
     public function getArea()
     {
         $areas = [];
-        foreach (json_decode($this->area_ids) as $area_id) {
-            $areas[] = $this->area($area_id)
-                ->get();
+        foreach ($this->area_ids as $area_id) {
+            $areas[] = Area::find($area_id);
         }
         return $areas;
     }
@@ -66,12 +65,12 @@ class TripsScheduled extends Model
     | SCOPES
     |--------------------------------------------------------------------------
     */
-    public function scopeArea($query, $area_id)
-    {
-        $query->where('area.id', $area_id)
-            ->join('aeras', 'areas.id', '=', 'trips_scheduled.area_id')
-            ->select('aeras.*');
-    }
+    // public function scopeArea($query, $area_id)
+    // {
+    //     $query->where('areas.id', $area_id);
+    //         // ->join('areas', 'areas.id', '=', 'trips_scheduled.area_id')
+    //         // ->select('areas.*');
+    // }
 
     protected function customer_ids(): Attribute
     {
@@ -108,8 +107,6 @@ class TripsScheduled extends Model
             set: fn ($value) => json_encode($value),
 
         );
-        // print_r($days);die;
-        // Log::info()
         return $days;
     }
 

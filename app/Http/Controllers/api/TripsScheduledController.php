@@ -28,6 +28,7 @@ class TripsScheduledController extends Controller
      */
     public function store(TripsScheduledRequest $request)
     {
+        // dd(auth()->user()->provider_id);
         $data = json_encode($request->all());
         Log::info($data);
         return new TripsScheduledResource(TripsScheduled::create($request->validated()));

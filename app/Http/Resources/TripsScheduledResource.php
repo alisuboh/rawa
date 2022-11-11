@@ -20,7 +20,7 @@ class TripsScheduledResource extends MainResource
             "status" => $this->status,
             "note" => $this->note,
             "app_source" => $this->app_source,
-            "area" => $this->getArea(),
+            "areas" => $this->getArea(),
             "city_id"=>$this->city_id,
             "city"=>$this->city->name??'',
             "created_at" => $this->created_at,
