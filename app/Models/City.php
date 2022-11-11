@@ -33,4 +33,12 @@ class City extends Model
      * @var array
      */
     protected $fillable = ['name', 'active', 'order', 'code', 'created_at', 'updated_at'];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function area()
+    {
+        return $this->hasMany(Area::class,'city_id','id');
+    }
 }

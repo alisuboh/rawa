@@ -28,4 +28,12 @@ class Area extends Model
     /**
      * @return Relation
      */
+      /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function city()
+    {
+        return $this->belongsTo('App\Models\City', 'city_id','id');
+    }
+
 }

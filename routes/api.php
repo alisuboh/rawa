@@ -78,7 +78,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::apiResource("employee", App\Http\Controllers\api\ProvidersEmployeeController::class);
     Route::apiResource("area", App\Http\Controllers\api\AreaController::class);
     Route::apiResource("trips-scheduled", App\Http\Controllers\api\TripsScheduledController::class);
-    
+    Route::apiResource("city", App\Http\Controllers\api\CityController::class);
+
     Route::post('/change-password', [AuthController::class,'ChangePassword']);
     Route::get('/codes', [CodeController::class,'index']);
     Route::post('/getStatement', [ReportsController::class,'accountStatement']);
@@ -88,6 +89,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
    
     
 });
+
 
 
 
