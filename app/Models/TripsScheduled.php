@@ -17,7 +17,7 @@ class TripsScheduled extends Model
 'name',
  'provider_id',
  'orders_ids',
- 'customer_id',
+ 'customer_ids',
  'driver_id',
  'delivery_date',
  'days',

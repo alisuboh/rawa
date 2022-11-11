@@ -11,7 +11,9 @@ class TripsScheduledObserver
     }
 
     public function creating(TripsScheduled $tripsScheduled){
-
+        // if($provider_id = auth()->user()->provider_id){
+            $tripsScheduled->provider_id = auth()->user()->provider_id;
+        // }
     }
 
     public function created(TripsScheduled $tripsScheduled){

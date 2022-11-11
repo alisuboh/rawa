@@ -30,9 +30,9 @@ class TripsScheduledRequest extends MainRequest
     {
         return [
             'name' => "required", "string", "max:255",
-            'provider_id' => "required", "integer",
+            'provider_id' => "sometimes", "integer",
             'orders_ids' => "sometimes",
-            'customer_id' => "sometimes", "integer",
+            'customer_ids' => "sometimes",
             'driver_id' => "sometimes", "integer",
             'delivery_date' => "sometimes", "date",
             'days' => "sometimes",

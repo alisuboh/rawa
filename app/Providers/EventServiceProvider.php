@@ -14,6 +14,7 @@ use App\Models\RevenueItem;
 use App\Models\Supplier;
 use App\Models\SysAdmin;
 use App\Models\Trip;
+use App\Models\TripsScheduled;
 use App\Observers\AdminObserver;
 use App\Observers\CustomerObserver;
 use App\Observers\CustomerOrderObserver;
@@ -63,6 +64,7 @@ class EventServiceProvider extends ServiceProvider
         Supplier::observe(SupplierObserver::class);
         Customer::observe((CustomerObserver::class));
         Trip::observe(TripObserver::class);
+        TripsScheduled::observe((TripsScheduledObserver::class));
         // parent::boot();
     }
 
