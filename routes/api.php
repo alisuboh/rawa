@@ -76,18 +76,17 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::apiResource("product", App\Http\Controllers\api\ProviderProductController::class);
     Route::apiResource("customer", App\Http\Controllers\api\CustomerController::class);
     Route::apiResource("employee", App\Http\Controllers\api\ProvidersEmployeeController::class);
+    Route::apiResource("area", App\Http\Controllers\api\AreaController::class);
+    Route::apiResource("trips-scheduled", App\Http\Controllers\api\TripsScheduledController::class);
+    
     Route::post('/change-password', [AuthController::class,'ChangePassword']);
     Route::get('/codes', [CodeController::class,'index']);
     Route::post('/getStatement', [ReportsController::class,'accountStatement']);
     Route::post('/revenueReport', [ReportsController::class,'revenueReport']);
     Route::post('/expenseReport', [ReportsController::class,'expenseReport']);
     Route::post('/purchaseReport', [ReportsController::class,'purchaseReport']);
-
-
-
-
-
-
+   
+    
 });
 
 

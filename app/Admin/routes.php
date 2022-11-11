@@ -32,6 +32,8 @@ Route::group([
     $router->resource('customer-avalabilities', CustomerAvalabilitesController::class);
     $router->resource('purchases', PurchaseController::class);
     $router->resource('suppliers', SupplierController::class);
+    $router->resource('areas', AreaController::class);
+    $router->resource('trips-scheduleds', TripsScheduledController::class);
 
 
 
