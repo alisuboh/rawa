@@ -121,7 +121,9 @@ class Trip extends Model
     }
     public function customers(){
 
-        return Customer::whereIn('id',array_column($this->customer_ids, 'id'))->get();
+        if(empty($this->customer_ids))
+            return [];
+        return Customer::whereIn('id',$this->customer_ids)->get();
 
     }
     public function setTripDeliveryDateAttribute($value)

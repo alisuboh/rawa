@@ -68,6 +68,13 @@ class TripsScheduled extends Model
         return $this->belongsTo('App\Models\ProvidersEmployee', 'driver_id', 'id');
     }
 
+    public function customers(){
+
+        if(empty($this->customer_ids))
+            return [];
+        return Customer::whereIn('id',$this->customer_ids)->get();
+
+    }
     /*
     |--------------------------------------------------------------------------
     | SCOPES

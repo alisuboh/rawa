@@ -14,6 +14,7 @@ class TripsScheduledResource extends MainResource
             "provider_id" => $this->provider_id,
             "orders_ids" => $this->orders_ids,
             "customer_ids" => $this->customer_ids,
+            "customers" => $this->customers(),
             "driver_id" => $this->driver_id,
             "driver" => $this->driver->full_name??'',
             "delivery_date" => $this->delivery_date,
