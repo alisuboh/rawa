@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Log;
 
 class TripsScheduled extends Model
 {
@@ -96,13 +97,16 @@ class TripsScheduled extends Model
     protected function days(): Attribute
     {
 
-        return Attribute::make(
+        $days = Attribute::make(
 
             get: fn ($value) => json_decode($value, true),
 
             set: fn ($value) => json_encode($value),
 
         );
+        print_r($days);die;
+        // Log::info()
+        return $days;
     }
 
     protected function orders_ids(): Attribute
