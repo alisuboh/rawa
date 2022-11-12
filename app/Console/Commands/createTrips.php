@@ -6,6 +6,7 @@ use App\Models\Trip;
 use App\Models\TripsScheduled;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class createTrips extends Command
 {
@@ -30,6 +31,7 @@ class createTrips extends Command
      */
     public function handle()
     {
+        Log::info("******Start create trip********");
         $day = [
             'All'  => 0 ,
             'Sunday'  => 1 ,
@@ -54,6 +56,7 @@ class createTrips extends Command
         ];
         $today = $day_arabic[$day[Carbon::today()->format('l')]];
         $scheduled_all = TripsScheduled::where("days",'like',"%$today%")->get();
+        Log::info("trip created".json_encode($scheduled_all->toArray()));
         foreach($scheduled_all as $scheduled){
             $trip = new Trip();
             $trip->trip_name =$scheduled->name;
@@ -70,7 +73,7 @@ class createTrips extends Command
             $trip->app_source = 3;
             $trip->save();
         }
-
+        Log::info("******End create trip********");
         return 0;
     }
 }

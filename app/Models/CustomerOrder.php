@@ -35,7 +35,7 @@ class CustomerOrder extends Model
     /**
      * @var array
      */
-    protected $fillable = ['customer_id', 'provider_id', 'order_products', 'full_name', 'phone_number', 'customer_address_id', 'total_price', 'order_delivery_date', 'status', 'app_source', 'note', 'reason_note', 'vat', 'price_discount', 'shipping_fees', 'provider_employee_id', 'price','type', 'payment_type','seq','trip_id','created_at', 'updated_at'];
+    protected $fillable = ['customer_id', 'provider_id', 'order_products', 'full_name', 'phone_number', 'customer_address_id', 'total_price', 'order_delivery_date', 'status', 'app_source', 'note', 'reason_note', 'vat', 'price_discount', 'shipping_fees', 'provider_employee_id', 'price','type', 'payment_type','seq','trip_id','scheduled','created_at', 'updated_at'];
     public $customer_adress ;
     const STATUS = [
         1 => 'Pending',

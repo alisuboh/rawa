@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CustomerRequest;
 use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
+use App\Models\TripsScheduled;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class CustomerController extends Controller
@@ -18,17 +19,35 @@ class CustomerController extends Controller
     public function index()
     {
         $perPage = request()->get('perPage');
+        $tripId = request()->get('tripId');
         $customer = new Customer();
         $customer->getLastSeq();
-        $customer = QueryBuilder::for(Customer::where('default_provider_id', '=', auth()->user()->provider_id))
+        if($tripId){
+            $tripScheduled = TripsScheduled::find($tripId);
+            $customer = QueryBuilder::for(Customer::where('default_provider_id', '=', auth()->user()->provider_id)->where('city_id',$tripScheduled->city_id)->where('area_id',$tripScheduled->area_id))
             ->defaultSort('-created_at')
             ->allowedFilters([
                 'user_name',
                 'mobile_number',
                 'email',
                 'name',
+                'city_id',
+                'area_id'
             ])
             ->paginate($perPage);
+        }else
+            $customer = QueryBuilder::for(Customer::where('default_provider_id', '=', auth()->user()->provider_id))
+                ->defaultSort('-created_at')
+                ->allowedFilters([
+                    'user_name',
+                    'mobile_number',
+                    'email',
+                    'name',
+                    'city_id',
+                    'area_id'
+
+                ])
+                ->paginate($perPage);
 
         return CustomerResource::collection($customer);
     }

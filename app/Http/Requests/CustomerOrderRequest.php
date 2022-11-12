@@ -50,7 +50,8 @@ class CustomerOrderRequest extends MainRequest
             'price' => "sometimes",
             'days' => "sometimes",
             'from' => "sometimes",
-            'to' => "sometimes"
+            'to' => "sometimes",
+            'scheduled' => "sometimes",
 
         ];
     }

@@ -75,7 +75,7 @@ class TripController extends Controller
             $input['driver_id'] = $driver->id;
             $input['driver_name'] = $driver->full_name;
             $input['driver_phone'] = $driver->phone_number ?? $driver->mobile_number;
-            if(empty($input['status']))
+            // if(empty($input['status']))
                 $input["status"] = '1';
         }
         $trip = Trip::create($input);
