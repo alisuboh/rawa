@@ -86,9 +86,15 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/revenueReport', [ReportsController::class,'revenueReport']);
     Route::post('/expenseReport', [ReportsController::class,'expenseReport']);
     Route::post('/purchaseReport', [ReportsController::class,'purchaseReport']);
-   
+
+
+    Route::delete('/deleteOrder/{trip_id}/{order_id}', [TripController::class,'deleteOrder']);
+
+    Route::apiResource("reject-reason", App\Http\Controllers\api\RejectReasonController::class);
+
     
 });
+
 
 
 

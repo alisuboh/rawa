@@ -167,5 +167,47 @@ class TripController extends Controller
             "data" => $trip
         ]);
     }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $trip_id
+     * @param  int  $order_id
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteOrder($trip_id,$order_id)
+    {
+        $trip = Trip::findOrFail($trip_id);
+        $orders_ids = [];
+        $exist = false;
+        foreach($trip->orders_ids as $order){
+            if($order['id'] != $order_id)
+                $orders_ids[] =["orders_id" =>$order['id']]; 
+            else
+                $exist = true;
+            
+        }
+        if(count($orders_ids) == 0){
+            return response()->json([
+                "success" => false,
+                "message" => "you can't remove last order from trip.",
+                "data" => $trip
+            ]);
+        } else if($exist){
+            $trip->orders_ids = $orders_ids;
+            $trip->save();
+            return response()->json([
+                "success" => true,
+                "message" => "Order : ".$order_id." deleted form trip successfully.",
+                "data" => $trip
+            ]);
+        }else{
+            return response()->json([
+                "success" => false,
+                "message" => "Order : ".$order_id." not found on this trip.",
+                "data" => $trip
+            ]);
+        }
+       
+    }
     
 }

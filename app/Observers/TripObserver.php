@@ -42,6 +42,8 @@ class TripObserver
             $total_price=0;
             foreach($trip->orders() as $order){
                 $total_price += (float)$order->total_price; 
+                $order->trip_id = $trip->id;
+                $order->save();
             }
             $trip->total_price = $total_price;
         }

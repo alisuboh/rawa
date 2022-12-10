@@ -34,7 +34,7 @@ Route::group([
     $router->resource('suppliers', SupplierController::class);
     $router->resource('areas', AreaController::class);
     $router->resource('trips-scheduleds', TripsScheduledController::class);
-
+    $router->resource('reject-reasons', RejectReasonController::class);
 
 
 });
