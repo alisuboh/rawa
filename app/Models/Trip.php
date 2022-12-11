@@ -126,7 +126,10 @@ class Trip extends Model
             return [];
             // foreach()
         Log::info(json_encode($this->customer_ids));
-        return [];//Customer::whereIn('id',$this->customer_ids)->get();
+        $ids = [];
+        foreach($this->customer_ids as $customer)
+            $ids[] = $customer['id'];
+        return Customer::whereIn('id',$ids)->get();
 
     }
     public function setTripDeliveryDateAttribute($value)
