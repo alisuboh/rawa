@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @property integer $id
@@ -123,6 +124,8 @@ class Trip extends Model
 
         if(empty($this->customer_ids))
             return [];
+            // foreach()
+        Log::info(json_encode($this->customer_ids));
         return Customer::whereIn('id',$this->customer_ids)->get();
 
     }
