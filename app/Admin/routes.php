@@ -35,6 +35,7 @@ Route::group([
     $router->resource('areas', AreaController::class);
     $router->resource('trips-scheduleds', TripsScheduledController::class);
     $router->resource('reject-reasons', RejectReasonController::class);
+    $router->resource('web-permissions', WebPermissionController::class);
 
 
 });

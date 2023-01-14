@@ -16,9 +16,10 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             // ProviderSeeder::class,
-            ExpenseSeeder::class,
-            RevenueSeeder::class,
-            addCarOrder::class
+            // ExpenseSeeder::class,
+            // RevenueSeeder::class,
+            // addCarOrder::class,
+            addWebPermission::class,
         ]);
         // \App\Models\User::factory(10)->create();
     }
