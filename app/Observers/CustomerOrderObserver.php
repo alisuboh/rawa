@@ -8,6 +8,7 @@ use App\Models\CustomerOrder;
 use App\Models\ProviderProduct;
 use App\Models\RevenueCategory;
 use App\Models\RevenueItem;
+use Illuminate\Support\Facades\Log;
 
 class CustomerOrderObserver
 {
@@ -114,6 +115,7 @@ class CustomerOrderObserver
             }
             RevenueItem::create($revenueItem);
         }
+        Log::info("order data on create:".json_encode($customerOrder));
     }
 
     public function created(CustomerOrder $customerOrder)
