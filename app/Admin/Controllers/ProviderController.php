@@ -129,17 +129,19 @@ class ProviderController extends AdminController
         
         $form->password('password', trans('admin.password'))->creationRules('required|min:6|confirmed')->updateRules('nullable|min:6|confirmed');
         $form->password('password_confirmation', trans('admin.password_confirmation'));
-
+        $form->submitted(function (Form $form) {
+            $form->ignore(['password_confirmation']);
+         });
         $form->saving(function (Form $form) {
+            $form->ignore(['password_confirmation']);
             if($form->password){
                 if ($form->password && $form->model()->password != $form->password) {
                     $form->password = Hash::make($form->password);
                 }
             }else{
                 $form->ignore(['password']);
+
             }
-            $form->ignore(['password_confirmation']);
-            // dd($form->tax_included);
         });
         $form->footer(function ($footer) {
 
