@@ -55,6 +55,8 @@ class TripController extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
+        Log::alert("request for create trip: ".json_encode($input));
+
         $validator = Validator::make($input, [
             'trip_name' => 'required',
             "orders_ids"    => "required|array",
@@ -113,7 +115,7 @@ class TripController extends Controller
     public function update(Request $request, Trip $trip)
     {
         $input = $request->all();
-        Log::alert("request for update: ".json_encode($input));
+        Log::alert("request for update trip: ".json_encode($input));
         $validator = Validator::make($input, [
             'trip_name' => 'nullable',
             "orders_ids"    => "nullable|array",

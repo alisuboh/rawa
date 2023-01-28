@@ -68,10 +68,12 @@ class CustomerOrderController extends Controller
         //     'provider_id' => auth()->user()->provider_id,
         // ]);
         // dd(array_merge($request->all(), ['provider_id' => auth()->user()->provider_id]));
+        $input = $request->all();
+        Log::alert("request for create order: ".json_encode($input));
+
         if($request->validated()){
-            $input = $request->all();
             if($order = CustomerOrder::create(array_merge($input, ['provider_id' => auth()->user()->provider_id]))){
-                Log::alert("request for update order: ".json_encode($input));
+                Log::alert("create for update order: ".json_encode($input));
 
                 if(!empty($input['days']) && !empty($input['customer_id'])){
                     $days = $input['days'];
@@ -128,10 +130,9 @@ class CustomerOrderController extends Controller
      */
     public function update(CustomerOrderRequest $request, CustomerOrder $customerOrder)
     {
-
-        $customerOrder->update($request->validated());
         $input = $request->all();
         Log::alert("request for update order: ".json_encode($input));
+        $customerOrder->update($request->validated());
 
         if(!empty($input['days']) && !empty($input['customer_id'])){
             $days = $input['days'];
