@@ -137,5 +137,11 @@ class CustomerOrder extends Model
         $MyStr = strval($MyNum);
         return strlen($MyStr);
     }
+
+    public function setStatusAttribute($value)
+    {
+         $this->attributes['status'] = "'".$value."'";
+    }
+
         
 }
