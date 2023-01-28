@@ -140,7 +140,7 @@ class CustomerOrder extends Model
 
     public function setStatusAttribute($value)
     {
-         $this->attributes['status'] = "'".$value."'";
+         $this->attributes['status'] = (string)$value;
     }
 
         
