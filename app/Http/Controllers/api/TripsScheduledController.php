@@ -17,7 +17,7 @@ class TripsScheduledController extends Controller
      */
     public function index()
     {
-        return TripsScheduledResource::collection(TripsScheduled::paginate());
+        return TripsScheduledResource::collection(TripsScheduled::where('provider_id', '=', auth()->user()->provider_id)->paginate());
     }
 
     /**
