@@ -60,7 +60,7 @@ class CustomerOrderObserver
             $description = 'مبيعات مباشرة';
             $payment_type = 1;
         } else if ($customerOrder->type == 2) {
-            // $customerOrder->status = 1;
+            $customerOrder->status = 1;
             // $customer = Customer::find($customerOrder->customer_id);
             // $customer_id = $customer->id;
             // $customerOrder->full_name = $customer->name;

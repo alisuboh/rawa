@@ -49,6 +49,9 @@ class addWebPermission extends Seeder
             "delete-employees",
             "view-report",
             "pos",
+            "add-trips", 
+            'add-scheduledTrips', 
+            'change-password'
           ];
           foreach($permissions as $per){
             DB::table('web_permission')->insert([
