@@ -31,7 +31,7 @@ class ProvidersEmployeeRequest extends MainRequest
         return [
             'provider_id' => "sometimes", "integer",
             'seq' => "sometimes", "integer",
-            'full_name' => "sometimes", "string", "max:45",
+            'full_name' => "sometimes", "string", "max:45","unique:providers_employees,full_name",
             'phone_number' => "sometimes", "string", "max:45",
             'mobile_number' => "sometimes", "string", "max:45",
             'status' => "sometimes", "boolean",
