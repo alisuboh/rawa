@@ -22,6 +22,7 @@ class TripController extends Controller
      */
     public function index()
     {
+        Log::info("show trip user data:".json_encode(auth()->user()));
         $driver_id = auth()->user()->driver_id??request()->driver_id;
         $perPage = request()->get('perPage');
         $all = request()->get('all');
