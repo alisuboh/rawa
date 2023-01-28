@@ -136,5 +136,9 @@ class Trip extends Model
     {
         $this->attributes['trip_delivery_date'] = date('Y-m-d', strtotime($value));
     }
+    public function setStatusAttribute($value)
+    {
+         $this->attributes['status'] = (string)$value;
+    }
    
 }
