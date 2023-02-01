@@ -40,10 +40,28 @@ class SysAdminController extends AdminController
         $userModel = config('admin.database.users_model');
 
         $grid = new Grid(new $userModel());
+        $grid->expandFilter();
+
+        $grid->filter(function ($filter) {
+            $filter->disableIdFilter();
+
+            $filter->column(1 / 3, function ($filter) {
+                $filter->like('username', __('UserName'));
+                $filter->between('created_at', __('Created'))->datetime();
+            });
+            $filter->column(1 / 3, function ($filter) {
+                $filter->like('email', __('Email'));
+
+                $filter->like('phone_number', __('Phone'));
+            });
+        });
+
 
         $grid->column('id', 'ID')->sortable();
         $grid->column('username', trans('admin.username'));
         $grid->column('name', trans('admin.name'));
+        $grid->column('phone_number', __('Phone'));
+        $grid->column('email', __('Email'));
         $grid->column('roles', trans('admin.roles'))->pluck('name')->label();
         $grid->column('created_at', trans('admin.created_at'));
         $grid->column('updated_at', trans('admin.updated_at'));
