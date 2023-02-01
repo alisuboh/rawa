@@ -73,7 +73,6 @@ class CustomerOrderController extends Controller
 
         if($request->validated()){
             if($order = CustomerOrder::create(array_merge($input, ['provider_id' => auth()->user()->provider_id]))){
-                Log::alert("create for update order: ".json_encode($input));
 
                 if(!empty($input['days']) && !empty($input['customer_id'])){
                     $days = $input['days'];

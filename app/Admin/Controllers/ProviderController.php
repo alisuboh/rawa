@@ -107,8 +107,8 @@ class ProviderController extends AdminController
     {
         $form = new Form(new Provider());
 
-        $form->email('email', __('Email'));
-        $form->text('name', __('Name'));
+        $form->email('email', __('Email'))->creationRules('required');
+        $form->text('name', __('Name'))->creationRules('required');
         $form->text('code', __('Code'));
         $form->text('commercial_name', __('Commercial name'));
         $form->text('address_line_1', __('Address line 1'));
@@ -119,9 +119,9 @@ class ProviderController extends AdminController
         $form->decimal('location_lat', __('Location lat'));
         $form->decimal('location_lng', __('Location lng'));
         $form->image('logo_path', __('Logo path'));
-        $form->text('contact_name', __('Contact name'));
-        $form->text('contact_phone', __('Contact phone'));
-        $form->text('contact_mobile', __('Contact mobile'));
+        $form->text('contact_name', __('Contact name'))->creationRules('required');
+        $form->text('contact_phone', __('Contact phone'))->creationRules('required|min:10');
+        $form->text('contact_mobile', __('Contact mobile'))->creationRules('required|min:10');
         $form->switch('has_branches', __('Has branches'));
         $form->switch('is_on_top_search', __('Is on top search'));
         $form->decimal('rate', __('Rate'));
