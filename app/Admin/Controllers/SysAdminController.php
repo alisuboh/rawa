@@ -150,7 +150,9 @@ class SysAdminController extends AdminController
 
         $form->display('created_at', trans('admin.created_at'));
         $form->display('updated_at', trans('admin.updated_at'));
-
+        $form->submitted(function (Form $form) {
+            $form->ignore(['password_confirmation']);
+         });
         $form->saving(function (Form $form) {
             $form->ignore(['password_confirmation']);
             if($form->password){
