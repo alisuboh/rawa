@@ -28,7 +28,22 @@ class ProviderProductController extends Controller
      */
     public function store(ProviderProductRequest $request)
     {
-        return new ProviderProductResource(ProviderProduct::create($request->validated()));
+        if($request->validated()){
+            $data = $request->all();
+            if(!empty($request->has('img'))){
+                $getImage = $request->img;
+                $imageName = time().'.'.$getImage->extension();
+                $imagePath = public_path(). '/storage/images';
+                $getImage->move($imagePath, $imageName);
+                $full_name = "images/".$imageName;
+                $data['icon_path'] = $full_name;
+                unset($data['img']);
+            }
+            return new ProviderProductResource(ProviderProduct::create($data));
+   
+        }else
+            return new ProviderProductResource(ProviderProduct::create($request->validate()));
+        
     }
 
     /**

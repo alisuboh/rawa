@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Relation\ProviderProductRelation;
 
 /**
  * @property integer $provider_product_id
@@ -22,6 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ProviderProduct extends Model
 {
+    use ProviderProductRelation;
     use HasFactory;
 
     const ACTIVE = [

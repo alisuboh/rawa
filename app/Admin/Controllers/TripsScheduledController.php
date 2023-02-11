@@ -51,7 +51,14 @@ class TripsScheduledController extends AdminController
      */
     protected function detail($id)
     {
-        $show = new Show(TripsScheduled::findOrFail($id));
+        if (auth()->user()->roles()->where('name', 'Administrator')->exists()) {
+            $show = new Show(TripsScheduled::findOrFail($id));
+        } else {
+            $provider_id = auth()->user()->provider_id ?? null;
+            $grid = new Grid(new TripsScheduled(), function ($build) use ($provider_id) {
+                $build->model()->where("provider_id", "=", $provider_id);
+            });
+        }
 
         $show->field('id', __('Id'));
         $show->field('name', __('Name'));

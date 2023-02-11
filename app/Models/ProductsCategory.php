@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Relation\ProductsCategoryRelation;
 
 /**
  * @property integer $category_id
@@ -18,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ProductsCategory extends Model
 {
+    use ProductsCategoryRelation;
     use HasFactory;
     /**
      * The primary key for the model.

@@ -6,6 +6,7 @@ use App\Admin\api\Driver;
 use App\Admin\api\DriverApiController;
 use App\Models\CustomerOrder;
 use App\Models\Provider;
+use App\Models\ProviderProduct;
 use App\Models\ProvidersEmployee;
 use App\Models\Trip;
 use Encore\Admin\Controllers\AdminController;
@@ -13,6 +14,7 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+Use Encore\Admin\Widgets\Table;
 
 class TripController extends AdminController
 {
@@ -30,14 +32,57 @@ class TripController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new Trip());
+        if (auth()->user()->roles()->where('name', 'Administrator')->exists()) {
+            $grid = new Grid(new Trip());
+        } else {
+            $provider_id = auth()->user()->provider_id ?? null;
+            $grid = new Grid(new Trip(), function ($build) use ($provider_id) {
+                $build->model()->where("provider_id", "=", $provider_id);
+            });
+        }
+        
+        
+
 
         $grid->column('id', __('Id'));
-        $grid->column('trip_name', __('Trip name'));
-        $grid->column('orders_ids', __('Orders ids'));
-        // $grid->column('provider_id', __('Provider id'));
-        // $grid->column('driver_id', __('Driver id'));
-    
+
+        $grid->column('trip_name', __('Trip name'))->expand(function ($model)  {
+
+            $orders = $model->orders()->map(function ($order) {
+                return $order->only(['id','customer_id', 'full_name', 'phone_number','total_price','note','status','order_products']);
+            });
+            $orders = $orders->toArray();
+            $order_products = [];
+            // $provider_product_id = [];
+            foreach($orders as $key => $order){
+                foreach($order['order_products'] as $index => $product){
+                    $order_id = $order['id'];
+                    // $provider_product_id []= $product['provider_product_id'];
+                    $order_products[$order_id][$index]["provider_product_name"] = $product["provider_product_name"];
+                    $order_products[$order_id][$index]["price"] = $product["price"];
+                    $order_products[$order_id][$index]["total"] = $product["total"];
+                    $order_products[$order_id][$index]["qty"] = $product["qty"];
+                }
+                unset($orders[$key]['order_products']);
+
+                //////////////////TODO
+                // $grid = new Grid(new ProviderProduct(), function ($build) use ($provider_product_id) {
+                //     $build->model()->whereIn("provider_product_id", $provider_product_id);
+                // });
+                // $products = $grid->column('provider_product_name', __('Product name'))->modal(function ($model) use ($order_products) {
+
+                //     return new Table(["product Name","price" ,"total" ,"qty" ], $order_products);
+                // });
+                //        $value = new Table(["product Name","price" ,"total" ,"qty" ], $order_products);
+                // dd($value->view("product.index"));
+                // $orders[$key]['products'] = $products;
+                // dd($products->link());
+                ////////////
+                
+            }
+            return new Table(["Order Id","Customer Id" ,"Name" ,"Phone" ,"Total Price" ,"Note" ,"Status" ,"Details"], $orders);
+        });
+
         $grid->column('provider_id',  __('Provider'))->display(function () {
             return $this->provider->name??'';
         });

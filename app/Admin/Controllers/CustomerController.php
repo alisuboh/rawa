@@ -25,7 +25,14 @@ class CustomerController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new Customer());
+        if (auth()->user()->roles()->where('name', 'Administrator')->exists()) {
+            $grid = new Grid(new Customer());
+        } else {
+            $provider_id = auth()->user()->provider_id ?? null;
+            $grid = new Grid(new Customer(), function ($build) use ($provider_id) {
+                $build->model()->where("default_provider_id", "=", $provider_id);
+            });
+        }
 
         $grid->column('id', __('Id'));
         $grid->column('name', __('Name'));

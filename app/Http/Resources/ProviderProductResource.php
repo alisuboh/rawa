@@ -10,14 +10,17 @@ class ProviderProductResource extends MainResource
 {
     public function combinedAttrs()
     {
-        
         return [
             "id" => $this->provider_product_id,
             "name" => $this->provider_product_name,
             "price" => $this->price,
-            "measurement" => $this->measurement,
+            "img" => App::make('url')->to(Storage::url($this->icon_path)),
+            "product_id" => $this->product_id,
             "discount" => $this->discount,
-            "img" => App::make('url')->to(Storage::url($this->icon_path))
+            "measurement" => $this->measurement,
+            "updated_at" => $this->updated_at,
+            "created_at" => $this->created_at,
+
         ];
     }
 }

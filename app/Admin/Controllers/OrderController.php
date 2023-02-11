@@ -32,7 +32,15 @@ class OrderController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new CustomerOrder());
+        if (auth()->user()->roles()->where('name', 'Administrator')->exists()) {
+            $grid = new Grid(new CustomerOrder());
+        } else {
+            $provider_id = auth()->user()->provider_id ?? null;
+            $grid = new Grid(new CustomerOrder(), function ($build) use ($provider_id) {
+                $build->model()->where("provider_id", "=", $provider_id);
+            });
+        }
+
 
         $grid->column('id', __('Id'));
         $grid->column('customer_id',  __('Customer name'))->display(function () {
@@ -44,7 +52,7 @@ class OrderController extends AdminController
             }); // Todo show for admin only
         $grid->column('phone_number', __('Phone number'));
         $grid->column('type', __('Type'))->display(function () {
-            return CustomerOrder::TYPE[$this->type]??"لا يوجد";
+            return CustomerOrder::TYPE[$this->type] ?? "لا يوجد";
         });
         // $grid->column('customer_address_id', __('Customer address id'));
         // $grid->column('total_price', __('Total price'));
@@ -81,7 +89,7 @@ class OrderController extends AdminController
         // return view('order.show_order',['order'=>$order]);
 
 
-        
+
         $show = new Show(CustomerOrder::findOrFail($id));
 
 
@@ -238,10 +246,6 @@ class OrderController extends AdminController
 
             $form->price = $price;
             $form->total_price = $price + $form->shipping_fees;
-
-
-
-
         });
         return $form;
     }

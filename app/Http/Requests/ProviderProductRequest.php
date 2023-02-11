@@ -29,16 +29,16 @@ class ProviderProductRequest extends MainRequest
     protected function rulesArray(): array
     {
         return [
-            'provider_product_id' => "required", "integer",
-            'provider_id' => "required", "integer",
-            'product_id' => "required", "integer",
-            'provider_product_name' => "required", "string", "max:200",
-            'price' => "required",
-            'measurement' => "sometimes", "string", "max:45",
-            'is_active' => "sometimes", "boolean",
-            'discount' => "sometimes",
-            'icon_path' => "sometimes", "string", "max:1000",
-
+            // 'provider_product_id' => ["required", "integer"],
+            'provider_id' => ["sometimes", "integer"],
+            'product_id' => ["required", "integer"],
+            'provider_product_name' => ["required", "string", "max:200"],
+            'price' => ["required"],
+            'measurement' => ["sometimes", "string", "max:45"],
+            'is_active' => ["sometimes", "boolean"],
+            'discount' => ["sometimes"],
+            'img' => 'sometimes|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            // 'icon_path' => ["sometimes", "string", "max:1000"],
         ];
     }
 }

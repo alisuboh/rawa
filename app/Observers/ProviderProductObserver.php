@@ -7,6 +7,21 @@ use App\Models\ProviderProduct;
 
 class ProviderProductObserver
 {
+
+    public function creating(ProviderProduct $providerProduct){
+        $providerProduct->is_active=1;
+        if($provider_id = auth()->user()->provider_id){
+            $providerProduct->provider_id = $provider_id;
+        }
+        $mainProduct = Product::find($providerProduct->product_id);
+        if(empty($providerProduct->icon_path)){
+            $providerProduct->icon_path = $mainProduct->icon_path;
+        }
+        if(empty($providerProduct->discount)){
+            $providerProduct->discount = $mainProduct->discount??0;
+        }
+    }
+
     /**
      * Handle the ProviderProduct "created" event.
      *
@@ -15,10 +30,7 @@ class ProviderProductObserver
      */
     public function created(ProviderProduct $providerProduct)
     {
-        if(empty($providerProduct->icon_path)){
-            $providerProduct->icon_path = Product::find($providerProduct->product_id)->icon_path;
-            $providerProduct->saveQuietly();
-        }
+        
     }
 
     /**

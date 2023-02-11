@@ -89,6 +89,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('/deleteOrder/{trip_id}/{order_id}', [TripController::class,'deleteOrder']);
     Route::apiResource("reject-reason", App\Http\Controllers\api\RejectReasonController::class);
     Route::apiResource("web-permission", App\Http\Controllers\api\WebPermissionController::class);
+    Route::apiResource("main-product", App\Http\Controllers\api\ProductController::class);
 
 });
 

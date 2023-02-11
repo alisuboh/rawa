@@ -24,7 +24,15 @@ class PurchaseController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new Purchase());
+        if (auth()->user()->roles()->where('name', 'Administrator')->exists()) {
+            $grid = new Grid(new Purchase());
+        } else {
+            $provider_id = auth()->user()->provider_id ?? null;
+            $grid = new Grid(new Purchase(), function ($build) use ($provider_id) {
+                $build->model()->where("provider_id", "=", $provider_id);
+            });
+        }
+
 
         $grid->column('id', __('Id'));
         $grid->column('invoice_number', __('Invoice number'));

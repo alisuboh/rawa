@@ -25,7 +25,14 @@ class SupplierController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new Supplier());
+        if (auth()->user()->roles()->where('name', 'Administrator')->exists()) {
+            $grid = new Grid(new Supplier());
+        } else {
+            $provider_id = auth()->user()->provider_id ?? null;
+            $grid = new Grid(new Supplier(), function ($build) use ($provider_id) {
+                $build->model()->where("provider_id", "=", $provider_id);
+            });
+        }
 
         $grid->column('id', __('Id'));
         $grid->column('name', __('Name'));

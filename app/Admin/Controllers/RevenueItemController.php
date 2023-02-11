@@ -24,7 +24,14 @@ class RevenueItemController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new RevenueItem());
+        if (auth()->user()->roles()->where('name', 'Administrator')->exists()) {
+            $grid = new Grid(new RevenueItem());
+        } else {
+            $provider_id = auth()->user()->provider_id ?? null;
+            $grid = new Grid(new RevenueItem(), function ($build) use ($provider_id) {
+                $build->model()->where("provider_id", "=", $provider_id);
+            });
+        }
 
         $grid->column('id', __('Id'));
         $grid->column('rev_cat_id', __('Rev cat id'));

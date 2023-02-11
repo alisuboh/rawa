@@ -27,7 +27,14 @@ class EmployeeController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new ProvidersEmployee());
+        if (auth()->user()->roles()->where('name', 'Administrator')->exists()) {
+            $grid = new Grid(new ProvidersEmployee());
+        } else {
+            $provider_id = auth()->user()->provider_id ?? null;
+            $grid = new Grid(new ProvidersEmployee(), function ($build) use ($provider_id) {
+                $build->model()->where("provider_id", "=", $provider_id);
+            });
+        }
 
         $grid->column('id', __('Id'));
         $grid->column('provider_id', __('Provider id'))->display(function () {

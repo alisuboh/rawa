@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Relation\ProductsSubCategoryRelation;
 
 /**
  * @property integer $sub_category_id
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ProductsSubCategory extends Model
 {
+    use ProductsSubCategoryRelation;
     /**
      * The primary key for the model.
      * 
