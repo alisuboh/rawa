@@ -29,11 +29,11 @@ class TripsScheduledController extends AdminController
         $grid->column('id', __('Id'));
         $grid->column('name', __('Name'));
         $grid->column('provider_id', __('Provider id'));
-        $grid->column('orders_ids', __('Orders ids'));
-        $grid->column('customer_id', __('Customer id'));
+        // $grid->column('orders_ids', __('Orders ids'));
+        // $grid->column('customer_id', __('Customer id'));
         $grid->column('driver_id', __('Driver id'));
         $grid->column('delivery_date', __('Delivery date'));
-        $grid->column('days', __('Days'));
+        // $grid->column('days', __('Days'));
         $grid->column('status', __('Status'));
         $grid->column('note', __('Note'));
         $grid->column('app_source', __('App source'));
@@ -63,11 +63,11 @@ class TripsScheduledController extends AdminController
         $show->field('id', __('Id'));
         $show->field('name', __('Name'));
         $show->field('provider_id', __('Provider id'));
-        $show->field('orders_ids', __('Orders ids'));
-        $show->field('customer_id', __('Customer id'));
+        // $show->field('orders_ids', __('Orders ids'));
+        // $show->field('customer_id', __('Customer id'));
         $show->field('driver_id', __('Driver id'));
         $show->field('delivery_date', __('Delivery date'));
-        $show->field('days', __('Days'));
+        // $show->field('days', __('Days'));
         $show->field('status', __('Status'));
         $show->field('note', __('Note'));
         $show->field('app_source', __('App source'));
@@ -88,11 +88,11 @@ class TripsScheduledController extends AdminController
 
         $form->text('name', __('Name'));
         $form->number('provider_id', __('Provider id'));
-        $form->text('orders_ids', __('Orders ids'));
-        $form->number('customer_id', __('Customer id'));
+        // $form->text('orders_ids', __('Orders ids'));
+        // $form->number('customer_id', __('Customer id'));
         $form->number('driver_id', __('Driver id'));
         $form->date('delivery_date', __('Delivery date'))->default(date('Y-m-d'));
-        $form->text('days', __('Days'));
+        // $form->text('days', __('Days'));
         $form->number('status', __('Status'))->default(1);
         $form->text('note', __('Note'));
         $form->number('app_source', __('App source'));
