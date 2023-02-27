@@ -17,7 +17,7 @@ class ProviderProductController extends Controller
     public function index()
     {
         $perPage = request()->get('perPage');
-        return ProviderProductResource::collection(ProviderProduct::where('provider_id', '=', auth()->user()->provider_id)->paginate($perPage));
+        return ProviderProductResource::collection(ProviderProduct::where('provider_id', '=', auth()->user()->provider_id)->where("is_active",1)->paginate($perPage));
     }
 
     /**
@@ -32,8 +32,9 @@ class ProviderProductController extends Controller
             $data = $request->all();
             if(!empty($request->has('img'))){
                 $getImage = $request->img;
-                $imageName = time().'.'.$getImage->extension();
+                $imageName = time().'.'.$getImage->getClientOriginalExtension();
                 $imagePath = public_path(). '/storage/images';
+                // var_dump($getImage->getClientOriginalExtension());die;
                 $getImage->move($imagePath, $imageName);
                 $full_name = "images/".$imageName;
                 $data['icon_path'] = $full_name;
@@ -52,8 +53,9 @@ class ProviderProductController extends Controller
      * @param \App\Models\ProviderProduct $providerProduct
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
-    public function show(ProviderProduct $providerProduct)
+    public function show($id)
     {
+        $providerProduct = ProviderProduct::findOrFail($id); 
         return new ProviderProductResource($providerProduct);
     }
 
@@ -64,8 +66,9 @@ class ProviderProductController extends Controller
      * @param \App\Models\ProviderProduct $providerProduct
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
-    public function update(ProviderProductRequest $request, ProviderProduct $providerProduct)
+    public function update(ProviderProductRequest $request, $id)
     {
+        $providerProduct = ProviderProduct::findOrFail($id);
         $providerProduct->update($request->validated());
         return new ProviderProductResource($providerProduct);
     }
@@ -76,8 +79,9 @@ class ProviderProductController extends Controller
      * @param \App\Models\ProviderProduct $providerProduct
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProviderProduct $providerProduct)
+    public function destroy($id)
     {
+        $providerProduct = ProviderProduct::findOrFail($id);
         $providerProduct->delete();
     }
 }

@@ -37,7 +37,7 @@ class ProviderProductRequest extends MainRequest
             'measurement' => ["sometimes", "string", "max:45"],
             'is_active' => ["sometimes", "boolean"],
             'discount' => ["sometimes"],
-            'img' => 'sometimes|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            // 'img' => 'sometimes|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
             // 'icon_path' => ["sometimes", "string", "max:1000"],
         ];
     }
