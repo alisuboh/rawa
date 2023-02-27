@@ -14,7 +14,7 @@ class ProductResource extends MainResource
             "product_id" => $this->product_id,
             "product_name" => $this->product_name,
             "product_description" => $this->product_description,
-            "icon_path" => App::make('url')->to(Storage::url($this->icon_path)),
+            "img" => App::make('url')->to(Storage::url($this->icon_path)),
 
             "category_id" => $this->category_id,
             // "created_at" => $this->created_at,
