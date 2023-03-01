@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\WebPermission;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -16,6 +17,8 @@ class addWebPermission extends Seeder
      */
     public function run()
     {
+      WebPermission::query()->truncate();
+
         $permissions = [
             "view-orders",
             "edit-orders",
