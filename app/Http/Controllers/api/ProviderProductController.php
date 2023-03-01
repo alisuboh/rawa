@@ -69,14 +69,16 @@ class ProviderProductController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param \App\Http\Requests\ProviderProductRequest $request
      * @param \App\Models\ProviderProduct $providerProduct
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
     public function update(ProviderProductRequest $request, $id)
     {
+        $request->request->remove('_method');
         $providerProduct = ProviderProduct::findOrFail($id);
         $providerProduct->update($request->validated());
+
         return new ProviderProductResource($providerProduct);
     }
 

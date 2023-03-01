@@ -26,6 +26,7 @@ abstract class MainRequest extends FormRequest
         $mainRules = $this->rulesArray();
         if (!empty($params)) {
             foreach ($params as $param) {
+                if($param != "_method")
                 $validateArray[$param] = $mainRules[$param];
             }
         }
