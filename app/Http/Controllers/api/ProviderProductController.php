@@ -77,7 +77,22 @@ class ProviderProductController extends Controller
     {
         $request->request->remove('_method');
         $providerProduct = ProviderProduct::findOrFail($id);
-        $providerProduct->update($request->validated());
+        if($request->validated()){
+            $data = $request->all();
+            if(!empty($request->has('img'))){
+                $getImage = $request->img;
+                $imageName = time().'.'.$getImage->getClientOriginalExtension();
+                $imagePath = public_path(). '/storage/images';
+                $getImage->move($imagePath, $imageName);
+                $full_name = "images/".$imageName;
+                $data['icon_path'] = $full_name;
+                unset($data['img']);
+            }
+            $providerProduct->update($data);
+            return new ProviderProductResource($providerProduct);
+   
+        }else
+       
 
         return new ProviderProductResource($providerProduct);
     }
