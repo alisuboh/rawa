@@ -30,7 +30,7 @@ class SupplierRequest extends MainRequest
     {
         return [
             'name' => "sometimes", "string", "max:255",
-            'phone' => "sometimes", "integer",
+            'phone' => "sometimes|numeric|min:10|max:10|unique:suppliers",
             'address' => "sometimes", "string", "max:255",
             'description' => "sometimes", "string", "max:255",
             'type' => "sometimes", "integer",

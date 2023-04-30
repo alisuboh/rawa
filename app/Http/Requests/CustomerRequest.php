@@ -31,7 +31,7 @@ class CustomerRequest extends MainRequest
         return [
             'name' => "required", "string", "max:100",
             'user_name' => "required", "max:65535",
-            'mobile_number' => "required", "string", "max:50",
+            'mobile_number' => "required|numeric|min:10|unique:customers",
             'email' => "sometimes", "string", "max:200",
             // 'password' => "required", "string", "max:255",
             'has_branches' => "sometimes", "boolean",
@@ -44,6 +44,7 @@ class CustomerRequest extends MainRequest
             'city_id' => "sometimes", "integer",
             'area_id' => "sometimes", "integer",
 
+            // 'mobile_number' => ['required','numeric','min:10', 'unique:customers,mobile_number','unique:providers,id']
 
         ];
     }

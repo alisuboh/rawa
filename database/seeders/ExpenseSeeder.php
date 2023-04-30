@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\ExpenseCategory;
+use App\Models\ExpenseParant;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -16,6 +18,9 @@ class ExpenseSeeder extends Seeder
      */
     public function run()
     {
+        ExpenseParant::query()->truncate();
+        ExpenseCategory::query()->truncate();
+
         //seed parant
 
         DB::table('expense_parants')->insert([

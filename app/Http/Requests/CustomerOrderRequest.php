@@ -35,7 +35,7 @@ class CustomerOrderRequest extends MainRequest
             // 'provider_id' => "required", "integer",
             'order_products' => "sometimes",
             'full_name' => "sometimes", "string", "max:100",
-            'phone_number' => "sometimes", "string", "max:60",
+            'phone_number' => "sometimes|numeric|min:10",
             'customer_address_id' => "sometimes", "integer",
             'total_price' => "sometimes",
             'order_delivery_date' => "sometimes", "date_format:Y-m-d H:i:s",

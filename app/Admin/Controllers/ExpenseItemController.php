@@ -34,9 +34,10 @@ class ExpenseItemController extends AdminController
         }
 
         $grid->column('id', __('Id'));
-        $grid->column('exp_cat_id', __('Exp cat id'));
+        $grid->column('exp_cat_id', __('Expense Category'))->display(function(){
+            return $this->expenseCategory->expenseParant->name ?? ''; 
+        });
         $grid->column('description', __('Description'));
-        $grid->column('is_active', __('Is active'));
         $grid->column('created_at', __('Created at'))->display(function () {
             return date('d-m-Y H:i:s', strtotime($this->created_at));
         });
@@ -58,7 +59,6 @@ class ExpenseItemController extends AdminController
         $show->field('id', __('Id'));
         $show->field('exp_cat_id', __('Exp cat id'));
         $show->field('description', __('Description'));
-        $show->field('is_active', __('Is active'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
 
@@ -76,7 +76,6 @@ class ExpenseItemController extends AdminController
 
         $form->number('exp_cat_id', __('Exp cat id'));
         $form->textarea('description', __('Description'));
-        $form->switch('is_active', __('Is active'));
         $form->footer(function ($footer) {
 
             // disable reset btn

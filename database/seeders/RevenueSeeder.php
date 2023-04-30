@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\RevenueCategory;
+use App\Models\RevenueParant;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -16,6 +18,9 @@ class RevenueSeeder extends Seeder
      */
     public function run()
     {
+        RevenueParant::query()->truncate();
+        RevenueCategory::query()->truncate();
+        
         DB::table('revenue_parants')->insert([
             'name' => 'مبيعات',
             'created_by' => '1',
@@ -74,7 +79,14 @@ class RevenueSeeder extends Seeder
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
 
         ]);
-    
+        DB::table('revenue_categories')->insert([
+            'parant_id' => 1,
+            'is_active' => 1,
+            'description' => 'مبيعات سيارة',
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+
+        ]);
     }
     
 }

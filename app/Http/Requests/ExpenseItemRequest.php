@@ -40,7 +40,7 @@ class ExpenseItemRequest extends MainRequest
             'beneficiary_id' => "sometimes", "integer",
             'beneficiary_name'=> "sometimes", "string", "max:50",
             'beneficiary_type'=> "sometimes", "integer",
-            'beneficiary_mobile'=> "sometimes", "string", "max:50",
+            'beneficiary_mobile'=> "sometimes|numeric|min:10|max:10",
         ];
     }
 }
