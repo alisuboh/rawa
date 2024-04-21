@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Models\Provider;
 use App\Models\SysAdmin;
+use App\Models\WebPermission;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -147,6 +148,10 @@ class SysAdminController extends AdminController
 
 
         $form->switch('active', __('Active'));
+        $form->checkbox('web_permissions', _('Web Permissions'))->options(function(){
+            
+            return WebPermission::all()->pluck('name', 'id');
+        })->canCheckAll();
 
         $form->display('created_at', trans('admin.created_at'));
         $form->display('updated_at', trans('admin.updated_at'));
